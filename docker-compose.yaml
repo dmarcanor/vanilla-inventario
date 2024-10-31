@@ -1,0 +1,33 @@
+services:
+    php:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: initial-project-php
+        volumes:
+            - .:/var/www/html
+        ports:
+            - 8080:80
+        networks:
+            - initial-project-network
+
+    mysql:
+        image: mysql:8.0.23
+        container_name: initial-project-mysql
+        restart: always
+        ports:
+            - "3306:3306"
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: initial-project
+            MYSQL_USER: initial-project-user
+            MYSQL_PASSWORD: initial-project-pass
+        volumes:
+            - initial-project-mysql-volume:/etc/mysql/conf.d
+        networks:
+            - initial-project-network
+networks:
+    initial-project-network:
+
+volumes:
+    initial-project-mysql-volume:
