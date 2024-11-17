@@ -1,5 +1,5 @@
 <div id="sidebar">
-    <div class="app-name">Sistema de inventario</div>
+    <div class="app-name">Sistema de inventario de la Comercializadora GYS C.A.</div>
     <ul class="module-list">
         <li id="menu-inicio"><a href="#inicio"><span class="icon">🏠</span> Inicio</a></li>
         <li id="menu-usuarios"><a href="/Usuarios/Vistas/index.php"><span class="icon">👥</span> Usuarios</a></li>
