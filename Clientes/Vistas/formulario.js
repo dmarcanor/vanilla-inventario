@@ -1,0 +1,82 @@
+const guardar = (event) => {
+  event.preventDefault();
+
+  const formulario = event.target;
+  const id = formulario.id ? formulario.id.value : '';
+
+  if (!id) {
+    crear(formulario);
+    return
+  }
+
+  editar(id, formulario);
+}
+
+const crear = (formulario) => {
+  const nombre = formulario.nombre.value;
+  const tipo_identificacion = formulario.tipo_identificacion.value;
+  const numero_identificacion = formulario.numero_identificacion.value;
+  const estado = formulario.estado.value;
+
+  fetch('/Clientes/Controladores/CrearClienteController.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombre,
+      tipo_identificacion,
+      numero_identificacion,
+      estado
+    })
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      alert('Cliente creado satisfactoriamente.');
+      window.location.href = '/Clientes/Vistas/index.php';
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+}
+
+const editar = (id, formulario) => {
+  const nombre = formulario.nombre.value;
+  const tipo_identificacion = formulario.tipo_identificacion.value;
+  const numero_identificacion = formulario.numero_identificacion.value;
+  const estado = formulario.estado.value;
+
+  fetch('/Clientes/Controladores/EditarClienteController.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      id,
+      nombre,
+      tipo_identificacion,
+      numero_identificacion,
+      estado
+    })
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      alert('Cliente editado satisfactoriamente.');
+      window.location.href = '/Clientes/Vistas/index.php';
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+}
+
+const cancelar = (event) => {
+  event.preventDefault();
+
+  window.location.href = '/Clientes/Vistas/index.php';
+}
