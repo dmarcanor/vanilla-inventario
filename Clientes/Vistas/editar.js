@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 
-  fetch(`/Usuarios/Controladores/GetUsuarioController.php?id=${id}`, {
+  fetch(`/Clientes/Controladores/GetClienteController.php?id=${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -12,12 +12,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
-
+console.log(
+  json,
+  document.getElementById('id')
+);
       document.getElementById('id').value = id;
-      document.getElementById('nombre').value = json.usuario.nombre;
-      document.getElementById('correo').value = json.usuario.correo;
-      document.getElementById('rol').value = json.usuario.rol;
-      document.getElementById('estado').value = json.usuario.estado;
+      document.getElementById('nombre').value = json.cliente.nombre;
+      document.getElementById('apellido').value = json.cliente.apellido;
+      document.getElementById('tipo_identificacion').value = json.cliente.tipoIdentificacion;
+      document.getElementById('numero_identificacion').value = json.cliente.numeroIdentificacion;
+      document.getElementById('telefono').value = json.cliente.telefono;
+      document.getElementById('direccion').value = json.cliente.direccion;
+      document.getElementById('estado').value = json.cliente.estado;
     })
     .catch((mensaje) => {
       alert(mensaje);

@@ -3,7 +3,6 @@ CREATE DATABASE IF NOT EXISTS inventario;
 USE inventario;
 
 DROP TABLE IF EXISTS usuarios;
-
 CREATE TABLE IF NOT EXISTS usuarios
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
@@ -18,18 +17,10 @@ CREATE TABLE IF NOT EXISTS usuarios
 );
 
 INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, telefono, direccion, rol, estado)
-VALUES ('admin', 'apellido', '1234567', sha('admin'), '04161234567', 'calle juncal', 'admin', 'activo');
+VALUES ('admin', 'apellido', '12345670', '$2y$10$qGY76PQnevfXJvhxfRM6cOoj.oKPH9uGvI4rmLh7e6kh6TBJQcAB2', '04161234567', 'calle juncal', 'admin', 'activo');
 
-select * from usuarios;
 
-INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, telefono, direccion, rol, estado)
-VALUES ('usuario', 'apellido', '76543213', sha('contra'), '04161234567', 'calle A', 'operador', 'activo');
-
-SELECT *
-FROM usuarios
-ORDER BY id ASC
-LIMIT 10 OFFSET 10;
-
+DROP TABLE IF EXISTS clientes;
 CREATE TABLE IF NOT EXISTS clientes
 (
     id                    INT AUTO_INCREMENT PRIMARY KEY,
@@ -39,7 +30,6 @@ CREATE TABLE IF NOT EXISTS clientes
     numero_identificacion VARCHAR(100)                NOT NULL,
     telefono              VARCHAR(100)                NOT NULL,
     direccion             VARCHAR(255)                NOT NULL,
-    fecha                 DATE                        NOT NULL,
-    hora                  TIME                        NOT NULL,
+    fecha_creacion        DATETIME                    NOT NULL,
     estado                ENUM ('activo', 'inactivo') NOT NULL
 );

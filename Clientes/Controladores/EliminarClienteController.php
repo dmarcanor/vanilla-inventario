@@ -1,26 +1,16 @@
 <?php
 
-declare(strict_types=1);
-
 require_once __DIR__ . '/../Modelos/Cliente.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
-    http_response_code(201);
-
-    Cliente::crear(
-        $data['nombre'],
-        $data['apellido'],
-        $data['tipo_identificacion'],
-        $data['numero_identificacion'],
-        $data['telefono'],
-        $data['direccion'],
-        $data['estado']
-    );
+    http_response_code(200);
+    Cliente::eliminar($data['id']);
 
     echo json_encode([
-        'ok' => true
+        'ok' => true,
+        'mensaje' => 'Cliente eliminado correctamente.'
     ]);
     exit();
 } catch (\Exception $exception) {

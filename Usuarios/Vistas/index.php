@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/Menu/Vistas/menu.css">
     <style>
         :root {
             --primary-color: #3498db;
@@ -26,71 +27,10 @@
             color: var(--text-color);
         }
 
-        #sidebar {
-            width: 250px;
-            height: 100vh;
-            background-color: var(--sidebar-color);
-            padding: 20px;
-            box-sizing: border-box;
-            color: white;
-        }
-
         #content {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
-        }
-
-        .app-name {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-align: center;
-            color: var(--primary-color);
-        }
-
-        .module-list {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .module-list li {
-            margin-bottom: 15px;
-        }
-
-        .module-list a {
-            text-decoration: none;
-            color: #ecf0f1;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .module-list a:hover {
-            background-color: var(--hover-color);
-        }
-
-        .user-info {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .logout-btn {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .logout-btn:hover {
-            background-color: #c0392b;
         }
 
         .module-header {
@@ -183,29 +123,17 @@
         .delete-btn:hover {
             background-color: #c0392b;
         }
+
     </style>
 </head>
 <body>
-<div id="sidebar">
-    <div class="app-name">Sistema de inventario</div>
-    <ul class="module-list">
-        <li><a href="#inicio"><span class="icon">🏠</span> Inicio</a></li>
-        <li><a href="/Usuarios/Vistas/index.php"><span class="icon">👥</span> Usuarios</a></li>
-        <li><a href="/Clientes/Vistas/index.php"><span class="icon">🏢</span> Clientes</a></li>
-        <li><a href="#categorias"><span class="icon">📁</span> Categorías</a></li>
-        <li><a href="#articulos"><span class="icon">📦</span> Materiales</a></li>
-        <li><a href="#entradas"><span class="icon">⬇️</span> Entradas</a></li>
-        <li><a href="#salidas"><span class="icon">⬆️</span> Salidas</a></li>
-    </ul>
-    <div class="user-info">
-        <p id="usuario">Usuario</p>
-        <button class="logout-btn">Cerrar Sesión</button>
-    </div>
-</div>
+
+<?php require_once __DIR__ . '/../../Menu/Vistas/menu.php';?>
+
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Usuarios</h1>
-        <a class="new-user-btn" href="crear.php">Crear Nuevo Usuario</a>
+        <a class="new-user-btn" href="/Usuarios/Vistas/crear.php">Crear nuevo usuario</a>
     </div>
     <form class="search-form" onsubmit="buscar(event)">
         <h3>Búsqueda de usuarios</h3>
@@ -252,6 +180,6 @@
 </div>
 
 <script src="main.js"></script>
-
+<script src="/Menu/Vistas/menu.js"></script>
 </body>
 </html>

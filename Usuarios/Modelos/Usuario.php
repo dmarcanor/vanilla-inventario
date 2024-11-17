@@ -13,7 +13,6 @@ class Usuario
     private $contrasenia;
     private $rol;
     private $estado;
-    private $conexion;
 
     public function __construct($id, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
     {
@@ -26,57 +25,14 @@ class Usuario
         $this->contrasenia = $contrasenia;
         $this->rol = $rol;
         $this->estado = $estado;
-
-        $this->conexionBD = (new ConexionBD())->getConexion();
-    }
-
-    public function id()
-    {
-        return $this->id;
-    }
-
-    public function nombre()
-    {
-        return $this->nombre;
-    }
-
-    public function apellido()
-    {
-        return $this->apellido;
-    }
-
-    public function cedula()
-    {
-        return $this->cedula;
-    }
-
-    public function telefono()
-    {
-        return $this->telefono;
-    }
-
-    public function direccion()
-    {
-        return $this->direccion;
-    }
-
-    public function contrasenia()
-    {
-        return $this->contrasenia;
-    }
-
-    public function rol()
-    {
-        return $this->rol;
-    }
-
-    public function estado()
-    {
-        return $this->estado;
     }
 
     public static function crear($nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
     {
+        self::validarCedula($cedula);
+        self::validarTelefono($telefono);
+        self::validarContrasenia($contrasenia);
+
         $usuarioConCedula = self::getUsuarioPorCedula($cedula);
 
         if (!empty($usuarioConCedula)) {
@@ -115,7 +71,7 @@ class Usuario
     public static function getUsuarioPorCedula($cedula)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre, apellido, cedula, telefono, direccion, estado, rol, estado 
+            SELECT id, nombre, apellido, cedula, telefono, direccion, estado, rol 
             FROM usuarios WHERE cedula = ?
         ");
         $consulta->execute([$cedula]);
@@ -146,6 +102,10 @@ class Usuario
         if (empty($usuario)) {
             throw new Exception("Usuario no encontrado.");
         }
+
+        self::validarCedula($cedula);
+        self::validarTelefono($telefono);
+        self::validarContrasenia($contrasenia);
 
         if ($usuario->cedula !== $cedula) {
             $usuarioConCedula = self::getUsuarioPorCedula($cedula);
@@ -320,6 +280,33 @@ class Usuario
         ");
 
         $consultaEliminarUsuario->execute([$id]);
+    }
+
+    public static function validarCedula($cedula)
+    {
+        $cedula = trim($cedula);
+
+        if (!preg_match('/^\d{6,8}$/', $cedula)) {
+            throw new Exception("La cédula debe tener de 6 a 8 dígitos numéricos.");
+        }
+    }
+
+    public static function validarTelefono($telefono)
+    {
+        $telefono = trim($telefono);
+
+        if (!preg_match('/^\d{11}$/', $telefono)) {
+            throw new Exception("El número de teléfono debe tener 11 dígitos numéricos.");
+        }
+    }
+
+    public static function validarContrasenia($contrasenia)
+    {
+        $contrasenia = trim($contrasenia);
+
+        if (strlen($contrasenia) < 8) {
+            throw new Exception("La contraseña debe tener 8 o más caracteres.");
+        }
     }
 
     public function toArray()

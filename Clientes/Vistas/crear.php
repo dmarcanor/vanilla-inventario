@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/Menu/Vistas/menu.css">
     <style>
         :root {
             --primary-color: #3498db;
@@ -26,87 +27,26 @@
             color: var(--text-color);
         }
 
-        #menu-lateral {
-            width: 250px;
-            height: 100vh;
-            background-color: var(--sidebar-color);
-            padding: 20px;
-            box-sizing: border-box;
-            color: white;
-        }
-
-        #contenido {
+        #content {
             flex-grow: 1;
             padding: 20px;
             overflow-y: auto;
         }
 
-        .titulo-app {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 30px;
-            text-align: center;
-            color: var(--primary-color);
-        }
-
-        .menu {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .menu li {
-            margin-bottom: 15px;
-        }
-
-        .menu a {
-            text-decoration: none;
-            color: #ecf0f1;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
-        }
-
-        .menu a:hover {
-            background-color: var(--hover-color);
-        }
-
-        .usuario-sesion-info {
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .cerrar-sesion-btn {
-            width: 100%;
-            margin-top: 10px;
-            padding: 10px;
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .cerrar-sesion-btn:hover {
-            background-color: #c0392b;
-        }
-
-        .cabecera {
+        .module-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 20px;
         }
 
-        .cabecera-titulo {
+        .module-title {
             font-size: 28px;
             color: var(--primary-color);
             margin: 0;
         }
 
-        .formulario-busqueda {
+        .search-form {
             background-color: white;
             padding: 20px;
             border-radius: 8px;
@@ -114,14 +54,14 @@
             margin-bottom: 20px;
         }
 
-        .formulario-busqueda input, .search-form select {
+        .search-form input, .search-form select {
             margin-right: 10px;
             padding: 8px;
             border: 1px solid #ddd;
             border-radius: 4px;
         }
 
-        .formulario-busqueda button {
+        .search-form button {
             padding: 8px 15px;
             background-color: var(--secondary-color);
             color: white;
@@ -131,7 +71,7 @@
             transition: background-color 0.3s;
         }
 
-        .formulario-busqueda button:hover {
+        .search-form button:hover {
             background-color: #27ae60;
         }
 
@@ -143,7 +83,7 @@
             margin-bottom: 20px;
         }
 
-        .crear-cliente-btn {
+        .new-user-btn {
             padding: 10px 20px;
             background-color: var(--secondary-color);
             color: white;
@@ -153,7 +93,7 @@
             transition: background-color 0.3s;
         }
 
-        .crear-cliente-btn:hover {
+        .new-user-btn:hover {
             background-color: #27ae60;
         }
 
@@ -182,30 +122,21 @@
     </style>
 </head>
 <body>
-<div id="menu-lateral">
-    <div class="titulo-app">Sistema de inventario</div>
-    <ul class="menu">
-        <li><a href="#inicio"><span class="icon">🏠</span> Inicio</a></li>
-        <li><a href="/Usuarios/Vistas/index.php"><span class="icon">👥</span> Usuarios</a></li>
-        <li><a href="#"><span class="icon">🏢</span> Clientes</a></li>
-        <li><a href="/Categorias/Vistas/index.php"><span class="icon">📁</span> Categorías</a></li>
-        <li><a href="/Materiales/Vistas/index.php"><span class="icon">📦</span> Materiales</a></li>
-        <li><a href="/Entradas/Vistas/index.php"><span class="icon">⬇️</span> Entradas</a></li>
-        <li><a href="/Salidas/Vistas/index.php"><span class="icon">⬆️</span> Salidas</a></li>
-    </ul>
-    <div class="usuario-sesion-info">
-        <p id="usuario">Usuario</p>
-        <button class="cerrar-sesion-btn">Cerrar Sesión</button>
+
+<?php require_once __DIR__ . '/../../Menu/Vistas/menu.php';?>
+
+<div id="content">
+    <div class="module-header">
+        <h1 class="module-title">Clientes - Crear</h1>
     </div>
-</div>
-<div id="contenido">
-    <div class="cabecera">
-        <h1 class="cabecera-titulo">Clientes</h1>
-    </div>
-    <form class="crear-cliente-form" onsubmit="guardar(event)">
+    <form class="crear-usuario-form" onsubmit="guardar(event)">
         <div class="grupo">
             <label for="nombre">Nombre</label>
             <input type="text" id="nombre" placeholder="Nombre" required>
+        </div>
+        <div class="grupo">
+            <label for="apellido">Apellido</label>
+            <input type="text" id="apellido" placeholder="Apellido" required>
         </div>
         <div class="grupo">
             <label for="tipo_identificacion">Tipo de identificación</label>
@@ -219,6 +150,14 @@
         <div class="grupo">
             <label for="numero_identificacion">Número de identificación</label>
             <input type="text" id="numero_identificacion" placeholder="Número de identificación" required>
+        </div>
+        <div class="grupo">
+            <label for="telefono">Teléfono</label>
+            <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11" required>
+        </div>
+        <div class="grupo">
+            <label for="direccion">Dirección</label>
+            <input type="text" id="direccion" placeholder="Dirección" required>
         </div>
         <div class="grupo">
             <label for="estado">Estado</label>
@@ -237,5 +176,6 @@
 
 <script src="main.js"></script>
 <script src="formulario.js"></script>
+<script src="/Menu/Vistas/menu.js"></script>
 </body>
 </html>

@@ -14,8 +14,11 @@ const guardar = (event) => {
 
 const crear = (formulario) => {
   const nombre = formulario.nombre.value;
+  const apellido = formulario.apellido.value;
   const tipo_identificacion = formulario.tipo_identificacion.value;
   const numero_identificacion = formulario.numero_identificacion.value;
+  const telefono = formulario.telefono.value;
+  const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
 
   fetch('/Clientes/Controladores/CrearClienteController.php', {
@@ -25,8 +28,11 @@ const crear = (formulario) => {
     },
     body: JSON.stringify({
       nombre,
+      apellido,
       tipo_identificacion,
       numero_identificacion,
+      telefono,
+      direccion,
       estado
     })
   }).then(response => response.json())
@@ -45,8 +51,11 @@ const crear = (formulario) => {
 
 const editar = (id, formulario) => {
   const nombre = formulario.nombre.value;
+  const apellido = formulario.apellido.value;
   const tipo_identificacion = formulario.tipo_identificacion.value;
   const numero_identificacion = formulario.numero_identificacion.value;
+  const telefono = formulario.telefono.value;
+  const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
 
   fetch('/Clientes/Controladores/EditarClienteController.php', {
@@ -57,8 +66,11 @@ const editar = (id, formulario) => {
     body: JSON.stringify({
       id,
       nombre,
+      apellido,
       tipo_identificacion,
       numero_identificacion,
+      telefono,
+      direccion,
       estado
     })
   }).then(response => response.json())
