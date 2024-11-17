@@ -19,6 +19,7 @@ CREATE TABLE IF NOT EXISTS usuarios
 INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, telefono, direccion, rol, estado)
 VALUES ('admin', 'apellido', '12345670', '$2y$10$qGY76PQnevfXJvhxfRM6cOoj.oKPH9uGvI4rmLh7e6kh6TBJQcAB2', '04161234567', 'calle juncal', 'admin', 'activo');
 
+select * from usuarios;
 
 DROP TABLE IF EXISTS clientes;
 CREATE TABLE IF NOT EXISTS clientes

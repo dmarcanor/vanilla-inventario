@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="/Menu/Vistas/menu.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Menu/Vistas/menu.css">
     <style>
         :root {
             --primary-color: #3498db;
@@ -133,7 +133,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Usuarios</h1>
-        <a class="new-user-btn" href="/Usuarios/Vistas/crear.php">Crear nuevo usuario</a>
+        <a class="new-user-btn" href="/vanilla-inventario/Usuarios/Vistas/crear.php">Crear nuevo usuario</a>
     </div>
     <form class="search-form" onsubmit="buscar(event)">
         <h3>Búsqueda de usuarios</h3>
@@ -179,7 +179,7 @@
     </div>
 </div>
 
-<script src="main.js"></script>
-<script src="/Menu/Vistas/menu.js"></script>
+<script src="/vanilla-inventario/Usuarios/Vistas/main.js"></script>
+<script src="/vanilla-inventario/Menu/Vistas/menu.js"></script>
 </body>
 </html>

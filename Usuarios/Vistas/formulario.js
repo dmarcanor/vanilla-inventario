@@ -22,7 +22,7 @@ const crear = (formulario) => {
   const rol = formulario.rol.value;
   const estado = formulario.estado.value;
 
-  fetch('/Usuarios/Controladores/CrearUsuarioController.php', {
+  fetch('/vanilla-inventario/Usuarios/Controladores/CrearUsuarioController.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ const crear = (formulario) => {
       }
 
       alert('Usuario creado satisfactoriamente.');
-      window.location.href = '/Usuarios/Vistas/index.php';
+      window.location.href = '/vanilla-inventario/Usuarios/Vistas/index.php';
     })
     .catch((mensaje) => {
       alert(mensaje);
@@ -61,7 +61,7 @@ const editar = (id, formulario) => {
   const rol = formulario.rol.value;
   const estado = formulario.estado.value;
 
-  fetch('/Usuarios/Controladores/EditarUsuarioController.php', {
+  fetch('/vanilla-inventario/Usuarios/Controladores/EditarUsuarioController.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -84,7 +84,7 @@ const editar = (id, formulario) => {
       }
 
       alert('Usuario editado satisfactoriamente.');
-      window.location.href = '/Usuarios/Vistas/index.php';
+      window.location.href = '/vanilla-inventario/Usuarios/Vistas/index.php';
     })
     .catch((mensaje) => {
       alert(mensaje);
@@ -94,5 +94,5 @@ const editar = (id, formulario) => {
 const cancelar = (event) => {
   event.preventDefault();
 
-  window.location.href = '/Usuarios/Vistas/index.php';
+  window.location.href = '/vanilla-inventario/Usuarios/Vistas/index.php';
 }

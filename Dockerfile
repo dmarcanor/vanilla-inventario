@@ -1,6 +1,6 @@
 FROM php:8.0-apache
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/vanilla-inventario
 
 RUN pecl install xdebug-3.0.4 \
     && docker-php-ext-enable xdebug

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-    <link rel="stylesheet" href="/Menu/Vistas/menu.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Menu/Vistas/menu.css">
     <style>
         :root {
             --primary-color: #3498db;
@@ -106,9 +106,9 @@
     </form>
 </div>
 
-<script src="main.js"></script>
-<script src="editar.js"></script>
-<script src="formulario.js"></script>
-<script src="/Menu/Vistas/menu.js"></script>
+<script src="/vanilla-inventario/Usuarios/Vistas/main.js"></script>
+<script src="/vanilla-inventario/Usuarios/Vistas/editar.js"></script>
+<script src="/vanilla-inventario/Usuarios/Vistas/formulario.js"></script>
+<script src="/vanilla-inventario/Menu/Vistas/menu.js"></script>
 </body>
 </html>

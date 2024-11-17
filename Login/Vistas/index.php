@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Sistema de Inventario</title>
-    <link rel="stylesheet" href="/Login/Vistas/styles.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Login/Vistas/styles.css">
 </head>
 <body>
 <div class="login-container">
@@ -16,6 +16,6 @@
     </form>
 </div>
 
-<script src="auth.js"></script>
+<script src="/vanilla-inventario/Login/Vistas/auth.js"></script>
 </body>
 </html>

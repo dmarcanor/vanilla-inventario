@@ -22,5 +22,5 @@ const marcarSeleccionadoMenu = () => {
 
 const logout = () => {
   window.localStorage.removeItem('usuario');
-  window.location.href = '/Login/Vistas/index.php';
+  window.location.href = '/vanilla-inventario/Login/Vistas/index.php';
 }

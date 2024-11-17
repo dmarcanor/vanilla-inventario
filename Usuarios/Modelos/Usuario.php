@@ -105,7 +105,10 @@ class Usuario
 
         self::validarCedula($cedula);
         self::validarTelefono($telefono);
-        self::validarContrasenia($contrasenia);
+
+        if (!empty($contrasenia)) {
+            self::validarContrasenia($contrasenia);
+        }
 
         if ($usuario->cedula !== $cedula) {
             $usuarioConCedula = self::getUsuarioPorCedula($cedula);

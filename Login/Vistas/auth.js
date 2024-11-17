@@ -5,7 +5,7 @@ const login = (event) => {
   const usuario = loginForm.usuario.value;
   const contrasenia = loginForm.contrasenia.value;
 
-  fetch('/Login/Controladores/LoginController.php', {
+  fetch('/vanilla-inventario/Login/Controladores/LoginController.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -23,6 +23,6 @@ const login = (event) => {
       }
 
       window.localStorage.setItem('usuario', JSON.stringify(response.usuario));
-      window.location.href = '/Usuarios/Vistas/index.php';
+      window.location.href = '/vanilla-inventario/Usuarios/Vistas/index.php';
     });
 }

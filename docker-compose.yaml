@@ -3,31 +3,31 @@ services:
         build:
             context: .
             dockerfile: Dockerfile
-        container_name: initial-project-php
+        container_name: inventario-php
         volumes:
-            - .:/var/www/html
+            - .:/var/www/html/vanilla-inventario
         ports:
             - 8080:80
         networks:
-            - initial-project-network
+            - inventario-network
 
     mysql:
         image: mysql:8.0.23
-        container_name: initial-project-mysql
+        container_name: inventario-mysql
         restart: always
         ports:
             - "3306:3306"
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: initial-project
-            MYSQL_USER: initial-project-user
-            MYSQL_PASSWORD: initial-project-pass
+            MYSQL_DATABASE: inventario
+            MYSQL_USER: inventario-user
+            MYSQL_PASSWORD: inventario-pass
         volumes:
-            - initial-project-mysql-volume:/etc/mysql/conf.d
+            - inventario-mysql-volume:/etc/mysql/conf.d
         networks:
-            - initial-project-network
+            - inventario-network
 networks:
-    initial-project-network:
+    inventario-network:
 
 volumes:
-    initial-project-mysql-volume:
+    inventario-mysql-volume:

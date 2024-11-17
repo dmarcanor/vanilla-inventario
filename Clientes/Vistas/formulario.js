@@ -21,7 +21,7 @@ const crear = (formulario) => {
   const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
 
-  fetch('/Clientes/Controladores/CrearClienteController.php', {
+  fetch('/vanilla-inventario/Clientes/Controladores/CrearClienteController.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -42,7 +42,7 @@ const crear = (formulario) => {
       }
 
       alert('Cliente creado satisfactoriamente.');
-      window.location.href = '/Clientes/Vistas/index.php';
+      window.location.href = '/vanilla-inventario/Clientes/Vistas/index.php';
     })
     .catch((mensaje) => {
       alert(mensaje);
@@ -58,7 +58,7 @@ const editar = (id, formulario) => {
   const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
 
-  fetch('/Clientes/Controladores/EditarClienteController.php', {
+  fetch('/vanilla-inventario/Clientes/Controladores/EditarClienteController.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -80,7 +80,7 @@ const editar = (id, formulario) => {
       }
 
       alert('Cliente editado satisfactoriamente.');
-      window.location.href = '/Clientes/Vistas/index.php';
+      window.location.href = '/vanilla-inventario/Clientes/Vistas/index.php';
     })
     .catch((mensaje) => {
       alert(mensaje);
@@ -90,5 +90,5 @@ const editar = (id, formulario) => {
 const cancelar = (event) => {
   event.preventDefault();
 
-  window.location.href = '/Clientes/Vistas/index.php';
+  window.location.href = '/vanilla-inventario/Clientes/Vistas/index.php';
 }

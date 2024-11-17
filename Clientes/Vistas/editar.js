@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 
-  fetch(`/Clientes/Controladores/GetClienteController.php?id=${id}`, {
+  fetch(`/vanilla-inventario/Clientes/Controladores/GetClienteController.php?id=${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'

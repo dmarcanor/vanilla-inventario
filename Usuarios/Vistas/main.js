@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     ajax: {
-      url: "/Usuarios/Controladores/GetUsuariosController.php", // URL de tu endpoint
+      url: "/vanilla-inventario/Usuarios/Controladores/GetUsuariosController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
@@ -64,7 +64,7 @@ const estadoLabel = (estado) => {
 }
 
 const cambiarEstado = (id) => {
-  fetch(`/Usuarios/Controladores/CambiarEstadoUsuarioController.php`, {
+  fetch(`/vanilla-inventario/Usuarios/Controladores/CambiarEstadoUsuarioController.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -90,7 +90,7 @@ const cambiarEstado = (id) => {
 }
 
 const eliminar = (id) => {
-  fetch(`/Usuarios/Controladores/EliminarUsuarioController.php`, {
+  fetch(`/vanilla-inventario/Usuarios/Controladores/EliminarUsuarioController.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -116,7 +116,7 @@ const eliminar = (id) => {
 }
 
 const redireccionarEditar = (id) => {
-  window.location.href = `/Usuarios/Vistas/editar.php?id=${id}`;
+  window.location.href = `/vanilla-inventario/Usuarios/Vistas/editar.php?id=${id}`;
 }
 
 const buscar = (event) => {
