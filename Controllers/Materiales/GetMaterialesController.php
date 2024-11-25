@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 $filtros = [
     'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
@@ -42,6 +42,7 @@ try {
 } catch (\Exception $exception) {
     echo json_encode([
         'ok' => false,
-        'data' => []
+        'data' => [],
+        'mensaje' => $exception->getMessage()
     ]);
 }

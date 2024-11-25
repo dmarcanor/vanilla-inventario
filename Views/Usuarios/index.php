@@ -9,36 +9,68 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/usuarios/main.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
 </head>
 <body>
 
-<?php require_once __DIR__ . '/../../Views/Menu/menu.php';?>
+<?php require_once __DIR__ . '/../../Views/Menu/menu.php'; ?>
 
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Usuarios</h1>
         <a class="new-user-btn" href="/vanilla-inventario/Views/Usuarios/crear.php">Crear nuevo usuario</a>
     </div>
-    <form class="search-form" onsubmit="buscar(event)">
+    <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de usuarios</h3>
         <hr>
-        <input type="text" id="nombre" placeholder="Nombre">
-        <input type="text" id="apellido" placeholder="Apellido">
-        <input type="text" id="cedula" placeholder="Cédula">
-        <input type="text" id="telefono" placeholder="Teléfono">
-        <input type="text" id="direccion" placeholder="Dirección">
-        <select id="rol">
-            <option value="">Rol</option>
-            <option value="admin">Administrador</option>
-            <option value="operador">Operador</option>
-        </select>
-        <select id="estado">
-            <option value="">Estado</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-        </select>
-        <button type="submit" id="submit">Buscar</button>
-        <button type="reset" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Nombre del material">
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido">
+            </div>
+            <div class="form-group">
+                <label for="cedula">Cédula</label>
+                <input type="text" id="cedula" name="cedula" placeholder="Cédula">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" name="telefono" placeholder="Teléfono">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" name="direccion" placeholder="Dirección">
+            </div>
+            <div class="form-group">
+                <label for="rol">Rol</label>
+                <select id="rol" name="rol">
+                    <option value="">Rol</option>
+                    <option value="admin">Administrador</option>
+                    <option value="operador">Operador</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                    <option value="">Estado</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <button type="submit" class="success-button" id="submit">Buscar</button>
+                <button type="reset" class="cancel-button" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+            </div>
+        </div>
     </form>
     <div class="usuarios-table-seccion">
         <h3>Listado de usuarios</h3>

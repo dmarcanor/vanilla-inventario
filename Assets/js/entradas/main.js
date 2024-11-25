@@ -20,12 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
     columns: [
       { data: "id" },
       { data: "nombre", orderable: false },
-      { data: "descripcion", orderable: false },
-      { data: "marca", orderable: false },
-      { data: "categoriaNombre", orderable: false },
-      { data: "precio", orderable: false },
-      { data: "stock", orderable: false },
-      { data: "usuarioNombreCompleto", orderable: false },
+      { data: "apellido", orderable: false },
+      { data: "tipoIdentificacion", orderable: false },
+      { data: "numeroIdentificacion", orderable: false },
+      { data: "telefono", orderable: false },
+      { data: "direccion", orderable: false },
       { data: "fechaCreacion", orderable: false },
       {
         data: "estado",
@@ -125,18 +124,14 @@ const buscar = (event) => {
 
   const parametros = {
     "nombre": busqueda.nombre.value,
-    "descripcion": busqueda.descripcion.value,
-    "marca": busqueda.marca.value,
-    "categoria_id": busqueda.categoria_id.value,
-    "unidad": busqueda.unidad.value,
-    "estado": busqueda.estado.value,
-    "usuario_id": busqueda.usuario_id.value,
+    "apellido": busqueda.apellido.value,
+    "tipo_identificacion": busqueda.tipo_identificacion.value,
+    "numero_identificacion": busqueda.numero_identificacion.value,
+    "telefono": busqueda.telefono.value,
+    "direccion": busqueda.direccion.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
-    "peso_desde": busqueda.peso_desde.value,
-    "peso_hasta": busqueda.peso_hasta.value,
-    "precio_desde": busqueda.precio_desde.value,
-    "precio_hasta": busqueda.precio_hasta.value
+    "estado": busqueda.estado.value,
   };
 
   table.settings()[0].ajax.data = (data) => ({...data, ...parametros})

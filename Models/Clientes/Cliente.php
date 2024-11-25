@@ -210,7 +210,7 @@ class Cliente
         $cliente = $consulta->fetch(PDO::FETCH_ASSOC);
 
         if (empty($cliente)) {
-            return null;
+            throw new Exception('Cliente no encontrado.');
         }
 
         return new Cliente(

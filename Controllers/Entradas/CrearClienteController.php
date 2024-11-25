@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
+require_once __DIR__ . '/../Modelos/Cliente.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 

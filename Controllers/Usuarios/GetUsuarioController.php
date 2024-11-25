@@ -2,17 +2,19 @@
 
 require_once __DIR__ . '/../../Models/Usuarios/Usuario.php';
 
-$usuario = Usuario::getUsuario($_GET['id'])->toArray();
+try {
+    $usuario = Usuario::getUsuario($_GET['id']);
 
-if (empty($usuario)) {
+    echo json_encode([
+        'ok' => true,
+        'usuario' => $usuario->toArray()
+    ]);
+    exit();
+} catch (\Exception $exception) {
     echo json_encode([
         'ok' => false,
+        'mensaje' => $exception->getMessage(),
         'usuario' => []
     ]);
     exit();
 }
-
-echo json_encode([
-    'ok' => true,
-    'usuario' => $usuario
-]);

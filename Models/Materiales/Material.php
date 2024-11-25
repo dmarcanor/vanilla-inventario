@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../../BD/ConexionBD.php';
+require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
+require_once __DIR__ . '/../../Models/Usuarios/Usuario.php';
 
 class Material
 {
@@ -160,7 +162,7 @@ class Material
         $material = $consulta->fetch(PDO::FETCH_ASSOC);
 
         if (empty($material)) {
-            return null;
+            throw new Exception('Material no encontrado.');
         }
 
         return new Material(
@@ -282,7 +284,7 @@ class Material
         }
 
         if (empty($marca)) {
-            throw new Exception("La marcano no puede estar vacía.");
+            throw new Exception("La marca no no puede estar vacía.");
         }
 
         if (empty($usuario_id)) {
@@ -316,6 +318,16 @@ class Material
         }
     }
 
+    public function categoria()
+    {
+        return Categoria::getCategoria($this->categoriaId);
+    }
+
+    public function usuario()
+    {
+        return Usuario::getUsuario($this->usuarioId);
+    }
+
     public function toArray()
     {
         return [
@@ -324,7 +336,11 @@ class Material
             'descripcion' => $this->descripcion,
             'marca' => $this->marca,
             'usuarioId' => $this->usuarioId,
+            'usuarioNombre' => $this->usuario()->nombre(),
+            'usuarioApellido' => $this->usuario()->apellido(),
+            'usuarioNombreCompleto' => "{$this->usuario()->nombre()} {$this->usuario()->apellido()}",
             'categoriaId' => $this->categoriaId,
+            'categoriaNombre' => $this->categoria()->nombre(),
             'unidad' => $this->unidad,
             'peso' => $this->peso,
             'precio' => $this->precio,

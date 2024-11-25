@@ -9,6 +9,7 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/clientes/main.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
 </head>
 <body>
 
@@ -19,37 +20,66 @@
         <h1 class="module-title">Clientes</h1>
         <a class="new-user-btn" href="crear.php">Crear nuevo cliente</a>
     </div>
-    <form class="search-form" onsubmit="buscar(event)">
+    <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de clientes</h3>
         <hr>
-        <input type="text" id="nombre" placeholder="Nombre">
-        <input type="text" id="apellido" placeholder="Apellido">
-        <select id="tipo_identificacion">
-            <option value="">Tipo de identificación</option>
-            <option value="cedula">Cédula</option>
-            <option value="rif">Rif</option>
-            <option value="pasaporte">Pasaporte</option>
-        </select>
-        <input type="text" id="numero_identificacion" placeholder="Número de identificación">
-        <input type="text" id="telefono" placeholder="Teléfono">
-        <input type="text" id="direccion" placeholder="Dirección">
-        <div>
-            <div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Nombre">
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido">
+            </div>
+            <div class="form-group">
+                <label for="tipo_identificacion">Tipo de identificación</label>
+                <select id="tipo_identificacion">
+                    <option value="">Tipo de identificación</option>
+                    <option value="cedula">Cédula</option>
+                    <option value="rif">Rif</option>
+                    <option value="pasaporte">Pasaporte</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="numero_identificacion">Número de identificación</label>
+                <input type="text" id="numero_identificacion" placeholder="Número de identificación">
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" placeholder="Teléfono">
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Dirección">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>
                 <input type="datetime-local" id="fecha_desde">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="fecha_hasta">Fecha creación hasta</label>
                 <input type="datetime-local" id="fecha_hasta">
             </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado">
+                    <option value="">Seleccione</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
         </div>
-        <select id="estado">
-            <option value="">Estado</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-        </select>
-        <button type="submit" id="submit">Buscar</button>
-        <button type="reset" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+        <div class="form-row">
+            <div class="form-group">
+                <button type="submit" class="success-button" id="submit">Buscar</button>
+                <button type="reset" class="cancel-button" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+            </div>
+        </div>
     </form>
     <div class="usuarios-table-seccion">
         <h3>Listado de clientes</h3>

@@ -2,17 +2,19 @@
 
 require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
-$material = Material::getMaterial($_GET['id'])->toArray();
+try {
+    $material = Material::getMaterial($_GET['id']);
 
-if (empty($material)) {
+    echo json_encode([
+        'ok' => true,
+        'material' => $material->toArray()
+    ]);
+    exit();
+} catch (\Exception $exception) {
     echo json_encode([
         'ok' => false,
+        'mensaje' => $exception->getMessage(),
         'material' => []
     ]);
     exit();
 }
-
-echo json_encode([
-    'ok' => true,
-    'material' => $material
-]);

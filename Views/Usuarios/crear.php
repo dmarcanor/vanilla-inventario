@@ -9,59 +9,68 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/usuarios/crear.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
 </head>
 <body>
 
-<?php require_once __DIR__ . '/../../Views/Menu/menu.php';?>
+<?php require_once __DIR__ . '/../../Views/Menu/menu.php'; ?>
 
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Usuarios - Crear</h1>
     </div>
-    <form class="crear-usuario-form" onsubmit="guardar(event)">
-        <div class="grupo">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="nombre" placeholder="Nombre" required>
+    <form class="crear-usuario-form form" onsubmit="guardar(event)">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" placeholder="Apellido" required>
+            </div>
+            <div class="form-group">
+                <label for="cedula">Cédula</label>
+                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required>
+            </div>
         </div>
-        <div class="grupo">
-            <label for="apellido">Apellido</label>
-            <input type="text" id="apellido" placeholder="Apellido" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="contrasenia">Contraseña</label>
+                <input type="password" id="contrasenia" placeholder="Contraseña" minlength="8" required>
+            </div>
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11" required>
+            </div>
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Dirección" required>
+            </div>
         </div>
-        <div class="grupo">
-            <label for="cedula">Cédula</label>
-            <input type="number" id="cedula" placeholder="Cédula" minlength="6" maxlength="8" required>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="rol">Rol</label>
+                <select name="rol" id="rol" required>
+                    <option value="">Seleccione</option>
+                    <option value="admin">Administrador</option>
+                    <option value="operador">Operador</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select name="estado" id="estado" required>
+                    <option value="">Seleccione</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+            </div>
         </div>
-        <div class="grupo">
-            <label for="contrasenia">Contraseña</label>
-            <input type="password" id="contrasenia" placeholder="Contraseña" minlength="8" required>
-        </div>
-        <div class="grupo">
-            <label for="telefono">Teléfono</label>
-            <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11" required>
-        </div>
-        <div class="grupo">
-            <label for="direccion">Dirección</label>
-            <input type="text" id="direccion" placeholder="Dirección" required>
-        </div>
-        <div class="grupo">
-            <label for="rol">Rol</label>
-            <select name="rol" id="rol" required>
-                <option value="">Seleccione</option>
-                <option value="admin">Administrador</option>
-                <option value="operador">Operador</option>
-            </select>
-        </div>
-        <div class="grupo">
-            <label for="estado">Estado</label>
-            <select name="estado" id="estado" required>
-                <option value="">Seleccione</option>
-                <option value="activo">Activo</option>
-                <option value="inactivo">Inactivo</option>
-            </select>
-        </div>
-        <div class="grupo-botones">
-            <button type="submit">Guardar</button>
-            <button onclick="cancelar(event)">Cancelar</button>
+        <div class="form-row">
+            <div class="form-group">
+                <button type="submit" class="success-button">Guardar</button>
+                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+            </div>
         </div>
     </form>
 </div>

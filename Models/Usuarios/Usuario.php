@@ -27,8 +27,21 @@ class Usuario
         $this->estado = $estado;
     }
 
+    public function nombre()
+    {
+        return $this->nombre;
+    }
+
+    public function apellido()
+    {
+        return $this->apellido;
+    }
+
     public static function crear($nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
     {
+        $validarContraseniaVacia = true;
+
+        self::validarCamposVacios($nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado);
         self::validarCedula($cedula);
         self::validarTelefono($telefono);
         self::validarContrasenia($contrasenia);
@@ -103,6 +116,9 @@ class Usuario
             throw new Exception("Usuario no encontrado.");
         }
 
+        $validarContraseniaVacia = !empty($contrasenia) && $usuario->contrasenia !== $contrasenia;
+
+        self::validarCamposVacios($nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado);
         self::validarCedula($cedula);
         self::validarTelefono($telefono);
 
@@ -205,7 +221,7 @@ class Usuario
         $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 
         if (empty($usuario)) {
-            return null;
+            throw new Exception("Usuario no encontrado.");
         }
 
         return new Usuario(
@@ -283,6 +299,41 @@ class Usuario
         ");
 
         $consultaEliminarUsuario->execute([$id]);
+    }
+
+    public static function validarCamposVacios($nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado)
+    {
+        if (empty($nombre)) {
+            throw new Exception("El nombre no puede estar vacío.");
+        }
+
+        if (empty($apellido)) {
+            throw new Exception("El appelido no puede estar vacío.");
+        }
+
+        if (empty($cedula)) {
+            throw new Exception("La cédula no puede estar vacía.");
+        }
+
+        if (empty($telefono)) {
+            throw new Exception("El número de teléfono no puede estar vacío.");
+        }
+
+        if (empty($direccion)) {
+            throw new Exception("La dirección no puede estar vacía.");
+        }
+
+        if ($validarContraseniaVacia === true && empty($contrasenia)) {
+            throw new Exception("La contraseña no puede estar vacía.");
+        }
+
+        if (empty($rol)) {
+            throw new Exception("El rol no puede estar vacío.");
+        }
+
+        if (empty($estado)) {
+            throw new Exception("El estado no puede estar vacío.");
+        }
     }
 
     public static function validarCedula($cedula)

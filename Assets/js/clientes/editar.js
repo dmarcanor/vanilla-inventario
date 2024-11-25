@@ -27,5 +27,7 @@ console.log(
     })
     .catch((mensaje) => {
       alert(mensaje);
+
+      window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
     });
 });

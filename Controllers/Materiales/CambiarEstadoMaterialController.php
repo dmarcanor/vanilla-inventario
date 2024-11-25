@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 

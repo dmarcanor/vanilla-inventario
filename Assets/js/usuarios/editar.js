@@ -24,5 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch((mensaje) => {
       alert(mensaje);
+
+      window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
     });
 });
