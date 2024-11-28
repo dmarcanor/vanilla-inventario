@@ -117,7 +117,7 @@
         </div>
     </form>
     <div class="usuarios-table-seccion">
-        <h3>Listado de clientes</h3>
+        <h3>Listado de materiales</h3>
         <hr/>
         <table id="usuarios-table" class="display nowrap" style="width:100%">
             <thead>

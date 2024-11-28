@@ -42,6 +42,7 @@ class Entrada
             (?, ?, ?, ?)
         ");
 
+        // se guarda la entrada en la base de datos
         $consultaCrearEntrada->execute([
             $entrada->descripcion,
             $entrada->usuarioId,
@@ -49,6 +50,7 @@ class Entrada
             $entrada->estado
         ]);
 
+        // se busca el id de la entrada que se acaba de crear para relacionarla a las lineas
         $consultaId = $conexionBD->prepare("
             SELECT id FROM entradas ORDER BY id DESC LIMIT 1
         ");
@@ -65,9 +67,11 @@ class Entrada
             $lineas
         );
 
+        // se iteran las lineas para guardar cada una en la base de datos
         foreach ($entradaConId->lineas as $entradaLinea) {
             EntradaLinea::crear($entradaConId->id, $entradaLinea['materialId'], $entradaLinea['cantidad'], $entradaLinea['precio']);
 
+            // se aumenta el stock del material seleccionado en la linea
             Material::getMaterial($entradaLinea['materialId'])->incrementarStock($entradaLinea['cantidad']);
         }
     }

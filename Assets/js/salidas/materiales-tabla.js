@@ -1,0 +1,181 @@
+let lineas = [];
+let materialesEnBaseDeDatos = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=1000&start=0')
+    .then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      materialesEnBaseDeDatos = json.data;
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+});
+
+// Elementos del DOM
+const tbody = document.querySelector("#salidas-items tbody");
+const addRowButton = document.querySelector("#addRow");
+
+// Función para renderizar la tabla
+function renderTabla() {
+  tbody.innerHTML = ""; // Limpiar el tbody antes de renderizar
+
+  lineas.forEach((linea, index) => {
+    console.log("linea", index, linea);
+    const tr = document.createElement("tr");
+
+    // Columna de selección de item
+    const itemTd = document.createElement("td");
+    const itemSelect = document.createElement("select");
+
+    const seleccioneOption = document.createElement('option');
+    seleccioneOption.value = '';
+    seleccioneOption.text = 'Seleccione';
+    itemSelect.appendChild(seleccioneOption);
+
+    materialesEnBaseDeDatos.forEach(materialEnBaseDeDatos => {
+      const option = document.createElement("option");
+      option.value = materialEnBaseDeDatos.id;
+      option.textContent = materialEnBaseDeDatos.nombre;
+
+      if (linea.materialId == materialEnBaseDeDatos.id) {
+        option.selected = true;
+      }
+      itemSelect.appendChild(option);
+    });
+
+    // Actualizar unidad cuando cambia el item seleccionado
+    itemSelect.addEventListener("change", (e) => actualizarLinea(index, e.target.value));
+    itemTd.appendChild(itemSelect);
+    tr.appendChild(itemTd);
+
+    // Columna de cantidad
+    const cantidadTd = document.createElement("td");
+    const cantidadInput = document.createElement("input");
+    cantidadInput.type = "number";
+    cantidadInput.value = linea.cantidad;
+    cantidadInput.min = '0.01';
+    cantidadInput.step = '0.01';
+    cantidadInput.addEventListener("keyup", (e) => actualizarCantidad(index, e.target.value));
+    cantidadTd.appendChild(cantidadInput);
+    tr.appendChild(cantidadTd);
+
+    // Columna de precio
+    const precioTd = document.createElement("td");
+    const precioInput = document.createElement("input");
+    precioInput.type = "number";
+    precioInput.value = linea.precio;
+    precioInput.min = '0.01';
+    precioInput.step = '0.01';
+    precioInput.addEventListener("input", (e) => actualizarPrecio(index, e.target.value));
+    precioTd.appendChild(precioInput);
+    tr.appendChild(precioTd);
+
+    // Columna de unidad
+    const unidadTd = document.createElement("td");
+    const unidadInput = document.createElement("input");
+    unidadInput.type = "text";
+    unidadInput.disabled = true;
+    unidadInput.value = unidadPorMaterialId(linea.materialId); // Obtener unidad del catálogo
+    unidadTd.appendChild(unidadInput);
+    tr.appendChild(unidadTd);
+
+    // Columna de stock actual
+    const stockActualTd = document.createElement("td");
+    const stockInput = document.createElement("input");
+    stockInput.type = "text";
+    stockInput.disabled = true;
+    stockInput.value = linea.stockActual;
+    stockActualTd.appendChild(stockInput);
+    tr.appendChild(stockActualTd);
+
+    // Columna de stock posterior
+    const stockPosteriorTd = document.createElement("td");
+    const stockPosteriorInput = document.createElement("input");
+    stockPosteriorInput.type = "text";
+    stockPosteriorInput.disabled = true;
+    stockPosteriorInput.value = linea.stockPosterior;
+    // stockPosteriorInput.value = parseFloat(stockPorMaterialId(linea.materialId) - parseFloat(linea.cantidad));
+    stockPosteriorTd.appendChild(stockPosteriorInput);
+    tr.appendChild(stockPosteriorTd);
+
+    // Columna de acción (- botón)
+    const eliminarTd = document.createElement("td");
+    const eliminarButton = document.createElement("button");
+    eliminarButton.textContent = "-";
+    eliminarButton.addEventListener("click", () => borrarLinea(index)); // Asignar evento para borrar
+    eliminarTd.appendChild(eliminarButton);
+    tr.appendChild(eliminarTd);
+
+    tbody.appendChild(tr);
+  });
+}
+
+// Función para agregar una línea
+function agregarLinea() {
+  const nuevaLinea = {
+    salidaLineaId: '',
+    materialId: '',
+    cantidad: 0,
+    precio: 0,
+    unidad: '',
+    stockActual: 0,
+    stockPosterior: 0
+  };
+  
+  lineas.push(nuevaLinea); // Agregar al arreglo
+  
+  renderTabla(); // Actualizar tabla
+}
+
+// Función para borrar una línea
+function borrarLinea(index) {
+  lineas.splice(index, 1); // Eliminar del arreglo
+  
+  renderTabla(); // Actualizar tabla
+}
+
+const actualizarLinea = (index, materialId) => {
+  actualizarUnidad(index, materialId);
+  lineas[index].cantidad = 0 // Actualizar cantidad a 0
+  lineas[index].stockActual = stockPorMaterialId(materialId) // Actualizar stock actual
+  lineas[index].stockPosterior = stockPorMaterialId(materialId) // Actualizar el stock posterior
+  renderTabla();
+}
+
+// Función para actualizar la unidad según el item seleccionado
+function actualizarUnidad(index, materialId) {
+  lineas[index].materialId = parseInt(materialId); // Actualizar el materialId en el arreglo
+  renderTabla(); // Volver a renderizar para actualizar la unidad
+}
+
+// Función para actualizar la cantidad
+function actualizarCantidad(index, cantidad) {
+  lineas[index].cantidad = parseInt(cantidad) || 1; // Actualizar cantidad, por defecto 1
+  lineas[index].stockActual = stockPorMaterialId(lineas[index].materialId) // Actualizar stock actual
+  lineas[index].stockPosterior = parseFloat(stockPorMaterialId(lineas[index].materialId) - parseFloat(lineas[index].cantidad)) // Actualizar el stock posterior
+
+  renderTabla(); // Volver a renderizar para actualizar la unidad
+}
+
+function actualizarPrecio(index, precio) {
+  lineas[index].precio = parseInt(precio) || 1; // Actualizar cantidad, por defecto 1
+}
+
+// Obtener la unidad correspondiente al item
+function unidadPorMaterialId(materialId) {
+  const item = materialesEnBaseDeDatos.find(item => item.id == parseInt(materialId));
+  return item ? item.unidad : "";
+}
+
+const stockPorMaterialId = (materialId) => {
+  const item = materialesEnBaseDeDatos.find(item => item.id == parseInt(materialId));
+  return item ? item.stock : 0;
+}
+
+// Eventos
+addRowButton.addEventListener("click", agregarLinea);

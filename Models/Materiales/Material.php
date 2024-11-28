@@ -285,6 +285,22 @@ class Material
         ]);
     }
 
+    public function rebajarStock($cantidad)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+
+        $this->stock = $this->stock - (float)$cantidad;
+
+        $consultaAumentarStock = $conexionBaseDatos->prepare("
+            UPDATE materiales SET stock = ? WHERE id = ?
+        ");
+
+        $consultaAumentarStock->execute([
+            $cantidad,
+            $this->id
+        ]);
+    }
+
     public static function validarCamposVacios($nombre, $marca, $categoria_id, $unidad, $estado)
     {
         if (empty($nombre)) {

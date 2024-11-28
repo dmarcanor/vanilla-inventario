@@ -127,6 +127,49 @@ ALTER TABLE entrada_lineas
         FOREIGN KEY (material_id)
             REFERENCES materiales (id) ON DELETE CASCADE;
 
+DROP TABLE IF EXISTS salidas;
+CREATE TABLE IF NOT EXISTS salidas
+(
+    id             INT AUTO_INCREMENT PRIMARY KEY,
+    descripcion    VARCHAR(255)                 NOT NULL,
+    cliente_id     INT                          NOT NULL,
+    usuario_id     INT                          NOT NULL,
+    fecha_creacion DATETIME                     NOT NULL,
+    estado         ENUM ('aprobado', 'anulado') NOT NULL,
+    eliminado      BOOL DEFAULT FALSE
+);
+
+ALTER TABLE salidas
+    ADD CONSTRAINT fk_salidas_usuarios
+        FOREIGN KEY (usuario_id)
+            REFERENCES usuarios (id) ON DELETE CASCADE;
+
+ALTER TABLE salidas
+    ADD CONSTRAINT fk_salidas_clientes
+        FOREIGN KEY (cliente_id)
+            REFERENCES clientes (id) ON DELETE CASCADE;
+
+
+DROP TABLE IF EXISTS salida_lineas;
+CREATE TABLE IF NOT EXISTS salida_lineas
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    salida_id  INT            NOT NULL,
+    material_id INT            NOT NULL,
+    cantidad    DECIMAL(11, 2) NOT NULL,
+    precio      DECIMAL(11, 2) NOT NULL
+);
+
+ALTER TABLE salida_lineas
+    ADD CONSTRAINT fk_salida_lineas_salida
+        FOREIGN KEY (salida_id)
+            REFERENCES salidas (id) ON DELETE CASCADE;
+
+ALTER TABLE salida_lineas
+    ADD CONSTRAINT fk_salida_lineas_material
+        FOREIGN KEY (material_id)
+            REFERENCES materiales (id) ON DELETE CASCADE;
+
 ALTER TABLE materiales
     DROP CONSTRAINT fk_materiales_usuarios,
     DROP COLUMN usuario_id;

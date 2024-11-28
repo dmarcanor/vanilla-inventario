@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
-    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/main.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/main.css">
 </head>
 <body>
 
@@ -16,11 +16,11 @@
 
 <div id="content">
     <div class="module-header">
-        <h1 class="module-title">Entradas</h1>
-        <a class="new-user-btn" href="crear.php">Crear nueva entrada</a>
+        <h1 class="module-title">Salidas</h1>
+        <a class="new-user-btn" href="crear.php">Crear nueva salida</a>
     </div>
     <form class="search-form" onsubmit="buscar(event)">
-        <h3>Búsqueda de entradas</h3>
+        <h3>Búsqueda de salidas</h3>
         <hr>
         <input type="text" id="nombre" placeholder="Nombre">
         <input type="text" id="apellido" placeholder="Apellido">
@@ -52,7 +52,7 @@
         <button type="reset" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
     </form>
     <div class="usuarios-table-seccion">
-        <h3>Listado de entradas</h3>
+        <h3>Listado de salidas</h3>
         <hr/>
         <table id="usuarios-table" class="display nowrap" style="width:100%">
             <thead>
@@ -75,7 +75,7 @@
     </div>
 </div>
 
-<script src="/vanilla-inventario/Assets/js/entradas/main.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 </body>
 </html>

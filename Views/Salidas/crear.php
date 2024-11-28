@@ -8,7 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
-    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/crear.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/crear.css">
 </head>
 <body>
 
@@ -16,9 +16,15 @@
 
 <div id="content">
     <div class="module-header">
-        <h1 class="module-title">Entradas - Crear</h1>
+        <h1 class="module-title">Salidas - Crear</h1>
     </div>
     <form class="crear-usuario-form" onsubmit="guardar(event)">
+        <div class="grupo">
+            <label for="cliente_id">Cliente</label>
+            <select name="cliente_id" id="cliente_id" required>
+                <option value="">Seleccione</option>
+            </select>
+        </div>
         <div class="grupo">
             <label for="descripcion">Descripción</label>
             <input type="text" id="descripcion" placeholder="Descripción" required>
@@ -36,19 +42,21 @@
             </select>
         </div>
 
-        <table id="entrada-items">
+        <table id="salidas-items">
             <thead>
             <tr>
                 <th>Material</th>
                 <th>Cantidad</th>
                 <th>Precio</th>
                 <th>Unidad</th>
+                <th>Stock actual</th>
+                <th>Stock posterior</th>
                 <th>
                     <button id="addRow">+</button>
                 </th>
             </tr>
             </thead>
-            <tbody id="entrada-items-body">
+            <tbody id="salida-items-body">
             </tbody>
         </table>
 
@@ -59,11 +67,9 @@
     </form>
 </div>
 
-<script src="/vanilla-inventario/Assets/js/entradas/main.js"></script>
-<script src="/vanilla-inventario/Assets/js/entradas/formulario.js"></script>
-<!--<script src="/vanilla-inventario/Assets/js/entradas/items.js"></script>-->
-<!--<script src="/vanilla-inventario/Assets/js/entradas/entrada-materiales.js"></script>-->
-<script src="/vanilla-inventario/Assets/js/entradas/materiales-tabla.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/main.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/formulario.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/materiales-tabla.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 </body>
 </html>
