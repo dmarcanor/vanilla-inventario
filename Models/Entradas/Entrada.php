@@ -68,11 +68,11 @@ class Entrada
         );
 
         // se iteran las lineas para guardar cada una en la base de datos
-        foreach ($entradaConId->lineas as $entradaLinea) {
-            EntradaLinea::crear($entradaConId->id, $entradaLinea['materialId'], $entradaLinea['cantidad'], $entradaLinea['precio']);
+        foreach ($entradaConId->lineas as $salidaLinea) {
+            EntradaLinea::crear($entradaConId->id, $salidaLinea['materialId'], $salidaLinea['cantidad'], $salidaLinea['precio']);
 
             // se aumenta el stock del material seleccionado en la linea
-            Material::getMaterial($entradaLinea['materialId'])->incrementarStock($entradaLinea['cantidad']);
+            Material::getMaterial($salidaLinea['materialId'])->incrementarStock($salidaLinea['cantidad']);
         }
     }
 

@@ -280,7 +280,7 @@ class Material
         ");
 
         $consultaAumentarStock->execute([
-            $cantidad,
+            $this->stock,
             $this->id
         ]);
     }
@@ -296,7 +296,7 @@ class Material
         ");
 
         $consultaAumentarStock->execute([
-            $cantidad,
+            $this->stock,
             $this->id
         ]);
     }
