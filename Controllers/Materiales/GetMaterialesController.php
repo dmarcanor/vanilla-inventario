@@ -6,7 +6,6 @@ $filtros = [
     'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
     'descripcion' => !empty($_GET['descripcion']) ? "%{$_GET['descripcion']}%" : '',
     'marca' => !empty($_GET['marca']) ? "%{$_GET['marca']}%" : '',
-    'usuario_id' => !empty($_GET['usuario_id']) ? $_GET['usuario_id'] : '',
     'categoria_id' => !empty($_GET['categoria_id']) ? $_GET['categoria_id'] : '',
     'unidad' => !empty($_GET['unidad']) ? $_GET['unidad'] : '',
     'peso_desde' => !empty($_GET['peso_desde']) ? $_GET['peso_desde'] : 0,

@@ -33,6 +33,7 @@ const guardar = (event) => {
   const formulario = event.target;
   const id = formulario.id ? formulario.id.value : '';
 
+
   if (!id) {
     crear(formulario);
     return
@@ -42,32 +43,20 @@ const guardar = (event) => {
 }
 
 const crear = (formulario) => {
-  const nombre = formulario.nombre.value;
   const descripcion = formulario.descripcion.value;
-  const marca = formulario.marca.value;
-  const categoria_id = formulario.categoria_id.value;
-  const unidad = formulario.unidad.value;
-  const peso = formulario.peso.value;
-  const precio = formulario.precio.value;
+  const usuario_id = formulario.usuario_id.value;
   const estado = formulario.estado.value;
 
-  const usuario_id = JSON.parse(window.localStorage.getItem('usuario')).id;
-
-  fetch('/vanilla-inventario/Controllers/Materiales/CrearMaterialController.php', {
+  fetch('/vanilla-inventario/Controllers/Entradas/CrearEntradaController.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      nombre,
       descripcion,
-      marca,
       usuario_id,
-      categoria_id,
-      unidad,
-      peso,
-      precio,
-      estado
+      estado,
+      lineas
     })
   }).then(response => response.json())
     .then(json => {
@@ -75,8 +64,8 @@ const crear = (formulario) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Material creado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      alert('Entrada creada satisfactoriamente.');
+      window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
     })
     .catch((mensaje) => {
       alert(mensaje);

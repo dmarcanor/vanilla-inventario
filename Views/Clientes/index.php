@@ -93,8 +93,6 @@
                 <th>Tipo de identificación</th>
                 <th>Número de identificación</th>
                 <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Fecha de creación</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>

@@ -106,5 +106,27 @@ ALTER TABLE entradas
 # ALTER TABLE entradas
 #     DROP CONSTRAINT fk_entradas_usuarios;
 
-select *
-from categorias;
+
+DROP TABLE IF EXISTS entrada_lineas;
+CREATE TABLE IF NOT EXISTS entrada_lineas
+(
+    id          INT AUTO_INCREMENT PRIMARY KEY,
+    entrada_id  INT            NOT NULL,
+    material_id INT            NOT NULL,
+    cantidad    DECIMAL(11, 2) NOT NULL,
+    precio      DECIMAL(11, 2) NOT NULL
+);
+
+ALTER TABLE entrada_lineas
+    ADD CONSTRAINT fk_entrada_lineas_entrada
+        FOREIGN KEY (entrada_id)
+            REFERENCES entradas (id) ON DELETE CASCADE;
+
+ALTER TABLE entrada_lineas
+    ADD CONSTRAINT fk_entrada_lineas_material
+        FOREIGN KEY (material_id)
+            REFERENCES materiales (id) ON DELETE CASCADE;
+
+ALTER TABLE materiales
+    DROP CONSTRAINT fk_materiales_usuarios,
+    DROP COLUMN usuario_id;

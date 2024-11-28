@@ -129,8 +129,6 @@
                 <th>Categoría</th>
                 <th>Precio</th>
                 <th>Stock</th>
-                <th>Usuario creador</th>
-                <th>Fecha de creación</th>
                 <th>Estado</th>
                 <th>Acciones</th>
             </tr>

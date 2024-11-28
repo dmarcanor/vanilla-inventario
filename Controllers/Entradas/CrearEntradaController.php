@@ -2,21 +2,18 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../Modelos/Cliente.php';
+require_once __DIR__ . '/../../Models/Entradas/Entrada.php';
 
 $data = json_decode(file_get_contents('php://input'), true);
 
 try {
     http_response_code(201);
 
-    Cliente::crear(
-        $data['nombre'],
-        $data['apellido'],
-        $data['tipo_identificacion'],
-        $data['numero_identificacion'],
-        $data['telefono'],
-        $data['direccion'],
-        $data['estado']
+    Entrada::crear(
+        $data['descripcion'],
+        $data['usuario_id'],
+        $data['estado'],
+        $data['lineas']
     );
 
     echo json_encode([

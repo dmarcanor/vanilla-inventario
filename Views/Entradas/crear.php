@@ -30,10 +30,6 @@
             </select>
         </div>
         <div class="grupo">
-            <label for="fecha">Fecha de entrada</label>
-            <input type="datetime-local" id="fecha" placeholder="Fecha de entrada" required>
-        </div>
-        <div class="grupo">
             <label for="estado">Estado</label>
             <select name="estado" id="estado" disabled required>
                 <option value="aprobado">Aprobado</option>
@@ -48,7 +44,6 @@
                 <th>Precio</th>
                 <th>Unidad</th>
                 <th>
-<!--                    <button id="addRow" onclick="agregarLinea()">+</button></th>-->
                     <button id="addRow">+</button>
                 </th>
             </tr>

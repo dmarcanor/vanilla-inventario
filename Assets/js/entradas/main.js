@@ -40,7 +40,6 @@ document.addEventListener('DOMContentLoaded', () => {
           return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Editar</button>
             <button class="btn btn-primary" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>
-            <button class="btn btn-danger" onclick="eliminar(${row.id})">Eliminar</button>
           `;
         }
       }

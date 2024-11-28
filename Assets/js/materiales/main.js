@@ -25,8 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       { data: "categoriaNombre", orderable: false },
       { data: "precio", orderable: false },
       { data: "stock", orderable: false },
-      { data: "usuarioNombreCompleto", orderable: false },
-      { data: "fechaCreacion", orderable: false },
       {
         data: "estado",
         orderable: false,
@@ -41,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
           return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Editar</button>
             <button class="btn btn-primary" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>
-            <button class="btn btn-danger" onclick="eliminar(${row.id})">Eliminar</button>
           `;
         }
       }
@@ -130,7 +127,6 @@ const buscar = (event) => {
     "categoria_id": busqueda.categoria_id.value,
     "unidad": busqueda.unidad.value,
     "estado": busqueda.estado.value,
-    "usuario_id": busqueda.usuario_id.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
     "peso_desde": busqueda.peso_desde.value,

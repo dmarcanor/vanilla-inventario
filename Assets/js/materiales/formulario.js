@@ -35,8 +35,6 @@ const crear = (formulario) => {
   const precio = formulario.precio.value;
   const estado = formulario.estado.value;
 
-  const usuario_id = JSON.parse(window.localStorage.getItem('usuario')).id;
-
   fetch('/vanilla-inventario/Controllers/Materiales/CrearMaterialController.php', {
     method: 'POST',
     headers: {
@@ -46,7 +44,6 @@ const crear = (formulario) => {
       nombre,
       descripcion,
       marca,
-      usuario_id,
       categoria_id,
       unidad,
       peso,

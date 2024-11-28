@@ -23,7 +23,7 @@ const addRowButton = document.querySelector("#addRow");
 // Función para renderizar la tabla
 function renderTabla() {
   tbody.innerHTML = ""; // Limpiar el tbody antes de renderizar
-console.log("lineas", lineas);
+
   lineas.forEach((linea, index) => {
     const tr = document.createElement("tr");
 
@@ -58,15 +58,18 @@ console.log("lineas", lineas);
     cantidadInput.type = "number";
     cantidadInput.value = linea.cantidad;
     cantidadInput.min = '0.01';
+    cantidadInput.step = '0.01';
     cantidadInput.addEventListener("input", (e) => actualizarCantidad(index, e.target.value));
     cantidadTd.appendChild(cantidadInput);
     tr.appendChild(cantidadTd);
 
+    // Columna de precio
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
     precioInput.type = "number";
     precioInput.value = linea.cantidad;
     precioInput.min = '0.01';
+    precioInput.step = '0.01';
     precioInput.addEventListener("input", (e) => actualizarPrecio(index, e.target.value));
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);
@@ -91,7 +94,6 @@ console.log("lineas", lineas);
 // Función para agregar una línea
 function agregarLinea() {
   const nuevaLinea = {
-    entradaId: '',
     entradaLineaId: '',
     materialId: '',
     cantidad: 0,
@@ -123,7 +125,7 @@ function actualizarCantidad(index, cantidad) {
 }
 
 function actualizarPrecio(index, precio) {
-  lineas[index].cantidad = parseInt(precio) || 1; // Actualizar cantidad, por defecto 1
+  lineas[index].precio = parseInt(precio) || 1; // Actualizar cantidad, por defecto 1
 }
 
 // Obtener la unidad correspondiente al item
@@ -132,20 +134,5 @@ function unidadPorMaterialId(materialId) {
   return item ? item.unidad : "";
 }
 
-// Simulación de la búsqueda de datos en modo edición
-function loadDataForEdit() {
-  // Ejemplo: Datos obtenidos de una petición HTTP
-  const fetchedData = [
-    { materialId: 2, cantidad: 5 },
-    { materialId: 4, cantidad: 10 }
-  ];
-  lineas = fetchedData; // Asignar datos al arreglo
-  renderTabla(); // Actualizar tabla
-}
-
 // Eventos
 addRowButton.addEventListener("click", agregarLinea);
-
-// Ejemplo: Cargar datos para edición (puedes conectarlo a un evento o llamada HTTP)
-// loadDataForEdit();
-export {lineas};

@@ -13,7 +13,6 @@ try {
         $data['nombre'],
         $data['descripcion'],
         $data['marca'],
-        $data['usuario_id'],
         $data['categoria_id'],
         $data['unidad'],
         $data['peso'],
