@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('peso').value = json.material.peso;
       document.getElementById('precio').value = json.material.precio;
       document.getElementById('stock').value = json.material.stock;
-      document.getElementById('estado').value = json.material.estado;
     })
     .catch((mensaje) => {
       alert(mensaje);

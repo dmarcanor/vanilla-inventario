@@ -1,4 +1,12 @@
-let lineas = [];
+let lineas = [
+  {
+    entradaId: '',
+    materialId: '',
+    cantidad: 0,
+    precio: 0,
+    unidad: ''
+  }
+];
 let materialesEnBaseDeDatos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch((mensaje) => {
       alert(mensaje);
     });
+
+  setTimeout(() => {
+    renderTabla();
+  }, 500);
 });
 
 // Elementos del DOM
@@ -23,6 +35,18 @@ const addRowButton = document.querySelector("#addRow");
 // Función para renderizar la tabla
 function renderTabla() {
   tbody.innerHTML = ""; // Limpiar el tbody antes de renderizar
+
+  if (lineas.length == 0) {
+    lineas = [
+      {
+        entradaId: '',
+        materialId: '',
+        cantidad: 0,
+        precio: 0,
+        unidad: ''
+      }
+    ];
+  }
 
   lineas.forEach((linea, index) => {
     const tr = document.createElement("tr");
@@ -60,6 +84,7 @@ function renderTabla() {
     cantidadInput.min = '0.01';
     cantidadInput.step = '0.01';
     cantidadInput.addEventListener("input", (e) => actualizarCantidad(index, e.target.value));
+    cantidadInput.addEventListener("blur", (e) => formatearCantidad(index, e.target.value));
     cantidadTd.appendChild(cantidadInput);
     tr.appendChild(cantidadTd);
 
@@ -67,10 +92,11 @@ function renderTabla() {
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
     precioInput.type = "number";
-    precioInput.value = linea.cantidad;
+    precioInput.value = linea.precio;
     precioInput.min = '0.01';
     precioInput.step = '0.01';
     precioInput.addEventListener("input", (e) => actualizarPrecio(index, e.target.value));
+    precioInput.addEventListener("blur", (e) => formatearPrecio(index, e.target.value));
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);
 
@@ -83,6 +109,7 @@ function renderTabla() {
     const eliminarTd = document.createElement("td");
     const eliminarButton = document.createElement("button");
     eliminarButton.textContent = "-";
+    eliminarButton.classList.add("delete-row-btn");
     eliminarButton.addEventListener("click", () => borrarLinea(index)); // Asignar evento para borrar
     eliminarTd.appendChild(eliminarButton);
     tr.appendChild(eliminarTd);
@@ -94,22 +121,22 @@ function renderTabla() {
 // Función para agregar una línea
 function agregarLinea() {
   const nuevaLinea = {
-    entradaLineaId: '',
+    entradaId: '',
     materialId: '',
     cantidad: 0,
     precio: 0,
     unidad: ''
   };
-  
+
   lineas.push(nuevaLinea); // Agregar al arreglo
-  
+
   renderTabla(); // Actualizar tabla
 }
 
 // Función para borrar una línea
 function borrarLinea(index) {
   lineas.splice(index, 1); // Eliminar del arreglo
-  
+
   renderTabla(); // Actualizar tabla
 }
 
@@ -124,8 +151,21 @@ function actualizarCantidad(index, cantidad) {
   lineas[index].cantidad = parseInt(cantidad) || 1; // Actualizar cantidad, por defecto 1
 }
 
+function formatearCantidad(index, cantidad) {
+  console.log("cantidad, blur", cantidad, parseInt(cantidad))
+  lineas[index].cantidad = parseInt(cantidad); // Formatear cantidad
+
+  renderTabla(); // Actualizar tabla
+}
+
 function actualizarPrecio(index, precio) {
-  lineas[index].precio = parseInt(precio) || 1; // Actualizar cantidad, por defecto 1
+  lineas[index].precio = parseFloat(precio) || 1; // Actualizar cantidad, por defecto 1
+}
+
+function formatearPrecio(index, precio) {
+  lineas[index].precio = parseFloat(precio).toFixed(2); // Formatear precio a 2 decimales
+
+  renderTabla(); // Actualizar tabla
 }
 
 // Obtener la unidad correspondiente al item

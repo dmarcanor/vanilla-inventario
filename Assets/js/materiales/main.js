@@ -35,10 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
         orderable: false,
         render: (data, type, row) => {
           const accionEstado = row.estado === 'activo' ? 'Inactivar' : 'Activar';
+          const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-danger' : 'btn btn-success';
 
           return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Editar</button>
-            <button class="btn btn-primary" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>
+            <button class="${accionEstadoEstilo}" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>
           `;
         }
       }
@@ -50,11 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const estadoLabel = (estado) => {
   if (estado === 'activo') {
-    return `<span class="badge badge-success">Activo</span>`;
+    return `<span>Activo</span>`;
   }
 
   if (estado === 'inactivo') {
-    return `<span class="badge badge-danger">Inactivo</span>`;
+    return `<span>Inactivo</span>`;
   }
 }
 

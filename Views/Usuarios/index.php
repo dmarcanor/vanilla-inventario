@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/usuarios/main.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
@@ -78,15 +76,15 @@
         <table id="usuarios-table" class="display nowrap" style="width:100%">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Cédula</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Rol</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th class="dt-center">ID</th>
+                <th class="dt-center">Nombre</th>
+                <th class="dt-center">Apellido</th>
+                <th class="dt-center">Cédula</th>
+                <th class="dt-center">Teléfono</th>
+                <th class="dt-center">Dirección</th>
+                <th class="dt-center">Rol</th>
+                <th class="dt-center">Estado</th>
+                <th class="dt-center">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -97,5 +95,6 @@
 
 <script src="/vanilla-inventario/Assets/js/usuarios/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
+<script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>
 </body>
 </html>

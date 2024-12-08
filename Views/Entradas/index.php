@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/main.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
 </head>
 <body>
 
@@ -19,37 +18,38 @@
         <h1 class="module-title">Entradas</h1>
         <a class="new-user-btn" href="crear.php">Crear nueva entrada</a>
     </div>
-    <form class="search-form" onsubmit="buscar(event)">
+    <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de entradas</h3>
         <hr>
-        <input type="text" id="nombre" placeholder="Nombre">
-        <input type="text" id="apellido" placeholder="Apellido">
-        <select id="tipo_identificacion">
-            <option value="">Tipo de identificación</option>
-            <option value="cedula">Cédula</option>
-            <option value="rif">Rif</option>
-            <option value="pasaporte">Pasaporte</option>
-        </select>
-        <input type="text" id="numero_identificacion" placeholder="Número de identificación">
-        <input type="text" id="telefono" placeholder="Teléfono">
-        <input type="text" id="direccion" placeholder="Dirección">
-        <div>
-            <div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="descripcion">Descripcion</label>
+                <input type="text" id="descripcion" placeholder="Descripcion">
+            </div>
+            <div class="form-group">
+                <label for="usuarioId">Usuario registrador</label>
+                <select id="usuarioId">
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>
                 <input type="datetime-local" id="fecha_desde">
             </div>
-            <div>
+            <div class="form-group">
                 <label for="fecha_hasta">Fecha creación hasta</label>
                 <input type="datetime-local" id="fecha_hasta">
             </div>
         </div>
-        <select id="estado">
-            <option value="">Estado</option>
-            <option value="activo">Activo</option>
-            <option value="inactivo">Inactivo</option>
-        </select>
-        <button type="submit" id="submit">Buscar</button>
-        <button type="reset" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+
+        <div class="form-row">
+            <div class="form-group">
+                <button type="submit" class="success-button" id="submit">Buscar</button>
+                <button type="reset" class="cancel-button" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+            </div>
+        </div>
     </form>
     <div class="usuarios-table-seccion">
         <h3>Listado de entradas</h3>
@@ -57,16 +57,11 @@
         <table id="usuarios-table" class="display nowrap" style="width:100%">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Apellido</th>
-                <th>Tipo de identificación</th>
-                <th>Número de identificación</th>
-                <th>Teléfono</th>
-                <th>Dirección</th>
-                <th>Fecha de creación</th>
-                <th>Estado</th>
-                <th>Acciones</th>
+                <th class="dt-center">ID</th>
+                <th class="dt-center">Descripción</th>
+                <th class="dt-center">Usuario registrador</th>
+                <th class="dt-center">Fecha de entrada</th>
+                <th class="dt-center">Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -77,5 +72,6 @@
 
 <script src="/vanilla-inventario/Assets/js/entradas/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
+<script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>
 </body>
 </html>

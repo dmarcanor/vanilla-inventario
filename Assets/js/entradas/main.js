@@ -1,17 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const cambiarNombreUsuarioSesion = () => {
-    const sesion = JSON.parse(localStorage.getItem('usuario'));
-    const usuarioHTML = document.getElementById('usuario');
+  const campoUsuarioRegistrador = document.getElementById('usuarioId');
 
-    usuarioHTML.textContent = sesion.nombre;
-  }
+  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const usuarios = json.data;
+
+      usuarios.forEach(usuario => {
+        const option = document.createElement('option');
+        option.value = usuario.id;
+        option.text = usuario.nombre;
+
+        campoUsuarioRegistrador.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
 
   $('#usuarios-table').DataTable({
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Entradas/GetEntradasController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
@@ -19,27 +39,15 @@ document.addEventListener('DOMContentLoaded', () => {
     lengthChange: false,
     columns: [
       { data: "id" },
-      { data: "nombre", orderable: false },
-      { data: "apellido", orderable: false },
-      { data: "tipoIdentificacion", orderable: false },
-      { data: "numeroIdentificacion", orderable: false },
-      { data: "telefono", orderable: false },
-      { data: "direccion", orderable: false },
+      { data: "descripcion", orderable: false },
+      { data: "usuarioFullNombre", orderable: false },
       { data: "fechaCreacion", orderable: false },
-      {
-        data: "estado",
-        orderable: false,
-        render: (data) => estadoLabel(data)
-      },
       {
         data: "acciones",
         orderable: false,
         render: (data, type, row) => {
-          const accionEstado = row.estado === 'activo' ? 'Inactivar' : 'Activar';
-
           return `
-            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Editar</button>
-            <button class="btn btn-primary" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>
+            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Ver</button>
           `;
         }
       }
@@ -49,18 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
   cambiarNombreUsuarioSesion();
 });
 
-const estadoLabel = (estado) => {
-  if (estado === 'activo') {
-    return `<span class="badge badge-success">Activo</span>`;
-  }
-
-  if (estado === 'inactivo') {
-    return `<span class="badge badge-danger">Inactivo</span>`;
-  }
-}
-
 const cambiarEstado = (id) => {
-  fetch(`/vanilla-inventario/Controllers/Materiales/CambiarEstadoMaterialController.php`, {
+  fetch(`/vanilla-inventario/Controllers/Entradas/CambiarEstadoEntradaController.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -75,7 +73,7 @@ const cambiarEstado = (id) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Material editado satisfactoriamente.');
+      alert('Entrada editada satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();
@@ -112,7 +110,7 @@ const eliminar = (id) => {
 }
 
 const redireccionarEditar = (id) => {
-  window.location.href = `/vanilla-inventario/Views/Materiales/editar.php?id=${id}`;
+  window.location.href = `/vanilla-inventario/Views/Entradas/editar.php?id=${id}`;
 }
 
 const buscar = (event) => {
@@ -122,12 +120,8 @@ const buscar = (event) => {
   const table = $('#usuarios-table').DataTable();
 
   const parametros = {
-    "nombre": busqueda.nombre.value,
-    "apellido": busqueda.apellido.value,
-    "tipo_identificacion": busqueda.tipo_identificacion.value,
-    "numero_identificacion": busqueda.numero_identificacion.value,
-    "telefono": busqueda.telefono.value,
-    "direccion": busqueda.direccion.value,
+    "descripcion": busqueda.nombre.value,
+    "usuarioId": busqueda.apellido.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
     "estado": busqueda.estado.value,

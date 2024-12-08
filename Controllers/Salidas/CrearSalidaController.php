@@ -13,7 +13,6 @@ try {
         $data['cliente_id'],
         $data['descripcion'],
         $data['usuario_id'],
-        $data['estado'],
         $data['lineas']
     );
 

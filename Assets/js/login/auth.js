@@ -23,6 +23,6 @@ const login = (event) => {
       }
 
       window.localStorage.setItem('usuario', JSON.stringify(response.usuario));
-      window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
+      window.location.href = '/vanilla-inventario/Views/Inicio/index.php';
     });
 }

@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
-    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/crear.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/editar.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/formulario.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
 </head>
 <body>
 
-<?php require_once __DIR__ . '/../../Views/Menu/menu.php'; ?>
+<?php require_once __DIR__ . '/../../Views/Menu/menu.php';?>
 
 <div id="content">
     <div class="module-header">
-        <h1 class="module-title">Entradas - Crear</h1>
+        <h1 class="module-title">Entradas - Editar</h1>
     </div>
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <label for="usuarioId">Usuario registrador</label>
-                <select name="usuarioId" id="usuarioId" required>
+                <select name="usuario_id" id="usuarioId" required>
                     <option value="">Seleccione</option>
                 </select>
             </div>
@@ -53,13 +53,16 @@
 
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button">Guardar</button>
+<!--                <button type="submit" class="success-button">Guardar</button>-->
                 <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
             </div>
         </div>
+
+        <input type="hidden" id="id" name="id" value="">
     </form>
 </div>
 
+<script src="/vanilla-inventario/Assets/js/entradas/editar.js"></script>
 <script src="/vanilla-inventario/Assets/js/entradas/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/entradas/materiales-tabla.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>

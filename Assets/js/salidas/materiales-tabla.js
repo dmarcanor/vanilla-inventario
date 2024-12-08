@@ -1,4 +1,14 @@
-let lineas = [];
+let lineas = [
+  {
+    salidaLineaId: '',
+    materialId: '',
+    cantidad: 0,
+    precio: 0,
+    unidad: '',
+    stockActual: 0,
+    stockPosterior: 0
+  }
+];
 let materialesEnBaseDeDatos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,6 +24,10 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch((mensaje) => {
       alert(mensaje);
     });
+
+  setTimeout(() => {
+    renderTabla();
+  }, 500);
 });
 
 // Elementos del DOM
@@ -25,7 +39,6 @@ function renderTabla() {
   tbody.innerHTML = ""; // Limpiar el tbody antes de renderizar
 
   lineas.forEach((linea, index) => {
-    console.log("linea", index, linea);
     const tr = document.createElement("tr");
 
     // Columna de selección de item
@@ -72,6 +85,7 @@ function renderTabla() {
     precioInput.min = '0.01';
     precioInput.step = '0.01';
     precioInput.addEventListener("input", (e) => actualizarPrecio(index, e.target.value));
+    precioInput.addEventListener("blur", (e) => formatearPrecio(index, e.target.value));
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);
 
@@ -164,6 +178,12 @@ function actualizarCantidad(index, cantidad) {
 
 function actualizarPrecio(index, precio) {
   lineas[index].precio = parseInt(precio) || 1; // Actualizar cantidad, por defecto 1
+}
+
+function formatearPrecio(index, precio) {
+  lineas[index].precio = parseFloat(precio).toFixed(2); // Formatear precio a 2 decimales
+
+  renderTabla(); // Actualizar tabla
 }
 
 // Obtener la unidad correspondiente al item

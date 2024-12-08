@@ -173,3 +173,15 @@ ALTER TABLE salida_lineas
 ALTER TABLE materiales
     DROP CONSTRAINT fk_materiales_usuarios,
     DROP COLUMN usuario_id;
+
+ALTER TABLE entrada_lineas
+    MODIFY COLUMN cantidad INT NOT NULL;
+
+ALTER TABLE salida_lineas
+    MODIFY COLUMN cantidad INT NOT NULL;
+
+ALTER TABLE entradas
+    DROP COLUMN estado;
+
+ALTER TABLE salidas
+    DROP COLUMN estado;

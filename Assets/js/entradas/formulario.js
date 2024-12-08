@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const campoUsuarioRegistrador = document.getElementById('usuario_id');
+  const campoUsuarioRegistrador = document.getElementById('usuarioId');
 
   fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
     method: 'GET',
@@ -45,7 +45,6 @@ const guardar = (event) => {
 const crear = (formulario) => {
   const descripcion = formulario.descripcion.value;
   const usuario_id = formulario.usuario_id.value;
-  const estado = formulario.estado.value;
 
   fetch('/vanilla-inventario/Controllers/Entradas/CrearEntradaController.php', {
     method: 'POST',
@@ -55,7 +54,6 @@ const crear = (formulario) => {
     body: JSON.stringify({
       descripcion,
       usuario_id,
-      estado,
       lineas
     })
   }).then(response => response.json())
@@ -80,7 +78,6 @@ const editar = (id, formulario) => {
   const unidad = formulario.unidad.value;
   const peso = formulario.peso.value;
   const precio = formulario.precio.value;
-  const estado = formulario.estado.value;
 
   fetch('/vanilla-inventario/Controllers/Materiales/EditarMaterialController.php', {
     method: 'POST',
@@ -96,7 +93,6 @@ const editar = (id, formulario) => {
       unidad,
       peso,
       precio,
-      estado
     })
   }).then(response => response.json())
     .then(json => {
@@ -105,7 +101,7 @@ const editar = (id, formulario) => {
       }
 
       alert('Material editado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
     })
     .catch((mensaje) => {
       alert(mensaje);
@@ -115,5 +111,5 @@ const editar = (id, formulario) => {
 const cancelar = (event) => {
   event.preventDefault();
 
-  window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+  window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
 }

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const campoUsuarioRegistrador = document.getElementById('usuario_id');
-  const campoCliente = document.getElementById('cliente_id');
+  const campoUsuarioRegistrador = document.getElementById('usuarioId');
+  const campoCliente = document.getElementById('clienteId');
 
   fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
     method: 'GET',
@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       usuarios.forEach(usuario => {
         const option = document.createElement('option');
         option.value = usuario.id;
-        option.text = usuario.nombre;
+        option.text = `${usuario.nombre} ${usuario.apellido}`;
 
         campoUsuarioRegistrador.appendChild(option);
       });
@@ -43,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
       clientes.forEach(cliente => {
         const option = document.createElement('option');
         option.value = cliente.id;
-        option.text = cliente.nombre;
+        option.text = `${cliente.nombre} ${cliente.apellido}`;
 
         campoCliente.appendChild(option);
       });
@@ -72,7 +72,6 @@ const crear = (formulario) => {
   const cliente_id = formulario.cliente_id.value;
   const descripcion = formulario.descripcion.value;
   const usuario_id = formulario.usuario_id.value;
-  const estado = formulario.estado.value;
 
   fetch('/vanilla-inventario/Controllers/Salidas/CrearSalidaController.php', {
     method: 'POST',
@@ -83,7 +82,6 @@ const crear = (formulario) => {
       cliente_id,
       descripcion,
       usuario_id,
-      estado,
       lineas
     })
   }).then(response => response.json())
@@ -108,8 +106,6 @@ const editar = (id, formulario) => {
   const unidad = formulario.unidad.value;
   const peso = formulario.peso.value;
   const precio = formulario.precio.value;
-  const estado = formulario.estado.value;
-
   fetch('/vanilla-inventario/Controllers/Materiales/EditarMaterialController.php', {
     method: 'POST',
     headers: {
@@ -123,8 +119,7 @@ const editar = (id, formulario) => {
       categoria_id,
       unidad,
       peso,
-      precio,
-      estado
+      precio
     })
   }).then(response => response.json())
     .then(json => {

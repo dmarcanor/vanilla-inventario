@@ -10,24 +10,22 @@ class Salida
     private $cliente_id;
     private $descripcion;
     private $usuarioId;
-    private $estado;
     private $fechaCreacion;
     private $lineas;
 
-    public function __construct($id, $cliente_id, $descripcion, $usuarioId, $estado, $fechaCreacion, $lineas)
+    public function __construct($id, $cliente_id, $descripcion, $usuarioId, $fechaCreacion, $lineas)
     {
         $this->id = $id;
         $this->cliente_id = $cliente_id;
         $this->descripcion = $descripcion;
         $this->usuarioId = $usuarioId;
-        $this->estado = $estado;
         $this->fechaCreacion = $fechaCreacion;
         $this->lineas = $lineas;
     }
 
-    public static function crear($cliente_id, $descripcion, $usuarioId, $estado, $lineas)
+    public static function crear($cliente_id, $descripcion, $usuarioId, $lineas)
     {
-        self::validarCamposVacios($cliente_id, $descripcion, $usuarioId, $estado);
+        self::validarCamposVacios($cliente_id, $descripcion, $usuarioId);
 
         $conexionBD = (new ConexionBD())->getConexion();
         $salida = new Salida(
@@ -35,13 +33,12 @@ class Salida
             $cliente_id,
             $descripcion,
             $usuarioId,
-            $estado,
             date('Y-m-d H:i:s'),
             $lineas
         );
 
         $consultaCrearSalida = $conexionBD->prepare("
-            INSERT INTO salidas (cliente_id, descripcion, usuario_id, fecha_creacion, estado) VALUES 
+            INSERT INTO salidas (cliente_id, descripcion, usuario_id, fecha_creacion) VALUES 
             (?, ?, ?, ?, ?)
         ");
 
@@ -50,8 +47,7 @@ class Salida
             $salida->cliente_id,
             $salida->descripcion,
             $salida->usuarioId,
-            $salida->fechaCreacion,
-            $salida->estado
+            $salida->fechaCreacion
         ]);
 
         // se busca el id de la salida que se acaba de crear para relacionarla a las lineas
@@ -67,7 +63,6 @@ class Salida
             $salida->cliente_id,
             $salida->descripcion,
             $salida->usuarioId,
-            $salida->estado,
             $salida->fechaCreacion,
             $lineas
         );
@@ -81,7 +76,7 @@ class Salida
         }
     }
 
-    private static function validarCamposVacios($cliente_id, $descripcion, $usuarioId, $estado)
+    private static function validarCamposVacios($cliente_id, $descripcion, $usuarioId)
     {
         if (empty($cliente_id)) {
             throw new Exception("La relación con cliente no puede estar vacía.");
@@ -93,10 +88,6 @@ class Salida
 
         if (empty($usuarioId)) {
             throw new Exception("El usuario registrador no puede estar vacío.");
-        }
-
-        if (empty($estado)) {
-            throw new Exception("El estado no puede estar vacío.");
         }
     }
 }

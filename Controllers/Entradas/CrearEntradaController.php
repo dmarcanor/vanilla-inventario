@@ -12,7 +12,6 @@ try {
     Entrada::crear(
         $data['descripcion'],
         $data['usuario_id'],
-        $data['estado'],
         $data['lineas']
     );
 

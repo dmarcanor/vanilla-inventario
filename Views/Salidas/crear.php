@@ -9,6 +9,8 @@
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/crear.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/formulario.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
 </head>
 <body>
 
@@ -18,56 +20,67 @@
     <div class="module-header">
         <h1 class="module-title">Salidas - Crear</h1>
     </div>
-    <form class="crear-usuario-form" onsubmit="guardar(event)">
-        <div class="grupo">
-            <label for="cliente_id">Cliente</label>
-            <select name="cliente_id" id="cliente_id" required>
-                <option value="">Seleccione</option>
-            </select>
+    <form class="form" onsubmit="guardar(event)">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="descripcion">Descripción</label>
+                <input type="text" id="descripcion" placeholder="Descripción" required>
+            </div>
+            <div class="form-group">
+                <label for="usuarioId">Usuario registrador</label>
+                <select name="usuarioId" id="usuarioId" required>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="clienteId">Cliente</label>
+                <select name="clienteId" id="clienteId" required>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
         </div>
-        <div class="grupo">
-            <label for="descripcion">Descripción</label>
-            <input type="text" id="descripcion" placeholder="Descripción" required>
-        </div>
-        <div class="grupo">
-            <label for="usuario_id">Usuario registrador</label>
-            <select name="usuario_id" id="usuario_id" required>
-                <option value="">Seleccione</option>
-            </select>
-        </div>
-        <div class="grupo">
-            <label for="estado">Estado</label>
-            <select name="estado" id="estado" disabled required>
-                <option value="aprobado">Aprobado</option>
-            </select>
+        <div class="form-row">
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="estado">Estado</label>
+                    <select name="estado" id="estado" disabled required>
+                        <option value="aprobado">Aprobado</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
-        <table id="salidas-items">
-            <thead>
-            <tr>
-                <th>Material</th>
-                <th>Cantidad</th>
-                <th>Precio</th>
-                <th>Unidad</th>
-                <th>Stock actual</th>
-                <th>Stock posterior</th>
-                <th>
-                    <button id="addRow">+</button>
-                </th>
-            </tr>
-            </thead>
-            <tbody id="salida-items-body">
-            </tbody>
-        </table>
+        <div class="form-row">
+            <div class="form-group">
+                <table id="salidas-items" class="dynamic-table">
+                    <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Unidad</th>
+                        <th>Stock actual</th>
+                        <th>Stock posterior</th>
+                        <th>
+                            <button type="button" id="addRow" class="add-row-btn">+</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody id="salida-items-body">
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
-        <div class="grupo-botones">
-            <button type="submit">Guardar</button>
-            <button onclick="cancelar(event)">Cancelar</button>
+        <div class="form-row">
+            <div class="form-group">
+                <button type="submit" class="success-button">Guardar</button>
+                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+            </div>
         </div>
     </form>
 </div>
 
-<script src="/vanilla-inventario/Assets/js/salidas/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/salidas/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/salidas/materiales-tabla.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
