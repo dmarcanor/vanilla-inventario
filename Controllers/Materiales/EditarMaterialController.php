@@ -13,8 +13,7 @@ try {
         $data['marca'],
         $data['categoria_id'],
         $data['unidad'],
-        $data['peso'],
-        $data['precio'],
+        $data['presentacion'],
         $data['estado']
     );
 

@@ -10,8 +10,8 @@ try {
     http_response_code(201);
 
     Salida::crear(
-        $data['cliente_id'],
-        $data['descripcion'],
+        $data['clienteId'],
+        $data['observacion'],
         $data['usuario_id'],
         $data['lineas']
     );

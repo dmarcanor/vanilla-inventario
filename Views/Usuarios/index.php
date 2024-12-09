@@ -23,6 +23,10 @@
         <hr>
         <div class="form-row">
             <div class="form-group">
+                <label for="cedula">Cédula</label>
+                <input type="text" id="cedula" name="cedula" placeholder="Cédula">
+            </div>
+            <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Nombre del material">
             </div>
@@ -31,16 +35,12 @@
                 <input type="text" id="apellido" name="apellido" placeholder="Apellido">
             </div>
             <div class="form-group">
-                <label for="cedula">Cédula</label>
-                <input type="text" id="cedula" name="cedula" placeholder="Cédula">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
                 <label for="telefono">Teléfono</label>
                 <input type="text" id="telefono" name="telefono" placeholder="Teléfono">
             </div>
-            <div class="form-group">
+        </div>
+        <div class="form-row">
+            <div class="big-form-group">
                 <label for="direccion">Dirección</label>
                 <input type="text" id="direccion" name="direccion" placeholder="Dirección">
             </div>
@@ -52,8 +52,6 @@
                     <option value="operador">Operador</option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select id="estado" name="estado">

@@ -343,6 +343,16 @@ class Cliente
         }
     }
 
+    public function nombre()
+    {
+        return $this->nombre;
+    }
+
+    public function apellido()
+    {
+        return $this->apellido;
+    }
+
     public function toArray()
     {
         return [

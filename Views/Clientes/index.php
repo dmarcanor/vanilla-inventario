@@ -23,14 +23,6 @@
         <hr>
         <div class="form-row">
             <div class="form-group">
-                <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" placeholder="Nombre">
-            </div>
-            <div class="form-group">
-                <label for="apellido">Apellido</label>
-                <input type="text" id="apellido" name="apellido" placeholder="Apellido">
-            </div>
-            <div class="form-group">
                 <label for="tipo_identificacion">Tipo de identificación</label>
                 <select id="tipo_identificacion">
                     <option value="">Tipo de identificación</option>
@@ -39,22 +31,24 @@
                     <option value="pasaporte">Pasaporte</option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="numero_identificacion">Número de identificación</label>
                 <input type="text" id="numero_identificacion" placeholder="Número de identificación">
             </div>
             <div class="form-group">
-                <label for="telefono">Teléfono</label>
-                <input type="text" id="telefono" placeholder="Teléfono">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" placeholder="Nombre">
             </div>
             <div class="form-group">
-                <label for="direccion">Dirección</label>
-                <input type="text" id="direccion" placeholder="Dirección">
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" name="apellido" placeholder="Apellido">
             </div>
         </div>
         <div class="form-row">
+            <div class="form-group">
+                <label for="telefono">Teléfono</label>
+                <input type="text" id="telefono" placeholder="Teléfono">
+            </div>
             <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>
                 <input type="datetime-local" id="fecha_desde">
@@ -70,6 +64,12 @@
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                 </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Dirección">
             </div>
         </div>
         <div class="form-row">

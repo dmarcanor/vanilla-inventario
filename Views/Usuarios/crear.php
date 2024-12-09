@@ -22,6 +22,10 @@
     <form class="crear-usuario-form form" onsubmit="guardar(event)">
         <div class="form-row">
             <div class="form-group">
+                <label for="cedula">Cédula</label>
+                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required>
+            </div>
+            <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" placeholder="Nombre" required>
             </div>
@@ -30,15 +34,11 @@
                 <input type="text" id="apellido" placeholder="Apellido" required>
             </div>
             <div class="form-group">
-                <label for="cedula">Cédula</label>
-                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required>
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
                 <label for="contrasenia">Contraseña</label>
                 <input type="password" id="contrasenia" placeholder="Contraseña" minlength="8" required>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label for="telefono">Teléfono</label>
                 <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11"
@@ -47,12 +47,6 @@
                        oninvalid="this.setCustomValidity('Ingrese un número de teléfono válido. Debe iniciar con 0412, 0414, 0416, 0424 o 0426 y tener 11 dígitos.')"
                 >
             </div>
-            <div class="form-group">
-                <label for="direccion">Dirección</label>
-                <input type="text" id="direccion" placeholder="Dirección" required>
-            </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="rol">Rol</label>
                 <select name="rol" id="rol" required>
@@ -68,6 +62,10 @@
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                 </select>
+            </div>
+            <div class="big-form-group">
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" placeholder="Dirección" required>
             </div>
         </div>
         <div class="form-row">

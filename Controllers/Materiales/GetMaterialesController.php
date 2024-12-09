@@ -3,13 +3,13 @@
 require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 $filtros = [
+    'id' => !empty($_GET['id']) ? $_GET['id'] : 0,
     'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
     'descripcion' => !empty($_GET['descripcion']) ? "%{$_GET['descripcion']}%" : '',
+    'presentacion' => !empty($_GET['presentacion']) ? "%{$_GET['presentacion']}%" : '',
     'marca' => !empty($_GET['marca']) ? "%{$_GET['marca']}%" : '',
     'categoria_id' => !empty($_GET['categoria_id']) ? $_GET['categoria_id'] : '',
     'unidad' => !empty($_GET['unidad']) ? $_GET['unidad'] : '',
-    'peso_desde' => !empty($_GET['peso_desde']) ? $_GET['peso_desde'] : 0,
-    'peso_hasta' => !empty($_GET['peso_hasta']) ? $_GET['peso_hasta'] : 0,
     'precio_desde' => !empty($_GET['precio_desde']) ? $_GET['precio_desde'] : 0,
     'precio_hasta' => !empty($_GET['precio_hasta']) ? $_GET['precio_hasta'] : 0,
     'stock_desde' => !empty($_GET['stock_desde']) ? $_GET['stock_desde'] : 0,

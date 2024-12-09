@@ -1,6 +1,6 @@
 let lineas = [
   {
-    salidaLineaId: '',
+    salidaId: '',
     materialId: '',
     cantidad: 0,
     precio: 0,
@@ -53,7 +53,7 @@ function renderTabla() {
     materialesEnBaseDeDatos.forEach(materialEnBaseDeDatos => {
       const option = document.createElement("option");
       option.value = materialEnBaseDeDatos.id;
-      option.textContent = materialEnBaseDeDatos.nombre;
+      option.textContent = `${materialEnBaseDeDatos.nombre} - ${materialEnBaseDeDatos.presentacion}`;
 
       if (linea.materialId == materialEnBaseDeDatos.id) {
         option.selected = true;
@@ -99,23 +99,28 @@ function renderTabla() {
     tr.appendChild(unidadTd);
 
     // Columna de stock actual
-    const stockActualTd = document.createElement("td");
-    const stockInput = document.createElement("input");
-    stockInput.type = "text";
-    stockInput.disabled = true;
-    stockInput.value = linea.stockActual;
-    stockActualTd.appendChild(stockInput);
-    tr.appendChild(stockActualTd);
+    if (vista != 'editar') {
+      const stockActualTd = document.createElement("td");
+      const stockInput = document.createElement("input");
+      stockInput.type = "text";
+      stockInput.disabled = true;
+      stockInput.value = linea.stockActual;
+      stockActualTd.appendChild(stockInput);
+      tr.appendChild(stockActualTd);
+    }
+
 
     // Columna de stock posterior
-    const stockPosteriorTd = document.createElement("td");
-    const stockPosteriorInput = document.createElement("input");
-    stockPosteriorInput.type = "text";
-    stockPosteriorInput.disabled = true;
-    stockPosteriorInput.value = linea.stockPosterior;
-    // stockPosteriorInput.value = parseFloat(stockPorMaterialId(linea.materialId) - parseFloat(linea.cantidad));
-    stockPosteriorTd.appendChild(stockPosteriorInput);
-    tr.appendChild(stockPosteriorTd);
+    if (vista != 'editar') {
+      const stockPosteriorTd = document.createElement("td");
+      const stockPosteriorInput = document.createElement("input");
+      stockPosteriorInput.type = "text";
+      stockPosteriorInput.disabled = true;
+      stockPosteriorInput.value = linea.stockPosterior;
+      // stockPosteriorInput.value = parseFloat(stockPorMaterialId(linea.materialId) - parseFloat(linea.cantidad));
+      stockPosteriorTd.appendChild(stockPosteriorInput);
+      tr.appendChild(stockPosteriorTd);
+    }
 
     // Columna de acción (- botón)
     const eliminarTd = document.createElement("td");
@@ -132,7 +137,7 @@ function renderTabla() {
 // Función para agregar una línea
 function agregarLinea() {
   const nuevaLinea = {
-    salidaLineaId: '',
+    salidaId: '',
     materialId: '',
     cantidad: 0,
     precio: 0,
@@ -173,7 +178,10 @@ function actualizarCantidad(index, cantidad) {
   lineas[index].stockActual = stockPorMaterialId(lineas[index].materialId) // Actualizar stock actual
   lineas[index].stockPosterior = parseFloat(stockPorMaterialId(lineas[index].materialId) - parseFloat(lineas[index].cantidad)) // Actualizar el stock posterior
 
-  renderTabla(); // Volver a renderizar para actualizar la unidad
+  setTimeout(() => {
+    renderTabla(); // Volver a renderizar para actualizar la unidad
+  }, 1000);
+
 }
 
 function actualizarPrecio(index, precio) {

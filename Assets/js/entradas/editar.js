@@ -14,14 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       document.getElementById('id').value = id;
-      document.getElementById('descripcion').value = json.entrada.descripcion;
-      document.getElementById('usuarioId').value = json.entrada.usuarioId;
+      document.getElementById('observacion').value = json.entrada.observacion;
 
       lineas = json.entrada.lineas;
     })
     .catch((mensaje) => {
       alert(mensaje);
 
-      // window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
+      window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
     });
 });

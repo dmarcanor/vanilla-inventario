@@ -44,6 +44,32 @@ class SalidaLinea
         ]);
     }
 
+    public static function getSalidaLineasDeSalida($entradaId)
+    {
+        $consulta = (new ConexionBD())->getConexion()->prepare("
+            SELECT * FROM salida_lineas WHERE salida_id = ?
+        ");
+
+        $consulta->execute([$entradaId]);
+
+        $lineasBaseDeDatos = $consulta->fetchAll(PDO::FETCH_ASSOC);
+        $lineas = [];
+
+        foreach ($lineasBaseDeDatos as $lineaBaseDeDatos) {
+            $linea = new SalidaLinea(
+                $lineaBaseDeDatos['id'],
+                $lineaBaseDeDatos['salida_id'],
+                $lineaBaseDeDatos['material_id'],
+                $lineaBaseDeDatos['cantidad'],
+                $lineaBaseDeDatos['precio']
+            );
+
+            $lineas[] = $linea->toArray();
+        }
+
+        return $lineas;
+    }
+
     private static function validarCamposVacios($salidaId, $materialId, $cantidad, $precio)
     {
         if (empty($salidaId)) {
@@ -61,5 +87,16 @@ class SalidaLinea
         if (empty($precio)) {
             throw new Exception("el precio no puede estar vacío.");
         }
+    }
+
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'salidaId' => $this->salidaId,
+            'materialId' => $this->materialId,
+            'cantidad' => $this->cantidad,
+            'precio' => $this->precio
+        ];
     }
 }

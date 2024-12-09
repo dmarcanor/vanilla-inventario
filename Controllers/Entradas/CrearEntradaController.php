@@ -10,7 +10,7 @@ try {
     http_response_code(201);
 
     Entrada::crear(
-        $data['descripcion'],
+        $data['observacion'],
         $data['usuario_id'],
         $data['lineas']
     );

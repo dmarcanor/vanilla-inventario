@@ -23,6 +23,10 @@
         <hr>
         <div class="form-row">
             <div class="form-group">
+                <label for="nombre">ID</label>
+                <input type="number" id="id" name="id" placeholder="ID">
+            </div>
+            <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Nombre del material">
             </div>
@@ -55,25 +59,6 @@
                     <option value="toneladas">Toneladas métricas (t)</option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="estado">Estado</label>
-                <select id="estado" name="estado">
-                    <option value="">Seleccionar estado</option>
-                    <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="usuario_id">Usuario Creador</label>
-                <select id="usuario_id" name="usuario_id">
-                    <option value="">Seleccionar usuario</option>
-                    <option value="1">admin</option>
-                </select>
-            </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="fecha_desde">Fecha de Creación (Desde)</label>
                 <input type="datetime-local" id="fecha_desde" name="fecha_desde">
@@ -86,18 +71,6 @@
         <div class="form-row">
             <div class="form-group">
                 <div class="form-group">
-                    <label for="peso_desde">Peso (Desde)</label>
-                    <input type="number" id="peso_desde" name="peso_desde" placeholder="Peso del material (Desde)" min="0.01" step="0.01">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="peso_hasta">Peso (Hasta)</label>
-                <input type="number" id="peso_hasta" name="peso_hasta" placeholder="Peso del material (Hasta)" min="0.01" step="0.01">
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <div class="form-group">
                     <label for="precio_desde">Precio (Desde)</label>
                     <input type="number" id="precio_desde" name="precio_desde" placeholder="Precio del material (Desde)" min="0.01" step="0.01">
                 </div>
@@ -105,6 +78,18 @@
             <div class="form-group">
                 <label for="precio_hasta">Precio (Hasta)</label>
                 <input type="number" id="precio_hasta" name="precio_hasta" placeholder="Precio del material (Hasta)" min="0.01" step="0.01">
+            </div>
+            <div class="form-group">
+                <label for="presentacion">Presentación</label>
+                <input type="text" id="presentacion" name="presentacion" placeholder="Presentación">
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="estado">
+                    <option value="">Seleccionar estado</option>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
             </div>
         </div>
         <div class="form-row">
@@ -122,7 +107,7 @@
             <tr>
                 <th class="dt-center">ID</th>
                 <th class="dt-center">Nombre</th>
-                <th class="dt-center">Descripción</th>
+                <th class="dt-center">Presentación</th>
                 <th class="dt-center">Marca</th>
                 <th class="dt-center">Categoría</th>
                 <th class="dt-center">Precio</th>

@@ -23,8 +23,12 @@
         <hr>
         <div class="form-row">
             <div class="form-group">
-                <label for="descripcion">Descripcion</label>
-                <input type="text" id="descripcion" placeholder="Descripcion">
+                <label for="id">ID</label>
+                <input type="text" id="id" placeholder="ID">
+            </div>
+            <div class="form-group">
+                <label for="observacion">Observación</label>
+                <input type="text" id="observacion" placeholder="Observacion">
             </div>
             <div class="form-group">
                 <label for="usuarioId">Usuario registrador</label>
@@ -32,8 +36,6 @@
                     <option value="">Seleccione</option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>
                 <input type="datetime-local" id="fecha_desde">
@@ -58,7 +60,7 @@
             <thead>
             <tr>
                 <th class="dt-center">ID</th>
-                <th class="dt-center">Descripción</th>
+                <th class="dt-center">Observación</th>
                 <th class="dt-center">Usuario registrador</th>
                 <th class="dt-center">Fecha de entrada</th>
                 <th class="dt-center">Acciones</th>

@@ -8,41 +8,41 @@ require_once __DIR__ . '/EntradaLinea.php';
 class Entrada
 {
     private $id;
-    private $descripcion;
+    private $observacion;
     private $usuarioId;
     private $fechaCreacion;
     private $lineas;
 
-    public function __construct($id, $descripcion, $usuarioId, $fechaCreacion, $lineas)
+    public function __construct($id, $observacion, $usuarioId, $fechaCreacion, $lineas)
     {
         $this->id = $id;
-        $this->descripcion = $descripcion;
+        $this->observacion = $observacion;
         $this->usuarioId = $usuarioId;
         $this->fechaCreacion = $fechaCreacion;
         $this->lineas = $lineas;
     }
 
-    public static function crear($descripcion, $usuarioId, $lineas)
+    public static function crear($observacion, $usuarioId, $lineas)
     {
-        self::validarCamposVacios($descripcion, $usuarioId);
+        self::validarCamposVacios($observacion, $usuarioId);
 
         $conexionBD = (new ConexionBD())->getConexion();
         $entrada = new Entrada(
             null,
-            $descripcion,
+            $observacion,
             $usuarioId,
             date('Y-m-d H:i:s'),
             $lineas
         );
 
         $consultaCrearEntrada = $conexionBD->prepare("
-            INSERT INTO entradas (descripcion, usuario_id, fecha_creacion) VALUES 
-            (?, ?, ?, ?)
+            INSERT INTO entradas (observacion, usuario_id, fecha_creacion) VALUES 
+            (?, ?, ?)
         ");
 
         // se guarda la entrada en la base de datos
         $consultaCrearEntrada->execute([
-            $entrada->descripcion,
+            $entrada->observacion,
             $entrada->usuarioId,
             $entrada->fechaCreacion,
         ]);
@@ -57,7 +57,7 @@ class Entrada
 
         $entradaConId = new Entrada(
             $entradaId['id'],
-            $entrada->descripcion,
+            $entrada->observacion,
             $entrada->usuarioId,
             $entrada->fechaCreacion,
             $lineas
@@ -68,13 +68,16 @@ class Entrada
             EntradaLinea::crear($entradaConId->id, $salidaLinea['materialId'], $salidaLinea['cantidad'], $salidaLinea['precio']);
 
             // se aumenta el stock del material seleccionado en la linea
-            Material::getMaterial($salidaLinea['materialId'])->incrementarStock($salidaLinea['cantidad']);
+            $material = Material::getMaterial($salidaLinea['materialId']);
+
+            $material->incrementarStock($salidaLinea['cantidad']);
+            $material->cambiarPrecio($salidaLinea['precio']);
         }
     }
 
-    private static function validarCamposVacios($descripcion, $usuarioId)
+    private static function validarCamposVacios($observacion, $usuarioId)
     {
-        if (empty($descripcion)) {
+        if (empty($observacion)) {
             throw new Exception("La descripción no puede estar vacía.");
         }
 
@@ -88,7 +91,7 @@ class Entrada
         $conexionBD = (new ConexionBD())->getConexion();
 
         $consultaEntrada = $conexionBD->prepare("
-            SELECT id, descripcion, usuario_id, fecha_creacion 
+            SELECT id, observacion, usuario_id, fecha_creacion 
             FROM entradas WHERE id = ?
         ");
         $consultaEntrada->execute([$id]);
@@ -100,7 +103,7 @@ class Entrada
 
         return new Entrada(
             $entrada['id'],
-            $entrada['descripcion'],
+            $entrada['observacion'],
             $entrada['usuario_id'],
             $entrada['fecha_creacion'],
             EntradaLinea::getEntradaLineasDeEntrada($entrada['id'])
@@ -109,14 +112,14 @@ class Entrada
 
     public static function getEntradas($filtros, $orden)
     {
-        $consultaEntradas = "SELECT id, descripcion, usuario_id, fecha_creacion FROM entradas";
+        $consultaEntradas = "SELECT id, observacion, usuario_id, fecha_creacion FROM entradas";
 
         if (!empty($filtros)) {
             $consultaEntradas .= " WHERE ";
             $iteracion = 0;
 
             foreach ($filtros as $key => $filtro) {
-                $campos = ['descripcion'];
+                $campos = ['observacion'];
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
@@ -151,7 +154,7 @@ class Entrada
         foreach ($entradasBaseDatos as $entrada) {
             $entradas[] = new Entrada(
                 $entrada['id'],
-                $entrada['descripcion'],
+                $entrada['observacion'],
                 $entrada['usuario_id'],
                 $entrada['fecha_creacion'],
                 []
@@ -170,7 +173,7 @@ class Entrada
     {
         return [
             'id' => $this->id,
-            'descripcion' => $this->descripcion,
+            'observacion' => $this->observacion,
             'usuarioId' => $this->usuarioId,
             'usuarioFullNombre' => "{$this->usuario()->nombre()} {$this->usuario()->apellido()}",
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),

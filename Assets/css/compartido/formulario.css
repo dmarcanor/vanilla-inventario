@@ -11,6 +11,11 @@
     min-width: 200px;
 }
 
+.big-form-group {
+    flex: 2;
+    min-width: 200px;
+}
+
 .form-row {
     display: flex;
     flex-wrap: wrap;

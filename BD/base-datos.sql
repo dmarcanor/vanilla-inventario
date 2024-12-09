@@ -183,5 +183,20 @@ ALTER TABLE salida_lineas
 ALTER TABLE entradas
     DROP COLUMN estado;
 
+ALTER TABLE entradas
+    CHANGE COLUMN descripcion observacion VARCHAR(255) NOT NULL;
+
 ALTER TABLE salidas
     DROP COLUMN estado;
+
+ALTER TABLE salidas
+    CHANGE COLUMN descripcion observacion VARCHAR(255) NOT NULL;
+
+ALTER TABLE materiales
+    CHANGE COLUMN peso presentacion VARCHAR(100) NOT NULL;
+
+select * from materiales;
+
+delete from materiales;
+delete from entradas;
+truncate table entrada_lineas;

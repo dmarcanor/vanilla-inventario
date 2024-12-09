@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       usuarios.forEach(usuario => {
         const option = document.createElement('option');
         option.value = usuario.id;
-        option.text = usuario.nombre;
+        option.text = `${usuario.nombre} ${usuario.apellido}`;
 
         campoUsuarioRegistrador.appendChild(option);
       });
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lengthChange: false,
     columns: [
       { data: "id" },
-      { data: "descripcion", orderable: false },
+      { data: "observacion", orderable: false },
       { data: "usuarioFullNombre", orderable: false },
       { data: "fechaCreacion", orderable: false },
       {
@@ -53,61 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     ]
   });
-
-  cambiarNombreUsuarioSesion();
 });
-
-const cambiarEstado = (id) => {
-  fetch(`/vanilla-inventario/Controllers/Entradas/CambiarEstadoEntradaController.php`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id
-    }),
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Entrada editada satisfactoriamente.');
-
-      const table = $('#usuarios-table').DataTable();
-      table.ajax.reload();
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
-}
-
-const eliminar = (id) => {
-  fetch(`/vanilla-inventario/Controllers/Materiales/EliminarMaterialController.php`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id
-    }),
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Material eliminado satisfactoriamente.');
-
-      const table = $('#usuarios-table').DataTable();
-      table.ajax.reload();
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
-}
 
 const redireccionarEditar = (id) => {
   window.location.href = `/vanilla-inventario/Views/Entradas/editar.php?id=${id}`;
@@ -120,11 +66,11 @@ const buscar = (event) => {
   const table = $('#usuarios-table').DataTable();
 
   const parametros = {
-    "descripcion": busqueda.nombre.value,
-    "usuarioId": busqueda.apellido.value,
+    "id": busqueda.id.value,
+    "observacion": busqueda.observacion.value,
+    "usuarioId": busqueda.usuarioId.value,
     "fecha_desde": busqueda.fecha_desde.value,
-    "fecha_hasta": busqueda.fecha_hasta.value,
-    "estado": busqueda.estado.value,
+    "fecha_hasta": busqueda.fecha_hasta.value
   };
 
   table.settings()[0].ajax.data = (data) => ({...data, ...parametros})

@@ -23,6 +23,12 @@ const login = (event) => {
       }
 
       window.localStorage.setItem('usuario', JSON.stringify(response.usuario));
+
+      if (response.usuario.rol === 'operador') {
+        window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
+        return;
+      }
+
       window.location.href = '/vanilla-inventario/Views/Inicio/index.php';
     });
 }

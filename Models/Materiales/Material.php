@@ -11,13 +11,13 @@ class Material
     private $marca;
     private $categoriaId;
     private $unidad;
-    private $peso;
+    private $presentacion;
     private $stock;
     private $precio;
     private $fechaCreacion;
     private $estado;
 
-    public function __construct($id, $nombre, $descripcion, $marca, $categoriaId, $unidad, $peso, $precio, $stock, $fechaCreacion, $estado)
+    public function __construct($id, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $precio, $stock, $fechaCreacion, $estado)
     {
         $this->id = $id;
         $this->nombre = $nombre;
@@ -25,20 +25,18 @@ class Material
         $this->marca = $marca;
         $this->categoriaId = $categoriaId;
         $this->unidad = $unidad;
-        $this->peso = $peso;
+        $this->presentacion = $presentacion;
         $this->precio = $precio;
         $this->stock = $stock;
         $this->fechaCreacion = $fechaCreacion;
         $this->estado = $estado;
     }
 
-    public static function crear($nombre, $descripcion, $marca, $categoriaId, $unidad, $peso, $precio, $estado)
+    public static function crear($nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado)
     {
         date_default_timezone_set('America/Caracas');
 
-        self::validarCamposVacios($nombre, $marca, $categoriaId, $unidad, $estado);
-        self::validarPeso($peso);
-        self::validarPrecio($precio);
+        self::validarCamposVacios($nombre, $marca, $categoriaId, $unidad, $presentacion, $estado);
 
         $material = new Material(
             null,
@@ -47,16 +45,16 @@ class Material
             $marca,
             $categoriaId,
             $unidad,
-            $peso,
-            $precio,
+            $presentacion,
+            0,
             0,
             date('Y-m-d H:i:s'),
             $estado
         );
 
         $consultaCrearMaterial = (new ConexionBD())->getConexion()->prepare("
-            INSERT INTO materiales(nombre, descripcion, marca, categoria_id, unidad, peso, precio, stock, fecha_creacion, estado) VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO materiales(nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, fecha_creacion, estado) VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $consultaCrearMaterial->execute([
@@ -65,7 +63,7 @@ class Material
             $material->marca,
             $material->categoriaId,
             $material->unidad,
-            $material->peso,
+            $material->presentacion,
             $material->precio,
             $material->stock,
             $material->fechaCreacion,
@@ -73,7 +71,7 @@ class Material
         ]);
     }
 
-    public static function editar($id, $nombre, $descripcion, $marca, $categoriaId, $unidad, $peso, $precio, $estado)
+    public static function editar($id, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado)
     {
         $material = self::getMaterial($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
@@ -82,9 +80,7 @@ class Material
             throw new Exception("Material no encontrado.");
         }
 
-        self::validarCamposVacios($nombre, $marca, $categoriaId, $unidad, $estado);
-        self::validarPeso($peso);
-        self::validarPrecio($precio);
+        self::validarCamposVacios($nombre, $marca, $categoriaId, $unidad, $presentacion, $estado);
 
         $materialModificado = new Material(
             $id,
@@ -93,8 +89,8 @@ class Material
             $marca,
             $categoriaId,
             $unidad,
-            $peso,
-            $precio,
+            $presentacion,
+            $material->precio,
             $material->stock,
             $material->fechaCreacion,
             $estado
@@ -102,7 +98,7 @@ class Material
 
         $consultaEditarCliente = $conexionBaseDatos->prepare("
             UPDATE materiales 
-            SET nombre = ?, descripcion = ?, marca = ?, categoria_id = ?, unidad = ?, peso = ?, precio = ?, estado = ?
+            SET nombre = ?, descripcion = ?, marca = ?, categoria_id = ?, unidad = ?, presentacion = ?, estado = ?
             WHERE id = ?
         ");
 
@@ -112,8 +108,7 @@ class Material
             $materialModificado->marca,
             $materialModificado->categoriaId,
             $materialModificado->unidad,
-            $materialModificado->peso,
-            $materialModificado->precio,
+            $materialModificado->presentacion,
             $materialModificado->estado,
             $materialModificado->id
         ]);
@@ -149,7 +144,7 @@ class Material
     public static function getMaterial($id)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre, descripcion, marca, categoria_id, unidad, peso, precio, stock, fecha_creacion, estado 
+            SELECT id, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, fecha_creacion, estado 
             FROM materiales WHERE id = ?
         ");
         $consulta->execute([$id]);
@@ -166,7 +161,7 @@ class Material
             $material['marca'],
             $material['categoria_id'],
             $material['unidad'],
-            $material['peso'],
+            $material['presentacion'],
             $material['precio'],
             $material['stock'],
             $material['fecha_creacion'],
@@ -176,14 +171,14 @@ class Material
 
     public static function getMateriales($filtros, $orden)
     {
-        $consultaMateriales = "SELECT id, nombre, descripcion, marca, categoria_id, unidad, peso, precio, stock, fecha_creacion, estado FROM materiales";
+        $consultaMateriales = "SELECT id, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, fecha_creacion, estado FROM materiales";
 
         if (!empty($filtros)) {
             $consultaMateriales .= " WHERE ";
             $iteracion = 0;
 
             foreach ($filtros as $key => $filtro) {
-                $campos = ['nombre', 'descripcion', 'marca'];
+                $campos = ['nombre', 'presentacion', 'descripcion', 'marca'];
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
@@ -192,12 +187,6 @@ class Material
                     $operador = '>=';
                 } elseif ($key === 'fecha_hasta') {
                     $key = 'fecha_creacion';
-                    $operador = '<=';
-                } elseif ($key === 'peso_desde') {
-                    $key = 'peso';
-                    $operador = '>=';
-                } elseif ($key === 'peso_hasta') {
-                    $key = 'peso';
                     $operador = '<=';
                 } elseif ($key === 'precio_desde') {
                     $key = 'precio';
@@ -241,7 +230,7 @@ class Material
                 $material['marca'],
                 $material['categoria_id'],
                 $material['unidad'],
-                $material['peso'],
+                $material['presentacion'],
                 $material['precio'],
                 $material['stock'],
                 $material['fecha_creacion'],
@@ -301,7 +290,23 @@ class Material
         ]);
     }
 
-    public static function validarCamposVacios($nombre, $marca, $categoria_id, $unidad, $estado)
+    public function cambiarPrecio($precio)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+
+        $this->precio = $precio;
+
+        $consultaCambiarPrecio = $conexionBaseDatos->prepare("
+            UPDATE materiales SET precio = ? WHERE id = ?
+        ");
+
+        $consultaCambiarPrecio->execute([
+            $this->precio,
+            $this->id
+        ]);
+    }
+
+    public static function validarCamposVacios($nombre, $marca, $categoria_id, $unidad, $presentacion, $estado)
     {
         if (empty($nombre)) {
             throw new Exception("El nombre no puede estar vacío.");
@@ -319,22 +324,12 @@ class Material
             throw new Exception("La unidad no puede estar vacía.");
         }
 
+        if (empty($unidad)) {
+            throw new Exception("La presentación no puede estar vacía.");
+        }
+
         if (empty($estado)) {
             throw new Exception("El estado no puede estar vacío.");
-        }
-    }
-
-    public static function validarPeso($peso)
-    {
-        if ((float)$peso < 0.01) {
-            throw new Exception("El peso debe ser mayor o igual a 0,01.");
-        }
-    }
-
-    public static function validarPrecio($precio)
-    {
-        if ((float)$precio < 0.01) {
-            throw new Exception("El precio debe ser mayor o igual a 0,01.");
         }
     }
 
@@ -353,7 +348,7 @@ class Material
             'categoriaId' => $this->categoriaId,
             'categoriaNombre' => $this->categoria()->nombre(),
             'unidad' => $this->unidad,
-            'peso' => $this->peso,
+            'presentacion' => $this->presentacion,
             'precio' => $this->precio,
             'stock' => $this->stock,
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),

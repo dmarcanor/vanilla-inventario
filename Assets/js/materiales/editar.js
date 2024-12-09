@@ -19,14 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('marca').value = json.material.marca;
       document.getElementById('categoria_id').value = json.material.categoriaId;
       document.getElementById('unidad').value = json.material.unidad;
-      document.getElementById('peso').value = json.material.peso;
-      document.getElementById('precio').value = json.material.precio;
+      document.getElementById('presentacion').value = json.material.presentacion;
       document.getElementById('stock').value = json.material.stock;
       document.getElementById('estado').value = json.material.estado;
     })
     .catch((mensaje) => {
       alert(mensaje);
 
-      window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      // window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
     });
 });

@@ -15,11 +15,17 @@
 
 <div id="content">
     <div class="module-header">
-        <h1 class="module-title">Entradas - Editar</h1>
+        <h1 class="module-title">Salidas - Editar</h1>
     </div>
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
             <div class="form-group">
+                <label for="clienteId">Cliente</label>
+                <select name="clienteId" id="clienteId" required>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+            <div class="big-form-group">
                 <label for="observacion">Observación</label>
                 <input type="text" id="observacion" placeholder="Observación" required>
             </div>
@@ -27,7 +33,7 @@
 
         <div class="form-row">
             <div class="form-group">
-                <table id="entrada-items" class="dynamic-table">
+                <table id="salidas-items" class="dynamic-table">
                     <thead>
                     <tr>
                         <th>Material</th>
@@ -39,7 +45,7 @@
                         </th>
                     </tr>
                     </thead>
-                    <tbody id="entrada-items-body">
+                    <tbody id="salida-items-body">
                     </tbody>
                 </table>
             </div>
@@ -56,9 +62,9 @@
     </form>
 </div>
 
-<script src="/vanilla-inventario/Assets/js/entradas/editar.js"></script>
-<script src="/vanilla-inventario/Assets/js/entradas/formulario.js"></script>
-<script src="/vanilla-inventario/Assets/js/entradas/materiales-tabla.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/formulario.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/editar.js"></script>
+<script src="/vanilla-inventario/Assets/js/salidas/materiales-tabla.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 </body>
 </html>

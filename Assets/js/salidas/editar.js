@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 
-  fetch(`/vanilla-inventario/Controllers/Materiales/GetMaterialController.php?id=${id}`, {
+  fetch(`/vanilla-inventario/Controllers/Salidas/GetSalidaController.php?id=${id}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -14,18 +14,15 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       document.getElementById('id').value = id;
-      document.getElementById('nombre').value = json.material.nombre;
-      document.getElementById('descripcion').value = json.material.descripcion;
-      document.getElementById('marca').value = json.material.marca;
-      document.getElementById('categoria_id').value = json.material.categoriaId;
-      document.getElementById('unidad').value = json.material.unidad;
-      document.getElementById('peso').value = json.material.peso;
-      document.getElementById('precio').value = json.material.precio;
-      document.getElementById('stock').value = json.material.stock;
+      document.getElementById('observacion').value = json.salida.observacion;
+      document.getElementById('clienteId').value = json.salida.clienteId;
+
+      lineas = json.salida.lineas;
+      vista = 'editar';
     })
     .catch((mensaje) => {
       alert(mensaje);
 
-      window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      // window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
     });
 });

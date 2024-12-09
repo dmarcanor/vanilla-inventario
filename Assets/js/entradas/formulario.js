@@ -1,30 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const campoUsuarioRegistrador = document.getElementById('usuarioId');
+  const campoObservacion = document.getElementById('observacion');
 
-  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-  }).then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
+  campoObservacion.addEventListener('input', (event) => {
+    const observacion = event.target.value;
 
-      const usuarios = json.data;
+    if (!observacion) {
+      return "";
+    }
 
-      usuarios.forEach(usuario => {
-        const option = document.createElement('option');
-        option.value = usuario.id;
-        option.text = usuario.nombre;
-
-        campoUsuarioRegistrador.appendChild(option);
-      });
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
+    campoObservacion.value = observacion.charAt(0).toUpperCase() + observacion.slice(1);
+  });
 });
 
 const guardar = (event) => {
@@ -36,15 +21,13 @@ const guardar = (event) => {
 
   if (!id) {
     crear(formulario);
-    return
   }
-
-  editar(id, formulario);
 }
 
 const crear = (formulario) => {
-  const descripcion = formulario.descripcion.value;
-  const usuario_id = formulario.usuario_id.value;
+  const observacion = formulario.observacion.value;
+  const usuario = JSON.parse(window.localStorage.getItem('usuario'));
+  const usuario_id = usuario.id;
 
   fetch('/vanilla-inventario/Controllers/Entradas/CrearEntradaController.php', {
     method: 'POST',
@@ -52,7 +35,7 @@ const crear = (formulario) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      descripcion,
+      observacion,
       usuario_id,
       lineas
     })
@@ -63,44 +46,6 @@ const crear = (formulario) => {
       }
 
       alert('Entrada creada satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
-}
-
-const editar = (id, formulario) => {
-  const nombre = formulario.nombre.value;
-  const descripcion = formulario.descripcion.value;
-  const marca = formulario.marca.value;
-  const categoria_id = formulario.categoria_id.value;
-  const unidad = formulario.unidad.value;
-  const peso = formulario.peso.value;
-  const precio = formulario.precio.value;
-
-  fetch('/vanilla-inventario/Controllers/Materiales/EditarMaterialController.php', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id,
-      nombre,
-      descripcion,
-      marca,
-      categoria_id,
-      unidad,
-      peso,
-      precio,
-    })
-  }).then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Material editado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
     })
     .catch((mensaje) => {

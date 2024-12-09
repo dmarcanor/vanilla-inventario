@@ -19,16 +19,11 @@
     </div>
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
-            <div class="form-group">
-                <label for="descripcion">Descripción</label>
-                <input type="text" id="descripcion" placeholder="Descripción" required>
+            <div class="big-form-group">
+                <label for="observacion">Observación</label>
+                <input type="text" id="observacion" placeholder="Observación" required>
             </div>
-            <div class="form-group">
-                <label for="usuarioId">Usuario registrador</label>
-                <select name="usuarioId" id="usuarioId" required>
-                    <option value="">Seleccione</option>
-                </select>
-            </div>
+            <div class="form-group"></div>
         </div>
 
         <div class="form-row">

@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Salidas/GetSalidasController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
@@ -65,9 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
     lengthChange: false,
     columns: [
       { data: "id" },
-      { data: "descripcion", orderable: false },
-      { data: "usuarioNombreFull", orderable: false },
-      { data: "clienteNombreFull", orderable: false },
+      { data: "observacion", orderable: false },
+      { data: "usuarioFullNombre", orderable: false },
+      { data: "clienteFullNombre", orderable: false },
       { data: "fechaCreacion", orderable: false },
       {
         data: "acciones",
@@ -121,7 +121,8 @@ const buscar = (event) => {
   const table = $('#usuarios-table').DataTable();
 
   const parametros = {
-    "descripcion": busqueda.descripcion.value,
+    "id": busqueda.id.value,
+    "observacion": busqueda.observacion.value,
     "usuarioId": busqueda.usuarioId.value,
     "clienteId": busqueda.clienteId.value,
     "fecha_desde": busqueda.fecha_desde.value,

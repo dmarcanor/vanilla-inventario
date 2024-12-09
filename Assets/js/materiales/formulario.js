@@ -1,15 +1,43 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const campoPeso = document.getElementById('peso');
-  const campoPrecio = document.getElementById('precio');
+  const campoCategoria = document.getElementById('categoria_id');
 
-  campoPeso.addEventListener('blur', () => {
-    campoPeso.value = parseFloat(campoPeso.value).toFixed(2);
-  });
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
 
-  campoPrecio.addEventListener('blur', () => {
-    campoPrecio.value = parseFloat(campoPrecio.value).toFixed(2);
-  })
+  fetch('/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=activo', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const categorias = json.data;
+
+      categorias.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria.id;
+        option.text = categoria.nombre;
+
+        campoCategoria.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
 });
+
+const primeraLetraMayuscula = (event) => {
+  const campo = event.target;
+  const valor = campo.value;
+
+  campo.value = valor.charAt(0).toUpperCase() + valor.slice(1);
+}
 
 const guardar = (event) => {
   event.preventDefault();
@@ -31,8 +59,7 @@ const crear = (formulario) => {
   const marca = formulario.marca.value;
   const categoria_id = formulario.categoria_id.value;
   const unidad = formulario.unidad.value;
-  const peso = formulario.peso.value;
-  const precio = formulario.precio.value;
+  const presentacion = formulario.presentacion.value;
   const estado = formulario.estado.value;
 
   fetch('/vanilla-inventario/Controllers/Materiales/CrearMaterialController.php', {
@@ -46,8 +73,7 @@ const crear = (formulario) => {
       marca,
       categoria_id,
       unidad,
-      peso,
-      precio,
+      presentacion,
       estado
     })
   }).then(response => response.json())
@@ -70,8 +96,7 @@ const editar = (id, formulario) => {
   const marca = formulario.marca.value;
   const categoria_id = formulario.categoria_id.value;
   const unidad = formulario.unidad.value;
-  const peso = formulario.peso.value;
-  const precio = formulario.precio.value;
+  const presentacion = formulario.presentacion.value;
   const estado = formulario.estado.value;
 
   fetch('/vanilla-inventario/Controllers/Materiales/EditarMaterialController.php', {
@@ -86,8 +111,7 @@ const editar = (id, formulario) => {
       marca,
       categoria_id,
       unidad,
-      peso,
-      precio,
+      presentacion,
       estado
     })
   }).then(response => response.json())
