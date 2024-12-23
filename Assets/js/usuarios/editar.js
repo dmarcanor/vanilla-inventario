@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       document.getElementById('id').value = id;
+      document.getElementById('nombre_usuario').value = json.usuario.nombreUsuario;
       document.getElementById('nombre').value = json.usuario.nombre;
       document.getElementById('apellido').value = json.usuario.apellido;
       document.getElementById('cedula').value = json.usuario.cedula;

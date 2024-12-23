@@ -208,5 +208,10 @@ ALTER TABLE materiales
 ALTER TABLE entradas
     ADD COLUMN numero_entrada INT NOT NULL;
 
+ALTER TABLE usuarios
+    ADD COLUMN nombre_usuario VARCHAR(255) NOT NULL;
+
+UPDATE usuarios SET nombre_usuario = 'admin' WHERE id = 1;
+
 select *
 from entradas;

@@ -88,6 +88,29 @@ class Salida
         }
     }
 
+    public static function eliminar($id)
+    {
+        $salida = self::getSalida($id);
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+
+        if (empty($salida)) {
+            throw new Exception("Salida no encontrada.");
+        }
+
+        // se eliminan las lineas de la salida
+        foreach ($salida->lineas as $linea) {
+            $linea->eliminar($linea->id());
+        }
+
+        // se elimina la salida
+        $consultaEliminarSalida = $conexionBaseDatos->prepare("
+            DELETE FROM salidas
+            WHERE id = ?
+        ");
+
+        $consultaEliminarSalida->execute([$id]);
+    }
+
     public static function getSalida($id)
     {
         $conexionBD = (new ConexionBD())->getConexion();
@@ -183,6 +206,17 @@ class Salida
         }
     }
 
+    public function lineasArray()
+    {
+        $lineas = [];
+
+        foreach ($this->lineas as $linea) {
+            $lineas[] = $linea->toArray();
+        }
+
+        return $lineas;
+    }
+
     public function toArray()
     {
         return [
@@ -193,7 +227,7 @@ class Salida
             'clienteId' => $this->cliente_id,
             'clienteFullNombre' => "{$this->cliente()->nombre()} {$this->cliente()->apellido()}",
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),
-            'lineas' => $this->lineas
+            'lineas' => $this->lineasArray()
         ];
     }
 }

@@ -345,6 +345,14 @@ class Material
 
         $this->stock = $this->stock - (float)$cantidad;
 
+        if ($this->stock < $this->stockMinimo) {
+            $_POST['mensaje'] = "Está rebajando más que el stock mínimo para el material {$this->nombre}.";
+        }
+
+        if ($this->stock < 0) {
+            throw new Exception("No hay suficiente stock para rebajar el material {$this->nombre}.");
+        }
+
         $consultaAumentarStock = $conexionBaseDatos->prepare("
             UPDATE materiales SET stock = ? WHERE id = ?
         ");

@@ -23,7 +23,13 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="cedula">Cédula *</label>
-                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required>
+                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required
+                oninvalid="this.setCustomValidity('La cédula debe tener entre 7 y 8 caracteres.')"
+                oninput="this.setCustomValidity('')">
+            </div>
+            <div class="form-group">
+                <label for="nombre_usuario">Nombre de usuario*</label>
+                <input type="text" id="nombre_usuario" placeholder="Nombre de usuario" required>
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre *</label>
@@ -33,19 +39,39 @@
                 <label for="apellido">Apellido *</label>
                 <input type="text" id="apellido" placeholder="Apellido" required>
             </div>
-            <div class="form-group">
-                <label for="contrasenia">Contraseña *</label>
-                <input type="password" id="contrasenia" placeholder="Contraseña" minlength="8" required>
-            </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="telefono">Teléfono *</label>
-                <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11"
-                       pattern="^(0424|0414|0416|0426|0412)\d{7}$"
+                <input type="number" id="telefono" placeholder="Teléfono" max="04269999999"
                        required
-                       oninvalid="this.setCustomValidity('Ingrese un número de teléfono válido. Debe iniciar con 0412, 0414, 0416, 0424 o 0426 y tener 11 dígitos.')"
-                >
+                       oninvalid="this.setCustomValidity('El número debe iniciar con 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos y no puede contener caracteres especiales o letras.')"
+                       oninput="this.setCustomValidity('')">
+            </div>
+            <div class="big-form-group">
+                <label for="contrasenia">
+                    Contraseña
+                    <button type="button" style="background-color: inherit; font-size: 11pt" class="info-btn" id="contraseniaInfo">ℹ️</button>
+                    <small style="font-size: 8pt">No llenar si no desea cambiar la contraseña</small>
+                </label>
+                <div class="password-container">
+                    <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" minlength="8">
+                    <button type="button" style="background-color: inherit" class="toggle-password" id="togglePassword">👁️</button>
+                    <div class="password-guide" id="contraseniaGuia">
+                        <p>La contraseña debe cumplir con los siguientes requisitos:</p>
+                        <ul>
+                            <li>Al menos 8 caracteres de longitud</li>
+                            <li>Al menos una letra mayúscula</li>
+                            <li>Al menos una letra minúscula</li>
+                            <li>Al menos un número</li>
+                            <li>Al menos un carácter especial (ej: !@#$%^&*)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group password-container">
+                <label for="repetir_contrasenia">Repetir contraseña</label>
+                <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8">
             </div>
             <div class="form-group">
                 <label for="rol">Rol *</label>
@@ -55,6 +81,8 @@
                     <option value="operador">Operador</option>
                 </select>
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label for="estado">Estado *</label>
                 <select name="estado" id="estado" required>
@@ -67,6 +95,7 @@
                 <label for="direccion">Dirección *</label>
                 <input type="text" id="direccion" placeholder="Dirección" required>
             </div>
+            <div class="form-group"></div>
         </div>
         <div class="form-row">
             <div class="form-group">

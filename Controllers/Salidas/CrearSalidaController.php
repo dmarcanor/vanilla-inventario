@@ -16,9 +16,14 @@ try {
         $data['lineas']
     );
 
-    echo json_encode([
-        'ok' => true
-    ]);
+    $respuesta = ['ok' => true];
+
+    // alerta de superar stock minimo
+    if (isset($_POST['mensaje'])) {
+        $respuesta['mensaje'] = $_POST['mensaje'];
+    }
+
+    echo json_encode($respuesta);
     exit();
 } catch (\Exception $exception) {
     http_response_code(500);

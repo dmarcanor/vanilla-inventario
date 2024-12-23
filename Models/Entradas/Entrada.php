@@ -160,7 +160,7 @@ class Entrada
         $entrada = $consultaEntrada->fetch(PDO::FETCH_ASSOC);
 
         if (empty($entrada)) {
-            throw new Exception('Entrada no encontrada.');
+            return null;
         }
 
         return new Entrada(

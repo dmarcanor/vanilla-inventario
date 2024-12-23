@@ -7,7 +7,7 @@ require_once __DIR__ . '/../../BD/ConexionBD.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 $baseDatos = (new ConexionBD())->getConexion();
-$consulta = $baseDatos->prepare("SELECT id, nombre, apellido, cedula, contrasenia, rol, estado FROM usuarios WHERE nombre = ?");
+$consulta = $baseDatos->prepare("SELECT id, nombre_usuario, nombre, apellido, cedula, contrasenia, rol, estado FROM usuarios WHERE nombre_usuario = ?");
 $consulta->execute([$data['usuario']]);
 $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
 

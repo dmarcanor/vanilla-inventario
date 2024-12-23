@@ -8,6 +8,7 @@ try {
     http_response_code(200);
     Usuario::editar(
         $data['id'],
+        $data['nombreUsuario'],
         $data['nombre'],
         $data['apellido'],
         $data['cedula'],

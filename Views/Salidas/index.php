@@ -19,7 +19,7 @@
         <a class="new-user-btn" href="crear.php">Registrar nueva salida</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
-        <h3>Búsqueda de entradas</h3>
+        <h3>Búsqueda de salidas</h3>
         <hr>
         <div class="form-row">
             <div class="form-group">

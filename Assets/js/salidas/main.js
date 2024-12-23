@@ -73,8 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         data: "acciones",
         orderable: false,
         render: (data, type, row) => {
+          let botonEliminar = `<button class="btn btn-danger" onclick="eliminar(${row.id})">Eliminar</button>`;
+
+          if (esAdmin() == false) {
+            botonEliminar = '';
+          }
           return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Ver</button>
+            ${botonEliminar}
           `;
         }
       }
@@ -85,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const eliminar = (id) => {
-  fetch(`/vanilla-inventario/Controllers/Materiales/EliminarMaterialController.php`, {
+  fetch(`/vanilla-inventario/Controllers/Salidas/EliminarSalidaController.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -100,7 +106,7 @@ const eliminar = (id) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Material eliminado satisfactoriamente.');
+      alert('Salida eliminada satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();

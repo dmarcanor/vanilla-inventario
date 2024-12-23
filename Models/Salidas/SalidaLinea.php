@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../BD/ConexionBD.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 class SalidaLinea
 {
@@ -17,6 +18,11 @@ class SalidaLinea
         $this->materialId = $materialId;
         $this->cantidad = $cantidad;
         $this->precio = $precio;
+    }
+
+    public function id()
+    {
+        return $this->id;
     }
 
     public static function crear($salidaId, $materialId, $cantidad, $precio)
@@ -44,6 +50,20 @@ class SalidaLinea
         ]);
     }
 
+    public function eliminar($id)
+    {
+        // se debe devolver la cantidad de material al stock
+        $this->material()->incrementarStock($this->cantidad);
+
+        // se elimina la linea de la base de datos
+        $dbConexion = (new ConexionBD())->getConexion();
+        $consulta = $dbConexion->prepare("
+            DELETE FROM salida_lineas WHERE id = ?
+        ");
+
+        $consulta->execute([$id]);
+    }
+
     public static function getSalidaLineasDeSalida($entradaId)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
@@ -64,7 +84,7 @@ class SalidaLinea
                 $lineaBaseDeDatos['precio']
             );
 
-            $lineas[] = $linea->toArray();
+            $lineas[] = $linea;
         }
 
         return $lineas;
@@ -87,6 +107,11 @@ class SalidaLinea
         if (empty($precio)) {
             throw new Exception("el precio no puede estar vacío.");
         }
+    }
+
+    public function material()
+    {
+        return Material::getMaterial($this->materialId);
     }
 
     public function toArray()

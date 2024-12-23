@@ -10,6 +10,7 @@ try {
     http_response_code(201);
 
     Usuario::crear(
+        $data['nombreUsuario'],
         $data['nombre'],
         $data['apellido'],
         $data['cedula'],

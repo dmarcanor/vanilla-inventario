@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const campoCliente = document.getElementById('clienteId');
 
-  fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?estado=activo&length=1000&start=0', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -62,6 +62,11 @@ const crear = (formulario) => {
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
+      }
+
+      if (json.mensaje) {
+        alert(json.mensaje);
+        window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
       }
 
       alert('Salida creada satisfactoriamente.');
