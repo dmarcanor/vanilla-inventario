@@ -8,13 +8,16 @@ try {
     http_response_code(200);
     Material::editar(
         $data['id'],
+        $data['codigo'],
         $data['nombre'],
         $data['descripcion'],
         $data['marca'],
         $data['categoria_id'],
         $data['unidad'],
         $data['presentacion'],
-        $data['estado']
+        $data['estado'],
+        $data['precio'],
+        $data['stockMinimo']
     );
 
     echo json_encode([

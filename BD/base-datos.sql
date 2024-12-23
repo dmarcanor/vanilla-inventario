@@ -195,8 +195,15 @@ ALTER TABLE salidas
 ALTER TABLE materiales
     CHANGE COLUMN peso presentacion VARCHAR(100) NOT NULL;
 
-select * from materiales;
-
 delete from materiales;
 delete from entradas;
 truncate table entrada_lineas;
+
+ALTER TABLE materiales
+    ADD COLUMN stock_minimo DECIMAL(11, 2) NOT NULL,
+    ADD COLUMN codigo       VARCHAR(255)   NOT NULL;
+
+ALTER TABLE entradas
+    ADD COLUMN numero_entrada INT NOT NULL;
+
+select * from materiales;

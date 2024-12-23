@@ -22,15 +22,15 @@
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
             <div class="form-group">
-                <label for="nombre">Nombre</label>
+                <label for="nombre">Nombre *</label>
                 <input type="text" id="nombre" placeholder="Nombre" required>
             </div>
             <div class="form-group">
-                <label for="descripcion">Descripción</label>
+                <label for="descripcion">Descripción *</label>
                 <input type="text" id="descripcion" placeholder="Descripción" required>
             </div>
             <div class="form-group">
-                <label for="estado">Estado</label>
+                <label for="estado">Estado *</label>
                 <select name="estado" id="estado" required>
                     <option value="">Seleccione</option>
                     <option value="activo">Activo</option>

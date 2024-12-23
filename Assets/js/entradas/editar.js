@@ -15,12 +15,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       document.getElementById('id').value = id;
       document.getElementById('observacion').value = json.entrada.observacion;
+      document.getElementById('numero_entrada').value = json.entrada.numeroEntrada;
 
       lineas = json.entrada.lineas;
     })
     .catch((mensaje) => {
       alert(mensaje);
 
-      window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
+      // window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
     });
 });

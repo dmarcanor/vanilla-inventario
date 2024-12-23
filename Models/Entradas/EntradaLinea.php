@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../BD/ConexionBD.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 class EntradaLinea
 {
@@ -17,6 +18,11 @@ class EntradaLinea
         $this->materialId = $materialId;
         $this->cantidad = $cantidad;
         $this->precio = $precio;
+    }
+
+    public function id()
+    {
+        return $this->id;
     }
 
     public static function crear($entradaId, $materialId, $cantidad, $precio)
@@ -44,6 +50,39 @@ class EntradaLinea
         ]);
     }
 
+    public function eliminar($id)
+    {
+        // se debe devolver la cantidad de material al stock
+        $this->material()->rebajarStock($this->cantidad);
+
+        // se elimina la linea de la base de datos
+        $dbConexion = (new ConexionBD())->getConexion();
+        $consulta = $dbConexion->prepare("
+            DELETE FROM entrada_lineas WHERE id = ?
+        ");
+
+        $consulta->execute([$id]);
+    }
+
+    public function getEntradaLinea($id)
+    {
+        $consulta = (new ConexionBD())->getConexion()->prepare("
+            SELECT * FROM entrada_lineas WHERE id = ?
+        ");
+
+        $consulta->execute([$id]);
+
+        $lineaBaseDeDatos = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        return new EntradaLinea(
+            $lineaBaseDeDatos['id'],
+            $lineaBaseDeDatos['entrada_id'],
+            $lineaBaseDeDatos['material_id'],
+            $lineaBaseDeDatos['cantidad'],
+            $lineaBaseDeDatos['precio']
+        );
+    }
+
     public static function getEntradaLineasDeEntrada($entradaId)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
@@ -64,7 +103,7 @@ class EntradaLinea
                 $lineaBaseDeDatos['precio']
             );
 
-            $lineas[] = $linea->toArray();
+            $lineas[] = $linea;
         }
 
         return $lineas;
@@ -87,6 +126,11 @@ class EntradaLinea
         if (empty($precio)) {
             throw new Exception("el precio no puede estar vacío.");
         }
+    }
+
+    public function material()
+    {
+        return Material::getMaterial($this->materialId);
     }
 
     public function toArray()

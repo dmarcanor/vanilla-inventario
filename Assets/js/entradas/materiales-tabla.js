@@ -10,7 +10,7 @@ let lineas = [
 let materialesEnBaseDeDatos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=1000&start=0')
+  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=activo&length=1000&start=0')
     .then(response => response.json())
     .then(json => {
       if (json.ok === false) {
@@ -92,11 +92,11 @@ function renderTabla() {
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
     precioInput.type = "number";
-    precioInput.value = linea.precio;
+    precioInput.value = precioPorMaterialId(linea.materialId); // Obtener precio del material
     precioInput.min = '0.01';
     precioInput.step = '0.01';
-    precioInput.addEventListener("input", (e) => actualizarPrecio(index, e.target.value));
-    precioInput.addEventListener("blur", (e) => formatearPrecio(index, e.target.value));
+    precioInput.disabled = true;
+    lineas[index].precio = precioPorMaterialId(linea.materialId); // Actualizar precio en el arreglo
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);
 
@@ -159,7 +159,7 @@ function formatearCantidad(index, cantidad) {
 }
 
 function actualizarPrecio(index, precio) {
-  lineas[index].precio = parseFloat(precio) || 1; // Actualizar cantidad, por defecto 1
+  lineas[index].precio = parseFloat(precio) || 1; // Actualizar precio, por defecto 1
 }
 
 function formatearPrecio(index, precio) {
@@ -172,6 +172,11 @@ function formatearPrecio(index, precio) {
 function unidadPorMaterialId(materialId) {
   const item = materialesEnBaseDeDatos.find(item => item.id == parseInt(materialId));
   return item ? item.unidad : "";
+}
+
+function precioPorMaterialId(materialId) {
+  const item = materialesEnBaseDeDatos.find(item => item.id == parseInt(materialId));
+  return item ? item.precio : "";
 }
 
 // Eventos

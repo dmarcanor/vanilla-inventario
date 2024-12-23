@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../Models/Entradas/Entrada.php';
 
 $filtros = [
     'id' => !empty($_GET['id']) ? $_GET['id'] : '',
+    'numero_entrada' => !empty($_GET['numeroEntrada']) ? "%{$_GET['numeroEntrada']}%" : '',
     'observacion' => !empty($_GET['observacion']) ? "%{$_GET['observacion']}%" : '',
     'usuario_id' => !empty($_GET['usuarioId']) ? $_GET['usuarioId'] : '',
     'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',

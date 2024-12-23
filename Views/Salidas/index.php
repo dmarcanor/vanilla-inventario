@@ -16,7 +16,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Salidas</h1>
-        <a class="new-user-btn" href="crear.php">Crear nueva salida</a>
+        <a class="new-user-btn" href="crear.php">Registrar nueva salida</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de entradas</h3>

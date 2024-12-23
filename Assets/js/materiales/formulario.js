@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('precio').addEventListener('blur', dosDecimales);
 
   fetch('/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=activo', {
     method: 'GET',
@@ -39,6 +40,13 @@ const primeraLetraMayuscula = (event) => {
   campo.value = valor.charAt(0).toUpperCase() + valor.slice(1);
 }
 
+const dosDecimales = (event) => {
+  const campo = event.target;
+  const valor = parseFloat(campo.value);
+
+  campo.value = valor.toFixed(2);
+}
+
 const guardar = (event) => {
   event.preventDefault();
 
@@ -54,6 +62,7 @@ const guardar = (event) => {
 }
 
 const crear = (formulario) => {
+  const codigo = formulario.codigo.value;
   const nombre = formulario.nombre.value;
   const descripcion = formulario.descripcion.value;
   const marca = formulario.marca.value;
@@ -61,6 +70,8 @@ const crear = (formulario) => {
   const unidad = formulario.unidad.value;
   const presentacion = formulario.presentacion.value;
   const estado = formulario.estado.value;
+  const precio = formulario.precio.value;
+  const stockMinimo = formulario.stock_minimo.value;
 
   fetch('/vanilla-inventario/Controllers/Materiales/CrearMaterialController.php', {
     method: 'POST',
@@ -68,13 +79,16 @@ const crear = (formulario) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
+      codigo,
       nombre,
       descripcion,
       marca,
       categoria_id,
       unidad,
       presentacion,
-      estado
+      estado,
+      precio,
+      stockMinimo
     })
   }).then(response => response.json())
     .then(json => {
@@ -91,6 +105,13 @@ const crear = (formulario) => {
 }
 
 const editar = (id, formulario) => {
+  const continuarEdicion = confirm('¿Está seguro de editar este material?');
+
+  if (continuarEdicion == false) {
+    return;
+  }
+
+  const codigo = formulario.codigo.value;
   const nombre = formulario.nombre.value;
   const descripcion = formulario.descripcion.value;
   const marca = formulario.marca.value;
@@ -98,6 +119,8 @@ const editar = (id, formulario) => {
   const unidad = formulario.unidad.value;
   const presentacion = formulario.presentacion.value;
   const estado = formulario.estado.value;
+  const precio = formulario.precio.value;
+  const stockMinimo = formulario.stock_minimo.value;
 
   fetch('/vanilla-inventario/Controllers/Materiales/EditarMaterialController.php', {
     method: 'POST',
@@ -106,13 +129,16 @@ const editar = (id, formulario) => {
     },
     body: JSON.stringify({
       id,
+      codigo,
       nombre,
       descripcion,
       marca,
       categoria_id,
       unidad,
       presentacion,
-      estado
+      estado,
+      precio,
+      stockMinimo
     })
   }).then(response => response.json())
     .then(json => {

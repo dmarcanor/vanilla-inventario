@@ -8,27 +8,36 @@ require_once __DIR__ . '/EntradaLinea.php';
 class Entrada
 {
     private $id;
+    private $numeroEntrada;
     private $observacion;
     private $usuarioId;
     private $fechaCreacion;
     private $lineas;
 
-    public function __construct($id, $observacion, $usuarioId, $fechaCreacion, $lineas)
+    public function __construct($id, $numeroEntrada, $observacion, $usuarioId, $fechaCreacion, $lineas)
     {
         $this->id = $id;
         $this->observacion = $observacion;
+        $this->numeroEntrada = $numeroEntrada;
         $this->usuarioId = $usuarioId;
         $this->fechaCreacion = $fechaCreacion;
         $this->lineas = $lineas;
     }
 
-    public static function crear($observacion, $usuarioId, $lineas)
+    public static function crear($numeroEntrada, $observacion, $usuarioId, $lineas)
     {
-        self::validarCamposVacios($observacion, $usuarioId);
+        self::validarCamposVacios($numeroEntrada, $observacion, $usuarioId);
+
+        $entradaConNumero = self::getEntradaConNumero($numeroEntrada);
+
+        if (!empty($entradaConNumero)) {
+            throw new Exception("Ya existe una entrada con el número ingresado {$numeroEntrada}.");
+        }
 
         $conexionBD = (new ConexionBD())->getConexion();
         $entrada = new Entrada(
             null,
+            $numeroEntrada,
             $observacion,
             $usuarioId,
             date('Y-m-d H:i:s'),
@@ -36,12 +45,13 @@ class Entrada
         );
 
         $consultaCrearEntrada = $conexionBD->prepare("
-            INSERT INTO entradas (observacion, usuario_id, fecha_creacion) VALUES 
-            (?, ?, ?)
+            INSERT INTO entradas (numero_entrada, observacion, usuario_id, fecha_creacion) VALUES 
+            (?, ?, ?, ?)
         ");
 
         // se guarda la entrada en la base de datos
         $consultaCrearEntrada->execute([
+            $entrada->numeroEntrada,
             $entrada->observacion,
             $entrada->usuarioId,
             $entrada->fechaCreacion,
@@ -57,6 +67,7 @@ class Entrada
 
         $entradaConId = new Entrada(
             $entradaId['id'],
+            $entrada->numeroEntrada,
             $entrada->observacion,
             $entrada->usuarioId,
             $entrada->fechaCreacion,
@@ -71,12 +82,38 @@ class Entrada
             $material = Material::getMaterial($salidaLinea['materialId']);
 
             $material->incrementarStock($salidaLinea['cantidad']);
-            $material->cambiarPrecio($salidaLinea['precio']);
         }
     }
 
-    private static function validarCamposVacios($observacion, $usuarioId)
+    public static function eliminar($id)
     {
+        $entrada = self::getEntrada($id);
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+
+        if (empty($entrada)) {
+            throw new Exception("Entrada no encontrada.");
+        }
+
+        // se eliminan las lineas de la entrada
+        foreach ($entrada->lineas as $linea) {
+            $linea->eliminar($linea->id());
+        }
+
+        // se elimina la entrada
+        $consultaEliminarCliente = $conexionBaseDatos->prepare("
+            DELETE FROM entradas
+            WHERE id = ?
+        ");
+
+        $consultaEliminarCliente->execute([$id]);
+    }
+
+    private static function validarCamposVacios($numeroEntrada, $observacion, $usuarioId)
+    {
+        if (empty($numeroEntrada)) {
+            throw new Exception("El número de la entrada no puede estar vacía.");
+        }
+
         if (empty($observacion)) {
             throw new Exception("La descripción no puede estar vacía.");
         }
@@ -91,7 +128,7 @@ class Entrada
         $conexionBD = (new ConexionBD())->getConexion();
 
         $consultaEntrada = $conexionBD->prepare("
-            SELECT id, observacion, usuario_id, fecha_creacion 
+            SELECT id, numero_entrada, observacion, usuario_id, fecha_creacion 
             FROM entradas WHERE id = ?
         ");
         $consultaEntrada->execute([$id]);
@@ -103,6 +140,32 @@ class Entrada
 
         return new Entrada(
             $entrada['id'],
+            $entrada['numero_entrada'],
+            $entrada['observacion'],
+            $entrada['usuario_id'],
+            $entrada['fecha_creacion'],
+            EntradaLinea::getEntradaLineasDeEntrada($entrada['id'])
+        );
+    }
+
+    public static function getEntradaConNumero($numeroEntrada)
+    {
+        $conexionBD = (new ConexionBD())->getConexion();
+
+        $consultaEntrada = $conexionBD->prepare("
+            SELECT id, numero_entrada, observacion, usuario_id, fecha_creacion 
+            FROM entradas WHERE numero_entrada = ?
+        ");
+        $consultaEntrada->execute([$numeroEntrada]);
+        $entrada = $consultaEntrada->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($entrada)) {
+            throw new Exception('Entrada no encontrada.');
+        }
+
+        return new Entrada(
+            $entrada['id'],
+            $entrada['numero_entrada'],
             $entrada['observacion'],
             $entrada['usuario_id'],
             $entrada['fecha_creacion'],
@@ -112,14 +175,14 @@ class Entrada
 
     public static function getEntradas($filtros, $orden)
     {
-        $consultaEntradas = "SELECT id, observacion, usuario_id, fecha_creacion FROM entradas";
+        $consultaEntradas = "SELECT id, numero_entrada, observacion, usuario_id, fecha_creacion FROM entradas";
 
         if (!empty($filtros)) {
             $consultaEntradas .= " WHERE ";
             $iteracion = 0;
 
             foreach ($filtros as $key => $filtro) {
-                $campos = ['observacion'];
+                $campos = ['numero_entrada', 'observacion'];
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
@@ -154,6 +217,7 @@ class Entrada
         foreach ($entradasBaseDatos as $entrada) {
             $entradas[] = new Entrada(
                 $entrada['id'],
+                $entrada['numero_entrada'],
                 $entrada['observacion'],
                 $entrada['usuario_id'],
                 $entrada['fecha_creacion'],
@@ -169,15 +233,28 @@ class Entrada
         return Usuario::getUsuario($this->usuarioId);
     }
 
+    public function lineasArray()
+    {
+        $lineas = [];
+
+        foreach ($this->lineas as $linea) {
+            $lineas[] = $linea->toArray();
+        }
+
+        return $lineas;
+    }
+
     public function toArray()
     {
         return [
             'id' => $this->id,
+            'numeroEntrada' => $this->numeroEntrada,
             'observacion' => $this->observacion,
             'usuarioId' => $this->usuarioId,
             'usuarioFullNombre' => "{$this->usuario()->nombre()} {$this->usuario()->apellido()}",
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),
-            'lineas' => $this->lineas
+            'fechaCreacionSinHora' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y'),
+            'lineas' => $this->lineasArray()
         ];
     }
 }

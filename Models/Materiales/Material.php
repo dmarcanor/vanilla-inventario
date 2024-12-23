@@ -6,6 +6,7 @@ require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
 class Material
 {
     private $id;
+    private $codigo;
     private $nombre;
     private $descripcion;
     private $marca;
@@ -16,10 +17,12 @@ class Material
     private $precio;
     private $fechaCreacion;
     private $estado;
+    private $stockMinimo;
 
-    public function __construct($id, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $precio, $stock, $fechaCreacion, $estado)
+    public function __construct($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $precio, $stock, $stockMinimo, $fechaCreacion, $estado)
     {
         $this->id = $id;
+        $this->codigo = $codigo;
         $this->nombre = $nombre;
         $this->descripcion = $descripcion;
         $this->marca = $marca;
@@ -28,36 +31,48 @@ class Material
         $this->presentacion = $presentacion;
         $this->precio = $precio;
         $this->stock = $stock;
+        $this->stockMinimo = $stockMinimo;
         $this->fechaCreacion = $fechaCreacion;
         $this->estado = $estado;
     }
 
-    public static function crear($nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado)
+    public static function crear($codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo)
     {
         date_default_timezone_set('America/Caracas');
 
-        self::validarCamposVacios($nombre, $marca, $categoriaId, $unidad, $presentacion, $estado);
+        self::validarCamposVacios($codigo, $nombre, $categoriaId, $unidad, $presentacion, $estado);
+        self::validarPrecio($precio);
+        self::validarStockMinimo($stockMinimo);
+
+        $materialConCodigo = self::getMaterialPorCodigo($codigo);
+
+        if (!empty($materialConCodigo)) {
+            throw new Exception("El código {$codigo} ya está en uso.");
+        }
 
         $material = new Material(
             null,
+            $codigo,
             $nombre,
             $descripcion,
             $marca,
             $categoriaId,
             $unidad,
             $presentacion,
+            $precio,
             0,
-            0,
+            $stockMinimo,
             date('Y-m-d H:i:s'),
             $estado
         );
 
         $consultaCrearMaterial = (new ConexionBD())->getConexion()->prepare("
-            INSERT INTO materiales(nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, fecha_creacion, estado) VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO materiales(codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado) VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $consultaCrearMaterial->execute([
+            $material->codigo,
             $material->nombre,
             $material->descripcion,
             $material->marca,
@@ -66,12 +81,13 @@ class Material
             $material->presentacion,
             $material->precio,
             $material->stock,
+            $material->stockMinimo,
             $material->fechaCreacion,
             $material->estado
         ]);
     }
 
-    public static function editar($id, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado)
+    public static function editar($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo)
     {
         $material = self::getMaterial($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
@@ -80,29 +96,42 @@ class Material
             throw new Exception("Material no encontrado.");
         }
 
-        self::validarCamposVacios($nombre, $marca, $categoriaId, $unidad, $presentacion, $estado);
+        self::validarCamposVacios($codigo, $nombre, $categoriaId, $unidad, $presentacion, $estado);
+        self::validarPrecio($precio);
+        self::validarStockMinimo($stockMinimo);
+
+        if ($material->codigo !== $codigo) {
+            $materialConCodigo = self::getMaterialPorCodigo($codigo);
+
+            if (!empty($materialConCodigo)) {
+                throw new Exception("El código {$codigo} ya está en uso.");
+            }
+        }
 
         $materialModificado = new Material(
             $id,
+            $codigo,
             $nombre,
             $descripcion,
             $marca,
             $categoriaId,
             $unidad,
             $presentacion,
-            $material->precio,
+            $precio,
             $material->stock,
+            $stockMinimo,
             $material->fechaCreacion,
             $estado
         );
 
         $consultaEditarCliente = $conexionBaseDatos->prepare("
             UPDATE materiales 
-            SET nombre = ?, descripcion = ?, marca = ?, categoria_id = ?, unidad = ?, presentacion = ?, estado = ?
+            SET codigo = ?, nombre = ?, descripcion = ?, marca = ?, categoria_id = ?, unidad = ?, presentacion = ?, estado = ?, precio = ?, stock_minimo = ?
             WHERE id = ?
         ");
 
         $consultaEditarCliente->execute([
+            $materialModificado->codigo,
             $materialModificado->nombre,
             $materialModificado->descripcion,
             $materialModificado->marca,
@@ -110,6 +139,8 @@ class Material
             $materialModificado->unidad,
             $materialModificado->presentacion,
             $materialModificado->estado,
+            $materialModificado->precio,
+            $materialModificado->stockMinimo,
             $materialModificado->id
         ]);
     }
@@ -144,7 +175,7 @@ class Material
     public static function getMaterial($id)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, fecha_creacion, estado 
+            SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado 
             FROM materiales WHERE id = ?
         ");
         $consulta->execute([$id]);
@@ -156,6 +187,7 @@ class Material
 
         return new Material(
             $material['id'],
+            $material['codigo'],
             $material['nombre'],
             $material['descripcion'],
             $material['marca'],
@@ -164,6 +196,37 @@ class Material
             $material['presentacion'],
             $material['precio'],
             $material['stock'],
+            $material['stock_minimo'],
+            $material['fecha_creacion'],
+            $material['estado']
+        );
+    }
+
+    public static function getMaterialPorCodigo($codigo)
+    {
+        $consulta = (new ConexionBD())->getConexion()->prepare("
+            SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado 
+            FROM materiales WHERE codigo = ?
+        ");
+        $consulta->execute([$codigo]);
+        $material = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($material)) {
+            return null;
+        }
+
+        return new Material(
+            $material['id'],
+            $material['codigo'],
+            $material['nombre'],
+            $material['descripcion'],
+            $material['marca'],
+            $material['categoria_id'],
+            $material['unidad'],
+            $material['presentacion'],
+            $material['precio'],
+            $material['stock'],
+            $material['stock_minimo'],
             $material['fecha_creacion'],
             $material['estado']
         );
@@ -171,14 +234,14 @@ class Material
 
     public static function getMateriales($filtros, $orden)
     {
-        $consultaMateriales = "SELECT id, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, fecha_creacion, estado FROM materiales";
+        $consultaMateriales = "SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado FROM materiales";
 
         if (!empty($filtros)) {
             $consultaMateriales .= " WHERE ";
             $iteracion = 0;
 
             foreach ($filtros as $key => $filtro) {
-                $campos = ['nombre', 'presentacion', 'descripcion', 'marca'];
+                $campos = ['codigo', 'nombre', 'presentacion', 'descripcion', 'marca'];
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
@@ -225,6 +288,7 @@ class Material
         foreach ($materialesBaseDatos as $material) {
             $materiales[] = new Material(
                 $material['id'],
+                $material['codigo'],
                 $material['nombre'],
                 $material['descripcion'],
                 $material['marca'],
@@ -233,6 +297,7 @@ class Material
                 $material['presentacion'],
                 $material['precio'],
                 $material['stock'],
+                $material['stock_minimo'],
                 $material['fecha_creacion'],
                 $material['estado']
             );
@@ -306,14 +371,14 @@ class Material
         ]);
     }
 
-    public static function validarCamposVacios($nombre, $marca, $categoria_id, $unidad, $presentacion, $estado)
+    public static function validarCamposVacios($codigo, $nombre, $categoria_id, $unidad, $presentacion, $estado)
     {
-        if (empty($nombre)) {
-            throw new Exception("El nombre no puede estar vacío.");
+        if (empty($codigo)) {
+            throw new Exception("El código no puede estar vacío.");
         }
 
-        if (empty($marca)) {
-            throw new Exception("La marca no no puede estar vacía.");
+        if (empty($nombre)) {
+            throw new Exception("El nombre no puede estar vacío.");
         }
 
         if (empty($categoria_id)) {
@@ -324,12 +389,26 @@ class Material
             throw new Exception("La unidad no puede estar vacía.");
         }
 
-        if (empty($unidad)) {
+        if (empty($presentacion)) {
             throw new Exception("La presentación no puede estar vacía.");
         }
 
         if (empty($estado)) {
             throw new Exception("El estado no puede estar vacío.");
+        }
+    }
+
+    public static function validarPrecio($precio)
+    {
+        if ($precio <= 0) {
+            throw new Exception("El precio no puede ser menor o igual a 0.");
+        }
+    }
+
+    public static function validarStockMinimo($stockMinimo)
+    {
+        if ($stockMinimo <= 0) {
+            throw new Exception("El stock mínimo no puede ser menor o igual a 0.");
         }
     }
 
@@ -342,6 +421,7 @@ class Material
     {
         return [
             'id' => $this->id,
+            'codigo' => $this->codigo,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
             'marca' => $this->marca,
@@ -351,6 +431,7 @@ class Material
             'presentacion' => $this->presentacion,
             'precio' => $this->precio,
             'stock' => $this->stock,
+            'stockMinimo' => $this->stockMinimo,
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),
             'estado' => $this->estado
         ];

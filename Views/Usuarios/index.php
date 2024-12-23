@@ -16,7 +16,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Usuarios</h1>
-        <a class="new-user-btn" href="/vanilla-inventario/Views/Usuarios/crear.php">Crear nuevo usuario</a>
+        <a class="new-user-btn" href="/vanilla-inventario/Views/Usuarios/crear.php">Registrar nuevo usuario</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de usuarios</h3>

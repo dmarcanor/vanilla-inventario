@@ -16,7 +16,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Entradas</h1>
-        <a class="new-user-btn" href="crear.php">Crear nueva entrada</a>
+        <a class="new-user-btn" href="crear.php">Registrar nueva entrada</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de entradas</h3>
@@ -25,6 +25,10 @@
             <div class="form-group">
                 <label for="id">ID</label>
                 <input type="text" id="id" placeholder="ID">
+            </div>
+            <div class="form-group">
+                <label for="numero_entrada">Número de entrada</label>
+                <input type="text" id="numero_entrada" placeholder="Número de entrada">
             </div>
             <div class="form-group">
                 <label for="observacion">Observación</label>
@@ -36,13 +40,17 @@
                     <option value="">Seleccione</option>
                 </select>
             </div>
+
+        </div>
+
+        <div class="form-row">
             <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>
-                <input type="datetime-local" id="fecha_desde">
+                <input type="date" id="fecha_desde">
             </div>
             <div class="form-group">
                 <label for="fecha_hasta">Fecha creación hasta</label>
-                <input type="datetime-local" id="fecha_hasta">
+                <input type="date" id="fecha_hasta">
             </div>
         </div>
 
@@ -60,8 +68,8 @@
             <thead>
             <tr>
                 <th class="dt-center">ID</th>
+                <th class="dt-center">Número de entrada</th>
                 <th class="dt-center">Observación</th>
-                <th class="dt-center">Usuario registrador</th>
                 <th class="dt-center">Fecha de entrada</th>
                 <th class="dt-center">Acciones</th>
             </tr>

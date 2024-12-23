@@ -19,8 +19,12 @@
     </div>
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
+            <div class="form-group">
+                <label for="numero_entrada">Número de entrada *</label>
+                <input type="number" id="numero_entrada" placeholder="Número de entrada" required>
+            </div>
             <div class="big-form-group">
-                <label for="observacion">Observación</label>
+                <label for="observacion">Observación *</label>
                 <input type="text" id="observacion" placeholder="Observación" required>
             </div>
             <div class="form-group"></div>
@@ -31,9 +35,9 @@
                 <table id="entrada-items" class="dynamic-table">
                     <thead>
                     <tr>
-                        <th>Material</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
+                        <th>Material *</th>
+                        <th>Cantidad *</th>
+                        <th>Precio *</th>
                         <th>Unidad</th>
                         <th>
                             <button type="button" id="addRow" class="add-row-btn">+</button>

@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
+    scrollX: true,
     ajax: {
       url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
@@ -12,7 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
     lengthChange: false,
     columns: [
       { data: "id" },
+      { data: "codigo", orderable: false },
       { data: "nombre", orderable: false },
+      { data: "descripcion", orderable: false },
       { data: "presentacion", orderable: false },
       { data: "marca", orderable: false },
       { data: "categoriaNombre", orderable: false },
@@ -53,6 +56,12 @@ const estadoLabel = (estado) => {
 }
 
 const cambiarEstado = (id) => {
+  const confirmacion = confirm('¿Está seguro de cambiar el estado del material?');
+
+  if (confirmacion == false) {
+    return;
+  }
+
   fetch(`/vanilla-inventario/Controllers/Materiales/CambiarEstadoMaterialController.php`, {
     method: 'POST',
     headers: {
@@ -116,6 +125,7 @@ const buscar = (event) => {
 
   const parametros = {
     "id": busqueda.id.value,
+    "codigo": busqueda.codigo.value,
     "nombre": busqueda.nombre.value,
     "descripcion": busqueda.descripcion.value,
     "presentacion": busqueda.presentacion.value,

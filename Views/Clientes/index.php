@@ -16,7 +16,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Clientes</h1>
-        <a class="new-user-btn" href="crear.php">Crear nuevo cliente</a>
+        <a class="new-user-btn" href="crear.php">Registrar nuevo cliente</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de clientes</h3>

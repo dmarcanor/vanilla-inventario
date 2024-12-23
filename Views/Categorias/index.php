@@ -16,7 +16,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Categorías</h1>
-        <a class="new-user-btn" href="crear.php">Crear nuevo categoría</a>
+        <a class="new-user-btn" href="crear.php">Registrar nueva categoría</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de categorías</h3>

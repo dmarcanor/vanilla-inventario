@@ -26,6 +26,7 @@ const guardar = (event) => {
 
 const crear = (formulario) => {
   const observacion = formulario.observacion.value;
+  const numeroEntrada = formulario.numero_entrada.value;
   const usuario = JSON.parse(window.localStorage.getItem('usuario'));
   const usuario_id = usuario.id;
 
@@ -36,6 +37,7 @@ const crear = (formulario) => {
     },
     body: JSON.stringify({
       observacion,
+      numeroEntrada,
       usuario_id,
       lineas
     })

@@ -16,7 +16,7 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Materiales</h1>
-        <a class="new-user-btn" href="crear.php">Crear nuevo material</a>
+        <a class="new-user-btn" href="crear.php">Registrar nuevo material</a>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de materiales</h3>
@@ -27,6 +27,10 @@
                 <input type="number" id="id" name="id" placeholder="ID">
             </div>
             <div class="form-group">
+                <label for="codigo">Código</label>
+                <input type="text" id="codigo" name="codigo" placeholder="Código del material">
+            </div>
+            <div class="form-group">
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" name="nombre" placeholder="Nombre del material">
             </div>
@@ -34,12 +38,12 @@
                 <label for="descripcion">Descripción</label>
                 <input type="text" id="descripcion" name="descripcion" placeholder="Descripción del material">
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label for="marca">Marca</label>
                 <input type="text" id="marca" name="marca" placeholder="Marca del material">
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="categoria_id">Categoría</label>
                 <select id="categoria_id" name="categoria_id">
@@ -63,12 +67,12 @@
                 <label for="fecha_desde">Fecha de Creación (Desde)</label>
                 <input type="datetime-local" id="fecha_desde" name="fecha_desde">
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label for="fecha_hasta">Fecha de Creación (Hasta)</label>
                 <input type="datetime-local" id="fecha_hasta" name="fecha_hasta">
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <div class="form-group">
                     <label for="precio_desde">Precio (Desde)</label>
@@ -83,6 +87,8 @@
                 <label for="presentacion">Presentación</label>
                 <input type="text" id="presentacion" name="presentacion" placeholder="Presentación">
             </div>
+        </div>
+        <div class="form-row">
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select id="estado" name="estado">
@@ -91,6 +97,9 @@
                     <option value="inactivo">Inactivo</option>
                 </select>
             </div>
+            <div class="form-group"></div>
+            <div class="form-group"></div>
+            <div class="form-group"></div>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -106,7 +115,9 @@
             <thead>
             <tr>
                 <th class="dt-center">ID</th>
+                <th class="dt-center">Código</th>
                 <th class="dt-center">Nombre</th>
+                <th class="dt-center">Descripción</th>
                 <th class="dt-center">Presentación</th>
                 <th class="dt-center">Marca</th>
                 <th class="dt-center">Categoría</th>

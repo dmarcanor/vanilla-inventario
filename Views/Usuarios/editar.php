@@ -22,25 +22,25 @@
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
             <div class="form-group">
-                <label for="cedula">Cédula</label>
+                <label for="cedula">Cédula *</label>
                 <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required>
             </div>
             <div class="form-group">
-                <label for="nombre">Nombre</label>
+                <label for="nombre">Nombre *</label>
                 <input type="text" id="nombre" placeholder="Nombre" required>
             </div>
             <div class="form-group">
-                <label for="apellido">Apellido</label>
+                <label for="apellido">Apellido *</label>
                 <input type="text" id="apellido" placeholder="Apellido" required>
             </div>
             <div class="form-group">
-                <label for="contrasenia">Contraseña</label>
+                <label for="contrasenia">Contraseña *</label>
                 <input type="password" id="contrasenia" placeholder="Contraseña" minlength="8" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="telefono">Teléfono</label>
+                <label for="telefono">Teléfono *</label>
                 <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11"
                        pattern="^(0424|0414|0416|0426|0412)\d{7}$"
                        required
@@ -48,7 +48,7 @@
                 >
             </div>
             <div class="form-group">
-                <label for="rol">Rol</label>
+                <label for="rol">Rol *</label>
                 <select name="rol" id="rol" required>
                     <option value="">Seleccione</option>
                     <option value="admin">Administrador</option>
@@ -56,7 +56,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="estado">Estado</label>
+                <label for="estado">Estado *</label>
                 <select name="estado" id="estado" required>
                     <option value="">Seleccione</option>
                     <option value="activo">Activo</option>
@@ -64,7 +64,7 @@
                 </select>
             </div>
             <div class="big-form-group">
-                <label for="direccion">Dirección</label>
+                <label for="direccion">Dirección *</label>
                 <input type="text" id="direccion" placeholder="Dirección" required>
             </div>
         </div>

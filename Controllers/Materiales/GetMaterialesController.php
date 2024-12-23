@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 $filtros = [
     'id' => !empty($_GET['id']) ? $_GET['id'] : 0,
+    'codigo' => !empty($_GET['codigo']) ? "%{$_GET['codigo']}%" : '',
     'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
     'descripcion' => !empty($_GET['descripcion']) ? "%{$_GET['descripcion']}%" : '',
     'presentacion' => !empty($_GET['presentacion']) ? "%{$_GET['presentacion']}%" : '',

@@ -8,10 +8,18 @@
 </head>
 <body>
 <div class="login-container">
-    <h1>Login</h1>
+    <div class="nombre-empresa">Comercializadora GYS C.A.</div>
+    <hr class="separador">
+    <h1>Iniciar Sesión</h1>
     <form id="login-form" onsubmit="login(event)">
-        <input type="text" id="usuario" name="usuario" placeholder="Usuario" required aria-label="Usuario">
-        <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" required aria-label="Contraseña">
+        <div class="form-group">
+            <label for="usuario">Nombre de usuario</label>
+            <input type="text" id="usuario" name="usuario" placeholder="Usuario" required aria-label="Usuario">
+        </div>
+        <div class="form-group">
+            <label for="contrasenia">Contraseña</label>
+            <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" required>
+        </div>
         <button type="submit">Iniciar sesión</button>
     </form>
 </div>

@@ -10,13 +10,16 @@ try {
     http_response_code(201);
 
     Material::crear(
+        $data['codigo'],
         $data['nombre'],
         $data['descripcion'],
         $data['marca'],
         $data['categoria_id'],
         $data['unidad'],
         $data['presentacion'],
-        $data['estado']
+        $data['estado'],
+        $data['precio'],
+        $data['stockMinimo']
     );
 
     echo json_encode([

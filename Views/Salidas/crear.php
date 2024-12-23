@@ -23,13 +23,13 @@
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
             <div class="form-group">
-                <label for="clienteId">Cliente</label>
+                <label for="clienteId">Cliente *</label>
                 <select name="clienteId" id="clienteId" required>
                     <option value="">Seleccione</option>
                 </select>
             </div>
             <div class="big-form-group">
-                <label for="observacion">Observación</label>
+                <label for="observacion">Observación *</label>
                 <input type="text" id="observacion" placeholder="Observacion">
             </div>
         </div>
@@ -39,9 +39,9 @@
                 <table id="salidas-items" class="dynamic-table">
                     <thead>
                     <tr>
-                        <th>Material</th>
-                        <th>Cantidad</th>
-                        <th>Precio</th>
+                        <th>Material *</th>
+                        <th>Cantidad *</th>
+                        <th>Precio *</th>
                         <th>Unidad</th>
                         <th>Stock actual</th>
                         <th>Stock posterior</th>
