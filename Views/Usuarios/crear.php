@@ -41,11 +41,10 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="telefono">Teléfono</label>
-                <input type="tel" id="telefono" placeholder="Teléfono" minlength="11" maxlength="11"
-                       pattern="^(0424|0414|0416|0426|0412)\d{7}$"
+                <input type="number" id="telefono" placeholder="Teléfono" max="04269999999"
                        required
-                       oninvalid="this.setCustomValidity('Ingrese un número de teléfono válido. Debe iniciar con 0412, 0414, 0416, 0424 o 0426 y tener 11 dígitos.')"
-                >
+                       oninvalid="this.setCustomValidity('El número debe iniciar con 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos y no puede contener caracteres especiales o letras.')"
+                       oninput="this.setCustomValidity('')">
             </div>
             <div class="form-group">
                 <label for="rol">Rol *</label>

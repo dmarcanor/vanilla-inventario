@@ -1,8 +1,27 @@
+const validarTelefono = (telefono) => {
+  const regex = /^(0412|0414|0416|0424|0426)\d{7}$/;
 
+  if (!regex.test(telefono)) {
+    const campoTelefono = document.getElementById("telefono");
+
+    campoTelefono.setCustomValidity(
+      "El número ingresado no es válido. Debe iniciar con 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos."
+    );
+    campoTelefono.reportValidity();
+
+    return false;
+  }
+
+  return true;
+}
 
 
 const guardar = (event) => {
   event.preventDefault();
+
+  if (! validarTelefono(event.target.telefono.value)) {
+    return;
+  }
 
   const formulario = event.target;
   const id = formulario.id ? formulario.id.value : '';

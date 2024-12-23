@@ -1,7 +1,6 @@
 const validarTelefono = (telefono) => {
   const regex = /^(0412|0414|0416|0424|0426)\d{7}$/;
 
-  console.log(telefono, regex.test(telefono));
   if (!regex.test(telefono)) {
     const campoTelefono = document.getElementById("telefono");
 
@@ -20,7 +19,6 @@ const guardar = (event) => {
   event.preventDefault();
 
   if (! validarTelefono(event.target.telefono.value)) {
-    console.log('gg');
     return;
   }
 

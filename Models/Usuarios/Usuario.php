@@ -81,32 +81,6 @@ class Usuario
         ]);
     }
 
-    public static function getUsuarioPorCedula($cedula)
-    {
-        $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre, apellido, cedula, telefono, direccion, estado, rol 
-            FROM usuarios WHERE cedula = ?
-        ");
-        $consulta->execute([$cedula]);
-        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
-
-        if (empty($usuario)) {
-            return null;
-        }
-
-        return new Usuario(
-            $usuario['id'],
-            $usuario['nombre'],
-            $usuario['apellido'],
-            $usuario['cedula'],
-            $usuario['telefono'],
-            $usuario['direccion'],
-            null,
-            $usuario['rol'],
-            $usuario['estado']
-        );
-    }
-
     public static function editar($id, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
     {
         $usuario = self::getUsuario($id);
@@ -182,6 +156,32 @@ class Usuario
                 $usuarioModificado->id
             ]);
         }
+    }
+
+    public static function getUsuarioPorCedula($cedula)
+    {
+        $consulta = (new ConexionBD())->getConexion()->prepare("
+            SELECT id, nombre, apellido, cedula, telefono, direccion, estado, rol 
+            FROM usuarios WHERE cedula = ?
+        ");
+        $consulta->execute([$cedula]);
+        $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($usuario)) {
+            return null;
+        }
+
+        return new Usuario(
+            $usuario['id'],
+            $usuario['nombre'],
+            $usuario['apellido'],
+            $usuario['cedula'],
+            $usuario['telefono'],
+            $usuario['direccion'],
+            null,
+            $usuario['rol'],
+            $usuario['estado']
+        );
     }
 
     public static function cambiarEstado($id)

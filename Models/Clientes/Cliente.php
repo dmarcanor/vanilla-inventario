@@ -34,7 +34,7 @@ class Cliente
         self::validarIdentificacion($tipoIdentificacion, $numeroIdentificacion);
         self::validarTelefono($telefono);
 
-        $clientePorIdentificacion = self::getClientePorIdentificacion($tipoIdentificacion, $numeroIdentificacion);
+        $clientePorIdentificacion = self::getClientePorIdentificacion($numeroIdentificacion);
 
         if (!empty($clientePorIdentificacion)) {
             $mensaje = '';
@@ -83,32 +83,6 @@ class Cliente
         ]);
     }
 
-    public static function getClientePorIdentificacion($tipoIdentificacion, $numeroIdentificacion)
-    {
-        $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre, apellido, tipo_identificacion, numero_identificacion, telefono, direccion, fecha_creacion, estado 
-            FROM clientes WHERE tipo_identificacion = ? AND numero_identificacion = ?
-        ");
-        $consulta->execute([$tipoIdentificacion, $numeroIdentificacion]);
-        $cliente = $consulta->fetch(PDO::FETCH_ASSOC);
-
-        if (empty($cliente)) {
-            return null;
-        }
-
-        return new Cliente(
-            $cliente['id'],
-            $cliente['nombre'],
-            $cliente['apellido'],
-            $cliente['tipo_identificacion'],
-            $cliente['numero_identificacion'],
-            $cliente['telefono'],
-            $cliente['direccion'],
-            $cliente['fecha_creacion'],
-            $cliente['estado']
-        );
-    }
-
     public static function editar($id, $nombre, $apellido, $tipoIdentificacion, $numeroIdentificacion, $telefono, $direccion, $estado)
     {
         $cliente = self::getCliente($id);
@@ -122,7 +96,7 @@ class Cliente
         self::validarTelefono($telefono);
 
         if ($cliente->numeroIdentificacion !== $numeroIdentificacion) {
-            $clientePorIdentificacion = self::getClientePorIdentificacion($tipoIdentificacion, $numeroIdentificacion);
+            $clientePorIdentificacion = self::getClientePorIdentificacion($numeroIdentificacion);
 
             if (!empty($clientePorIdentificacion)) {
                 $mensaje = '';
@@ -171,6 +145,32 @@ class Cliente
             $clienteModificado->estado,
             $clienteModificado->id
         ]);
+    }
+
+    public static function getClientePorIdentificacion($numeroIdentificacion)
+    {
+        $consulta = (new ConexionBD())->getConexion()->prepare("
+            SELECT id, nombre, apellido, tipo_identificacion, numero_identificacion, telefono, direccion, fecha_creacion, estado 
+            FROM clientes WHERE numero_identificacion = ?
+        ");
+        $consulta->execute([$numeroIdentificacion]);
+        $cliente = $consulta->fetch(PDO::FETCH_ASSOC);
+
+        if (empty($cliente)) {
+            return null;
+        }
+
+        return new Cliente(
+            $cliente['id'],
+            $cliente['nombre'],
+            $cliente['apellido'],
+            $cliente['tipo_identificacion'],
+            $cliente['numero_identificacion'],
+            $cliente['telefono'],
+            $cliente['direccion'],
+            $cliente['fecha_creacion'],
+            $cliente['estado']
+        );
     }
 
     public static function cambiarEstado($id)

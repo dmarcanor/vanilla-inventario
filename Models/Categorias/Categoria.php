@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../../BD/ConexionBD.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
 
 final class Categoria
 {
@@ -24,6 +25,7 @@ final class Categoria
         date_default_timezone_set('America/Caracas');
 
         self::validarCamposVacios($nombre, $descripcion, $estado);
+        self::validarCategoriaDuplicada($nombre);
 
         $categoria = new Categoria(
             null,
@@ -56,6 +58,10 @@ final class Categoria
         }
 
         self::validarCamposVacios($nombre, $descripcion, $estado);
+
+        if ($categoria->nombre !== $nombre) {
+            self::validarCategoriaDuplicada($nombre);
+        }
 
         $categoriaModificada = new Categoria(
             $id,
@@ -114,6 +120,16 @@ final class Categoria
             $nuevoEstado = 'inactivo';
         } else {
             $nuevoEstado = 'activo';
+        }
+
+        if ($nuevoEstado === 'inactivo') {
+            $filtros = ['categoria_id' => $id, 'estado' => 'activo'];
+            $orden = 'ASC';
+            $tieneMaterialesActivos = Material::getMateriales($filtros, $orden);
+
+            if (!empty($tieneMaterialesActivos)) {
+                throw new Exception("No se puede desactivar la categoría porque tiene materiales activos.");
+            }
         }
 
         $consultaEditarCategoria = $conexionBaseDatos->prepare("
@@ -217,6 +233,23 @@ final class Categoria
         if (empty($estado)) {
             throw new Exception("El estado no puede estar vacío.");
         }
+    }
+
+    public static function validarCategoriaDuplicada($nombre)
+    {
+        $consulta = (new ConexionBD())->getConexion()->prepare("
+            SELECT id FROM categorias WHERE nombre = ?
+        ");
+        $consulta->execute([$nombre]);
+
+        if ($consulta->rowCount() > 0) {
+            throw new Exception("Ya existe la categoría {$nombre}.");
+        }
+    }
+
+    public function materiales()
+    {
+        return Material::getMaterialesPorCategoria($this->id);
     }
 
     public function toArray()

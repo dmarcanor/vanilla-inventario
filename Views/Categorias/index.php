@@ -30,16 +30,6 @@
                 <label for="descripcion">Descripción</label>
                 <input type="text" id="descripcion" name="descripcion" placeholder="Descripción">
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
-                <label for="fecha_desde">Fecha creación desde</label>
-                <input type="datetime-local" id="fecha_desde">
-            </div>
-            <div class="form-group">
-                <label for="fecha_hasta">Fecha creación hasta</label>
-                <input type="datetime-local" id="fecha_hasta">
-            </div>
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select id="estado">

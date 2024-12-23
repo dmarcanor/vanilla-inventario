@@ -50,14 +50,6 @@
                 <input type="text" id="telefono" placeholder="Teléfono">
             </div>
             <div class="form-group">
-                <label for="fecha_desde">Fecha creación desde</label>
-                <input type="datetime-local" id="fecha_desde">
-            </div>
-            <div class="form-group">
-                <label for="fecha_hasta">Fecha creación hasta</label>
-                <input type="datetime-local" id="fecha_hasta">
-            </div>
-            <div class="form-group">
                 <label for="estado">Estado</label>
                 <select id="estado">
                     <option value="">Seleccione</option>
@@ -65,9 +57,7 @@
                     <option value="inactivo">Inactivo</option>
                 </select>
             </div>
-        </div>
-        <div class="form-row">
-            <div class="form-group">
+            <div class="big-form-group">
                 <label for="direccion">Dirección</label>
                 <input type="text" id="direccion" placeholder="Dirección">
             </div>
