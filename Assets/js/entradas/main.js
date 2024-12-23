@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const campoUsuarioRegistrador = document.getElementById('usuarioId');
+  const campoMaterial = document.getElementById('material');
 
-  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=activo&length=1000&start=0', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -12,14 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(json.mensaje);
       }
 
-      const usuarios = json.data;
+      const materiales = json.data;
 
-      usuarios.forEach(usuario => {
+      materiales.forEach(material => {
         const option = document.createElement('option');
-        option.value = usuario.id;
-        option.text = `${usuario.nombre} ${usuario.apellido}`;
+        option.value = material.id;
+        option.text = material.nombre;
 
-        campoUsuarioRegistrador.appendChild(option);
+        campoMaterial.appendChild(option);
       });
     })
     .catch((mensaje) => {
@@ -107,8 +107,7 @@ const buscar = (event) => {
   const parametros = {
     "id": busqueda.id.value,
     "numeroEntrada": busqueda.numero_entrada.value,
-    "observacion": busqueda.observacion.value,
-    "usuarioId": busqueda.usuarioId.value,
+    "material": busqueda.material.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value
   };

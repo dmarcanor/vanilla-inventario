@@ -154,7 +154,7 @@ DROP TABLE IF EXISTS salida_lineas;
 CREATE TABLE IF NOT EXISTS salida_lineas
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
-    salida_id  INT            NOT NULL,
+    salida_id   INT            NOT NULL,
     material_id INT            NOT NULL,
     cantidad    DECIMAL(11, 2) NOT NULL,
     precio      DECIMAL(11, 2) NOT NULL
@@ -195,8 +195,10 @@ ALTER TABLE salidas
 ALTER TABLE materiales
     CHANGE COLUMN peso presentacion VARCHAR(100) NOT NULL;
 
-delete from materiales;
-delete from entradas;
+delete
+from materiales;
+delete
+from entradas;
 truncate table entrada_lineas;
 
 ALTER TABLE materiales
@@ -206,4 +208,5 @@ ALTER TABLE materiales
 ALTER TABLE entradas
     ADD COLUMN numero_entrada INT NOT NULL;
 
-select * from materiales;
+select *
+from entradas;

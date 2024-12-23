@@ -175,7 +175,10 @@ class Entrada
 
     public static function getEntradas($filtros, $orden)
     {
-        $consultaEntradas = "SELECT id, numero_entrada, observacion, usuario_id, fecha_creacion FROM entradas";
+        $consultaEntradas = "
+            SELECT entradas.id, numero_entrada, observacion, usuario_id, fecha_creacion FROM entradas
+            LEFT JOIN entrada_lineas ON entradas.id = entrada_lineas.entrada_id
+        ";
 
         if (!empty($filtros)) {
             $consultaEntradas .= " WHERE ";
@@ -192,6 +195,9 @@ class Entrada
                 } elseif ($key === 'fecha_hasta') {
                     $key = 'fecha_creacion';
                     $operador = '<=';
+                } elseif ($key === 'material') {
+                    $key = 'entrada_lineas.material_id';
+                    $operador = '=';
                 } else {
                     $operador = '=';
                 }
@@ -206,7 +212,7 @@ class Entrada
             }
         }
 
-        $consultaEntradas .= " ORDER BY id {$orden}";
+        $consultaEntradas .= "GROUP BY entradas.id ORDER BY entradas.id {$orden}";
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaEntradas);
         $consulta->execute();

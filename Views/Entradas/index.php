@@ -31,20 +31,6 @@
                 <input type="text" id="numero_entrada" placeholder="Número de entrada">
             </div>
             <div class="form-group">
-                <label for="observacion">Observación</label>
-                <input type="text" id="observacion" placeholder="Observacion">
-            </div>
-            <div class="form-group">
-                <label for="usuarioId">Usuario registrador</label>
-                <select id="usuarioId">
-                    <option value="">Seleccione</option>
-                </select>
-            </div>
-
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>
                 <input type="date" id="fecha_desde">
             </div>
@@ -52,6 +38,18 @@
                 <label for="fecha_hasta">Fecha creación hasta</label>
                 <input type="date" id="fecha_hasta">
             </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="material">Material</label>
+                <select name="material" id="material">
+                    <option value="">Seleccione un material</option>
+                </select>
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group"></div>
+            <div class="form-group"></div>
         </div>
 
         <div class="form-row">
