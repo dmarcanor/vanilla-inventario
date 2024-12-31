@@ -10,7 +10,8 @@ try {
         $data['id'],
         $data['nombre'],
         $data['descripcion'],
-        $data['estado']
+        $data['estado'],
+        $data['usuarioSesion']
     );
 
     echo json_encode([

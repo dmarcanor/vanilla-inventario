@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../BD/ConexionBD.php';
 require_once __DIR__ . '/../../Models/Usuarios/Usuario.php';
 require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
 require_once __DIR__ . '/../../Models/Materiales/Material.php';
+require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
 
 class Historial
 {
@@ -90,6 +91,10 @@ class Historial
             return Material::getMaterial($this->entidadId);
         }
 
+        if ($this->tipoEntidad === 'Categoria') {
+            return Categoria::getCategoria($this->entidadId);
+        }
+
         return null;
     }
 
@@ -107,6 +112,10 @@ class Historial
 
         if ($this->tipoEntidad === 'Material') {
             return "<a href='/vanilla-inventario/Views/Materiales/editar.php?id={$this->entidadId}'>{$entidad->nombre()}</a>";
+        }
+
+        if ($this->tipoEntidad === 'Categoria') {
+            return "<a href='/vanilla-inventario/Views/Categorias/editar.php?id={$this->entidadId}'>{$entidad->nombre()}</a>";
         }
 
         return '';

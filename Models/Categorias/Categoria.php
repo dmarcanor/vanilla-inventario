@@ -20,7 +20,7 @@ final class Categoria
         $this->estado = $estado;
     }
 
-    public static function crear($nombre, $descripcion, $estado)
+    public static function crear($nombre, $descripcion, $estado, $usuarioSesion)
     {
         date_default_timezone_set('America/Caracas');
 
@@ -46,20 +46,34 @@ final class Categoria
             $categoria->fechaCreacion,
             $categoria->estado
         ]);
+
+        $consultaCategoriaId = (new ConexionBD())->getConexion()->prepare("SELECT id FROM categorias ORDER BY id DESC LIMIT 1");
+        $consultaCategoriaId->execute();
+        $categoriaId = $consultaCategoriaId->fetch(PDO::FETCH_ASSOC);
+
+        $nuevaCategoria = new Categoria(
+            $categoriaId['id'],
+            $categoria->nombre,
+            $categoria->descripcion,
+            $categoria->fechaCreacion,
+            $categoria->estado
+        );
+
+        self::guardarHistorial($usuarioSesion, $nuevaCategoria, null);
     }
 
-    public static function editar($id, $nombre, $descripcion, $estado)
+    public static function editar($id, $nombre, $descripcion, $estado, $usuarioSesion)
     {
-        $categoria = self::getCategoria($id);
+        $categoriaOriginal = self::getCategoria($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($categoria)) {
+        if (empty($categoriaOriginal)) {
             throw new Exception("Categoría no encontrada.");
         }
 
         self::validarCamposVacios($nombre, $descripcion, $estado);
 
-        if ($categoria->nombre !== $nombre) {
+        if ($categoriaOriginal->nombre !== $nombre) {
             self::validarCategoriaDuplicada($nombre);
         }
 
@@ -83,6 +97,60 @@ final class Categoria
             $categoriaModificada->estado,
             $categoriaModificada->id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $categoriaOriginal, $categoriaModificada);
+    }
+
+    private static function guardarHistorial($usuarioSesion, $usuarioOriginal, $usuarioModificado)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+        $cambios = [];
+
+        if (empty($usuarioModificado)) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Creado',
+                'Categoria',
+                $usuarioOriginal->id,
+                'Categoría creada',
+                date('Y-m-d H:i:s')
+            ]);
+
+            return;
+        }
+
+        if ($usuarioOriginal->nombre !== $usuarioModificado->nombre) {
+            $cambios[] = "Nombre: {$usuarioOriginal->nombre} -> {$usuarioModificado->nombre}";
+        }
+
+        if ($usuarioOriginal->descripcion !== $usuarioModificado->descripcion) {
+            $cambios[] = "Descripción: {$usuarioOriginal->descripcion} -> {$usuarioModificado->descripcion}";
+        }
+
+        if ($usuarioOriginal->estado !== $usuarioModificado->estado) {
+            $cambios[] = "Estado: {$usuarioOriginal->estado} -> {$usuarioModificado->estado}";
+        }
+
+        foreach ($cambios as $cambio) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Cambio',
+                'Categoria',
+                $usuarioModificado->id,
+                $cambio,
+                date('Y-m-d H:i:s')
+            ]);
+        }
     }
 
     public static function eliminar($id)
@@ -107,16 +175,16 @@ final class Categoria
         return $this->nombre;
     }
 
-    public static function cambiarEstado($id)
+    public static function cambiarEstado($id, $usuarioSesion)
     {
-        $categoria = self::getCategoria($id);
+        $categoriaOriginal = self::getCategoria($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($categoria)) {
+        if (empty($categoriaOriginal)) {
             throw new Exception("Categoría no encontrado.");
         }
 
-        if ($categoria->estado === 'activo') {
+        if ($categoriaOriginal->estado === 'activo') {
             $nuevoEstado = 'inactivo';
         } else {
             $nuevoEstado = 'activo';
@@ -132,6 +200,14 @@ final class Categoria
             }
         }
 
+        $categoriaModificada = new Categoria(
+            $categoriaOriginal->id,
+            $categoriaOriginal->nombre,
+            $categoriaOriginal->descripcion,
+            $categoriaOriginal->fechaCreacion,
+            $nuevoEstado
+        );
+
         $consultaEditarCategoria = $conexionBaseDatos->prepare("
             UPDATE categorias 
             SET estado = ?
@@ -142,6 +218,8 @@ final class Categoria
             $nuevoEstado,
             $id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $categoriaOriginal, $categoriaModificada);
     }
 
     public static function getCategoria($id)

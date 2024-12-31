@@ -16,6 +16,7 @@ const crear = (formulario) => {
   const nombre = formulario.nombre.value;
   const descripcion = formulario.descripcion.value;
   const estado = formulario.estado.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Categorias/CrearCategoriaController.php', {
     method: 'POST',
@@ -25,7 +26,8 @@ const crear = (formulario) => {
     body: JSON.stringify({
       nombre,
       descripcion,
-      estado
+      estado,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {
@@ -45,6 +47,7 @@ const editar = (id, formulario) => {
   const nombre = formulario.nombre.value;
   const descripcion = formulario.descripcion.value;
   const estado = formulario.estado.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Categorias/EditarCategoriaController.php', {
     method: 'POST',
@@ -55,7 +58,8 @@ const editar = (id, formulario) => {
       id,
       nombre,
       descripcion,
-      estado
+      estado,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {

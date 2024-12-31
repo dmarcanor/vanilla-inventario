@@ -56,13 +56,16 @@ const estadoLabel = (estado) => {
 }
 
 const cambiarEstado = (id) => {
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
+
   fetch(`/vanilla-inventario/Controllers/Categorias/CambiarEstadoCategoriaController.php`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      id
+      id,
+      usuarioSesion: usuarioSesion.id
     }),
   })
     .then(response => response.json())

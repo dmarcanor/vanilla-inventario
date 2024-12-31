@@ -6,7 +6,7 @@ $data = json_decode(file_get_contents('php://input'), true);
 
 try {
     http_response_code(200);
-    Categoria::cambiarEstado($data['id']);
+    Categoria::cambiarEstado($data['id'], $data['usuarioSesion']);
 
     echo json_encode([
         'ok' => true,
