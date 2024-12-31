@@ -120,6 +120,7 @@ const crear = (formulario) => {
   const direccion = formulario.direccion.value;
   const rol = formulario.rol.value;
   const estado = formulario.estado.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Usuarios/CrearUsuarioController.php', {
     method: 'POST',
@@ -135,7 +136,8 @@ const crear = (formulario) => {
       telefono,
       direccion,
       rol,
-      estado
+      estado,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {
@@ -161,6 +163,7 @@ const editar = (id, formulario) => {
   const direccion = formulario.direccion.value;
   const rol = formulario.rol.value;
   const estado = formulario.estado.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Usuarios/EditarUsuarioController.php', {
     method: 'POST',
@@ -177,7 +180,8 @@ const editar = (id, formulario) => {
       telefono,
       direccion,
       rol,
-      estado
+      estado,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {

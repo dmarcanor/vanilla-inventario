@@ -36,7 +36,7 @@ class Material
         $this->estado = $estado;
     }
 
-    public static function crear($codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo)
+    public static function crear($codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo, $usuarioSesion)
     {
         date_default_timezone_set('America/Caracas');
 
@@ -85,14 +85,36 @@ class Material
             $material->fechaCreacion,
             $material->estado
         ]);
+
+        $consultaMaterialId = (new ConexionBD())->getConexion()->prepare("SELECT id FROM materiales ORDER BY id DESC LIMIT 1");
+        $consultaMaterialId->execute();
+        $materialId = $consultaMaterialId->fetch(PDO::FETCH_ASSOC);
+
+        $nuevoMaterial = new Material(
+            $materialId['id'],
+            $material->codigo,
+            $material->nombre,
+            $material->descripcion,
+            $material->marca,
+            $material->categoriaId,
+            $material->unidad,
+            $material->presentacion,
+            $material->precio,
+            $material->stock,
+            $material->stockMinimo,
+            $material->fechaCreacion,
+            $material->estado
+        );
+
+        self::guardarHistorial($usuarioSesion, $nuevoMaterial, null);
     }
 
-    public static function editar($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo)
+    public static function editar($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo, $usuarioSesion)
     {
-        $material = self::getMaterial($id);
+        $materialOriginal = self::getMaterial($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($material)) {
+        if (empty($materialOriginal)) {
             throw new Exception("Material no encontrado.");
         }
 
@@ -100,7 +122,7 @@ class Material
         self::validarPrecio($precio);
         self::validarStockMinimo($stockMinimo);
 
-        if ($material->codigo !== $codigo) {
+        if ($materialOriginal->codigo !== $codigo) {
             $materialConCodigo = self::getMaterialPorCodigo($codigo);
 
             if (!empty($materialConCodigo)) {
@@ -118,9 +140,9 @@ class Material
             $unidad,
             $presentacion,
             $precio,
-            $material->stock,
+            $materialOriginal->stock,
             $stockMinimo,
-            $material->fechaCreacion,
+            $materialOriginal->fechaCreacion,
             $estado
         );
 
@@ -143,22 +165,123 @@ class Material
             $materialModificado->stockMinimo,
             $materialModificado->id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $materialOriginal, $materialModificado);
     }
 
-    public static function cambiarEstado($id)
+    private static function guardarHistorial($usuarioSesion, $materialOriginal, $materialModificado)
     {
-        $material = self::getMaterial($id);
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+        $cambios = [];
+
+        if (empty($materialModificado)) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Creado',
+                'Material',
+                $materialOriginal->id,
+                'Material creado',
+                date('Y-m-d H:i:s')
+            ]);
+
+            return;
+        }
+
+        if ($materialOriginal->codigo !== $materialModificado->codigo) {
+            $cambios[] = "Código: {$materialOriginal->codigo} => {$materialModificado->codigo}";
+        }
+
+        if ($materialOriginal->nombre !== $materialModificado->nombre) {
+            $cambios[] = "Nombre: {$materialOriginal->nombre} => {$materialModificado->nombre}";
+        }
+
+        if ($materialOriginal->descripcion !== $materialModificado->descripcion) {
+            $cambios[] = "Descripción: {$materialOriginal->descripcion} => {$materialModificado->descripcion}";
+        }
+
+        if ($materialOriginal->marca !== $materialModificado->marca) {
+            $cambios[] = "Marca: {$materialOriginal->marca} => {$materialModificado->marca}";
+        }
+
+        if ($materialOriginal->categoriaId !== $materialModificado->categoriaId) {
+            $categoriaOriginal = Categoria::getCategoria($materialOriginal->categoriaId);
+            $categoriaModificada = Categoria::getCategoria($materialModificado->categoriaId);
+
+            $cambios[] = "Categoría: {$categoriaOriginal->nombre()} => {$categoriaModificada->nombre()}";
+        }
+
+        if ($materialOriginal->unidad !== $materialModificado->unidad) {
+            $cambios[] = "Unidad: {$materialOriginal->unidad} => {$materialModificado->unidad}";
+        }
+
+        if ($materialOriginal->presentacion !== $materialModificado->presentacion) {
+            $cambios[] = "Presentación: {$materialOriginal->presentacion} => {$materialModificado->presentacion}";
+        }
+
+        if ($materialOriginal->precio !== $materialModificado->precio) {
+            $cambios[] = "Precio: {$materialOriginal->precio} => {$materialModificado->precio}";
+        }
+
+        if ($materialOriginal->stockMinimo !== $materialModificado->stockMinimo) {
+            $cambios[] = "Stock mínimo: {$materialOriginal->stockMinimo} => {$materialModificado->stockMinimo}";
+        }
+
+        if ($materialOriginal->estado !== $materialModificado->estado) {
+            $cambios[] = "Estado: {$materialOriginal->estado} => {$materialModificado->estado}";
+        }
+
+        foreach ($cambios as $cambio) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Cambio',
+                'Material',
+                $materialModificado->id,
+                $cambio,
+                date('Y-m-d H:i:s')
+            ]);
+        }
+    }
+
+    public static function cambiarEstado($id, $usuarioSesion)
+    {
+        $materialOriginal = self::getMaterial($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($material)) {
+        if (empty($materialOriginal)) {
             throw new Exception("Material no encontrado.");
         }
 
-        if ($material->estado === 'activo') {
+        if ($materialOriginal->estado === 'activo') {
             $nuevoEstado = 'inactivo';
         } else {
             $nuevoEstado = 'activo';
         }
+
+        $materialModificado = new Material(
+            $materialOriginal->id,
+            $materialOriginal->codigo,
+            $materialOriginal->nombre,
+            $materialOriginal->descripcion,
+            $materialOriginal->marca,
+            $materialOriginal->categoriaId,
+            $materialOriginal->unidad,
+            $materialOriginal->presentacion,
+            $materialOriginal->precio,
+            $materialOriginal->stock,
+            $materialOriginal->stockMinimo,
+            $materialOriginal->fechaCreacion,
+            $nuevoEstado
+        );
 
         $consultaEditarMaterial = $conexionBaseDatos->prepare("
             UPDATE materiales 
@@ -170,6 +293,8 @@ class Material
             $nuevoEstado,
             $id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $materialOriginal, $materialModificado);
     }
 
     public static function getMaterial($id)
@@ -423,6 +548,11 @@ class Material
     public function categoria()
     {
         return Categoria::getCategoria($this->categoriaId);
+    }
+
+    public function nombre()
+    {
+        return $this->nombre;
     }
 
     public function toArray()

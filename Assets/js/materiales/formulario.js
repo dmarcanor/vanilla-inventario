@@ -72,6 +72,7 @@ const crear = (formulario) => {
   const estado = formulario.estado.value;
   const precio = formulario.precio.value;
   const stockMinimo = formulario.stock_minimo.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Materiales/CrearMaterialController.php', {
     method: 'POST',
@@ -88,7 +89,8 @@ const crear = (formulario) => {
       presentacion,
       estado,
       precio,
-      stockMinimo
+      stockMinimo,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {
@@ -121,6 +123,7 @@ const editar = (id, formulario) => {
   const estado = formulario.estado.value;
   const precio = formulario.precio.value;
   const stockMinimo = formulario.stock_minimo.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Materiales/EditarMaterialController.php', {
     method: 'POST',
@@ -138,7 +141,8 @@ const editar = (id, formulario) => {
       presentacion,
       estado,
       precio,
-      stockMinimo
+      stockMinimo,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {

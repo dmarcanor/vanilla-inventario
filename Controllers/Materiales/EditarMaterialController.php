@@ -17,7 +17,8 @@ try {
         $data['presentacion'],
         $data['estado'],
         $data['precio'],
-        $data['stockMinimo']
+        $data['stockMinimo'],
+        $data['usuarioSesion']
     );
 
     echo json_encode([

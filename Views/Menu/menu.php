@@ -8,6 +8,7 @@
         <li id="menu-categorias"><a href="/vanilla-inventario/Views/Categorias/index.php"><span class="icon">📁</span> Categorías</a></li>
         <li id="menu-clientes"><a href="/vanilla-inventario/Views/Clientes/index.php"><span class="icon">🏢</span> Clientes</a></li>
         <li id="menu-usuarios"><a href="/vanilla-inventario/Views/Usuarios/index.php"><span class="icon">👥</span> Usuarios</a></li>
+        <li id="menu-historial"><a href="/vanilla-inventario/Views/Historial/index.php"><span class="icon">📖</span> Historial de usuarios</a></li>
     </ul>
     <div class="user-info">
         <p id="usuario">Usuario</p>

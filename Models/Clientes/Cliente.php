@@ -27,7 +27,7 @@ class Cliente
         $this->estado = $estado;
     }
 
-    public static function crear($nombre, $apellido, $tipoIdentificacion, $numeroIdentificacion, $telefono, $direccion, $estado)
+    public static function crear($nombre, $apellido, $tipoIdentificacion, $numeroIdentificacion, $telefono, $direccion, $estado, $usuarioSesion)
     {
         date_default_timezone_set('America/Caracas');
 
@@ -81,9 +81,27 @@ class Cliente
             $cliente->fechaCreacion,
             $cliente->estado
         ]);
+
+        $consultaClienteId = (new ConexionBD())->getConexion()->prepare("SELECT id FROM clientes ORDER BY id DESC LIMIT 1");
+        $consultaClienteId->execute();
+        $clienteId = $consultaClienteId->fetch(PDO::FETCH_ASSOC);
+
+        $nuevoCliente = new Cliente(
+            $clienteId['id'],
+            $cliente->nombre,
+            $cliente->apellido,
+            $cliente->tipoIdentificacion,
+            $cliente->numeroIdentificacion,
+            $cliente->telefono,
+            $cliente->direccion,
+            $cliente->fechaCreacion,
+            $cliente->estado
+        );
+
+        self::guardarHistorial($usuarioSesion, $nuevoCliente, null);
     }
 
-    public static function editar($id, $nombre, $apellido, $tipoIdentificacion, $numeroIdentificacion, $telefono, $direccion, $estado)
+    public static function editar($id, $nombre, $apellido, $tipoIdentificacion, $numeroIdentificacion, $telefono, $direccion, $estado, $usuarioSesion)
     {
         $cliente = self::getCliente($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
@@ -145,6 +163,76 @@ class Cliente
             $clienteModificado->estado,
             $clienteModificado->id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $cliente, $clienteModificado);
+    }
+
+    private static function guardarHistorial($usuarioSesion, $clienteOriginal, $clienteModificado)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+        $cambios = [];
+
+        if (empty($clienteModificado)) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Creado',
+                'Cliente',
+                $clienteOriginal->id,
+                'Cliente creado',
+                date('Y-m-d H:i:s')
+            ]);
+
+            return;
+        }
+
+        if ($clienteOriginal->nombre !== $clienteModificado->nombre) {
+            $cambios[] = "Nombre: {$clienteOriginal->nombre} -> {$clienteModificado->nombre}";
+        }
+
+        if ($clienteOriginal->apellido !== $clienteModificado->apellido) {
+            $cambios[] = "Nombre: {$clienteOriginal->apellido} -> {$clienteModificado->apellido}";
+        }
+
+        if ($clienteOriginal->tipoIdentificacion !== $clienteModificado->tipoIdentificacion) {
+            $cambios[] = "Tipo de identificación: {$clienteOriginal->tipoIdentificacion} -> {$clienteModificado->tipoIdentificacion}";
+        }
+
+        if ($clienteOriginal->numeroIdentificacion !== $clienteModificado->numeroIdentificacion) {
+            $cambios[] = "Número de identificacion: {$clienteOriginal->numeroIdentificacion} -> {$clienteModificado->numeroIdentificacion}";
+        }
+
+        if ($clienteOriginal->telefono !== $clienteModificado->telefono) {
+            $cambios[] = "Teléfono: {$clienteOriginal->telefono} -> {$clienteModificado->telefono}";
+        }
+
+        if ($clienteOriginal->direccion !== $clienteModificado->direccion) {
+            $cambios[] = "Dirección: {$clienteOriginal->direccion} -> {$clienteModificado->direccion}";
+        }
+
+        if ($clienteOriginal->estado !== $clienteModificado->estado) {
+            $cambios[] = "Estado: {$clienteOriginal->estado} -> {$clienteModificado->estado}";
+        }
+
+        foreach ($cambios as $cambio) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Cambio',
+                'Cliente',
+                $clienteModificado->id,
+                $cambio,
+                date('Y-m-d H:i:s')
+            ]);
+        }
     }
 
     public static function getClientePorIdentificacion($numeroIdentificacion)
@@ -173,20 +261,32 @@ class Cliente
         );
     }
 
-    public static function cambiarEstado($id)
+    public static function cambiarEstado($id, $usuarioSesion)
     {
-        $cliente = self::getCliente($id);
+        $clienteOriginal = self::getCliente($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($cliente)) {
+        if (empty($clienteOriginal)) {
             throw new Exception("Cliente no encontrado.");
         }
 
-        if ($cliente->estado === 'activo') {
+        if ($clienteOriginal->estado === 'activo') {
             $nuevoEstado = 'inactivo';
         } else {
             $nuevoEstado = 'activo';
         }
+
+        $clienteModificado = new Cliente(
+            $clienteOriginal->id,
+            $clienteOriginal->nombre,
+            $clienteOriginal->apellido,
+            $clienteOriginal->tipoIdentificacion,
+            $clienteOriginal->numeroIdentificacion,
+            $clienteOriginal->telefono,
+            $clienteOriginal->direccion,
+            $clienteOriginal->fechaCreacion,
+            $nuevoEstado
+        );
 
         $consultaEditarCliente = $conexionBaseDatos->prepare("
             UPDATE clientes 
@@ -198,6 +298,8 @@ class Cliente
             $nuevoEstado,
             $id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $clienteOriginal, $clienteModificado);
     }
 
     public static function getCliente($id)

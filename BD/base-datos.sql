@@ -213,5 +213,26 @@ ALTER TABLE usuarios
 
 UPDATE usuarios SET nombre_usuario = 'admin' WHERE id = 1;
 
-select *
-from entradas;
+CREATE TABLE IF NOT EXISTS usuarios_historial
+(
+    id           INT AUTO_INCREMENT PRIMARY KEY,
+    usuario_id   INT          NOT NULL,
+    tipo_accion  VARCHAR(10)  NOT NULL,
+    tipo_entidad VARCHAR(255) NOT NULL,
+    entidad_id   INT          NOT NULL,
+    cambio       TEXT         NOT NULL,
+    fecha        DATETIME     NOT NULL
+);
+
+select * from usuarios_historial;
+
+
+private $id;
+private $nombre;
+private $apellido;
+private $tipoIdentificacion;
+private $numeroIdentificacion;
+private $telefono;
+private $direccion;
+private $fechaCreacion;
+private $estado;

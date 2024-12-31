@@ -39,7 +39,7 @@ class Usuario
         return $this->apellido;
     }
 
-    public static function crear($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
+    public static function crear($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado, $usuarioSesion)
     {
         $validarContraseniaVacia = true;
 
@@ -90,18 +90,37 @@ class Usuario
             $usuario->rol,
             $usuario->estado
         ]);
+
+        $consultaUsuarioId = (new ConexionBD())->getConexion()->prepare("SELECT id FROM usuarios ORDER BY id DESC LIMIT 1");
+        $consultaUsuarioId->execute();
+        $usuarioId = $consultaUsuarioId->fetch(PDO::FETCH_ASSOC);
+
+        $nuevoUsuario = new Usuario(
+            $usuarioId['id'],
+            $usuario->nombreUsuario,
+            $usuario->nombre,
+            $usuario->apellido,
+            $usuario->cedula,
+            $usuario->telefono,
+            $usuario->direccion,
+            $usuario->contrasenia,
+            $usuario->rol,
+            $usuario->estado
+        );
+
+        self::guardarHistorial($usuarioSesion, $nuevoUsuario, null, null);
     }
 
-    public static function editar($id, $nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
+    public static function editar($id, $nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado, $usuarioSesion)
     {
-        $usuario = self::getUsuario($id);
+        $usuarioOriginal = self::getUsuario($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($usuario)) {
+        if (empty($usuarioOriginal)) {
             throw new Exception("Usuario no encontrado.");
         }
 
-        $validarContraseniaVacia = !empty($contrasenia) && $usuario->contrasenia !== $contrasenia;
+        $validarContraseniaVacia = !empty($contrasenia) && $usuarioOriginal->contrasenia !== $contrasenia;
 
         self::validarCamposVacios($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado);
         self::validarCedula($cedula);
@@ -112,7 +131,7 @@ class Usuario
             self::validarContrasenia($contrasenia);
         }
 
-        if ($usuario->cedula !== $cedula) {
+        if ($usuarioOriginal->cedula !== $cedula) {
             $usuarioConCedula = self::getUsuarioPorCedula($cedula);
 
             if (!empty($usuarioConCedula)) {
@@ -120,7 +139,7 @@ class Usuario
             }
         }
 
-        if ($usuario->nombreUsuario !== $nombreUsuario) {
+        if ($usuarioOriginal->nombreUsuario !== $nombreUsuario) {
             $usuarioPorNombreUsuario = self::getUsuarioPorNombreUsuario($nombreUsuario);
 
             if (!empty($usuarioPorNombreUsuario)) {
@@ -179,6 +198,84 @@ class Usuario
                 $usuarioModificado->id
             ]);
         }
+
+        self::guardarHistorial($usuarioSesion, $usuarioOriginal, $usuarioModificado, $contrasenia);
+    }
+
+    private static function guardarHistorial($usuarioSesion, $usuarioOriginal, $usuarioModificado, $contraseniaModificada)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+        $cambios = [];
+
+        if (empty($usuarioModificado)) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Creado',
+                'Usuario',
+                $usuarioOriginal->id,
+                'Usuario creado',
+                date('Y-m-d H:i:s')
+            ]);
+
+            return;
+        }
+
+        if ($usuarioOriginal->nombreUsuario !== $usuarioModificado->nombreUsuario) {
+            $cambios[] = "Nombre de usuario: {$usuarioOriginal->nombreUsuario} -> {$usuarioModificado->nombreUsuario}";
+        }
+
+        if ($usuarioOriginal->nombre !== $usuarioModificado->nombre) {
+            $cambios[] = "Nombre: {$usuarioOriginal->nombre} -> {$usuarioModificado->nombre}";
+        }
+
+        if ($usuarioOriginal->apellido !== $usuarioModificado->apellido) {
+            $cambios[] = "Apellido: {$usuarioOriginal->apellido} -> {$usuarioModificado->apellido}";
+        }
+
+        if ($usuarioOriginal->cedula !== $usuarioModificado->cedula) {
+            $cambios[] = "Cédula: {$usuarioOriginal->cedula} -> {$usuarioModificado->cedula}";
+        }
+
+        if ($usuarioOriginal->telefono !== $usuarioModificado->telefono) {
+            $cambios[] = "Teléfono: {$usuarioOriginal->telefono} -> {$usuarioModificado->telefono}";
+        }
+
+        if ($usuarioOriginal->direccion !== $usuarioModificado->direccion) {
+            $cambios[] = "Dirección: {$usuarioOriginal->direccion} -> {$usuarioModificado->direccion}";
+        }
+
+        if ($usuarioOriginal->rol !== $usuarioModificado->rol) {
+            $cambios[] = "Rol: {$usuarioOriginal->rol} -> {$usuarioModificado->rol}";
+        }
+
+        if ($usuarioOriginal->estado !== $usuarioModificado->estado) {
+            $cambios[] = "Estado: {$usuarioOriginal->estado} -> {$usuarioModificado->estado}";
+        }
+
+        if (!empty($contraseniaModificada)) {
+            $cambios[] = "Contraseña cambiada";
+        }
+
+        foreach ($cambios as $cambio) {
+            $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+            $consultaHistorial->execute([
+                $usuarioSesion,
+                'Cambio',
+                'Usuario',
+                $usuarioModificado->id,
+                $cambio,
+                date('Y-m-d H:i:s')
+            ]);
+        }
     }
 
     public static function getUsuarioPorCedula($cedula)
@@ -235,20 +332,33 @@ class Usuario
         );
     }
 
-    public static function cambiarEstado($id)
+    public static function cambiarEstado($id, $usuarioSesion)
     {
-        $usuario = self::getUsuario($id);
+        $usuarioOriginal = self::getUsuario($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        if (empty($usuario)) {
+        if (empty($usuarioOriginal)) {
             throw new Exception("Usuario no encontrado.");
         }
 
-        if ($usuario->estado === 'activo') {
+        if ($usuarioOriginal->estado === 'activo') {
             $nuevoEstado = 'inactivo';
         } else {
             $nuevoEstado = 'activo';
         }
+
+        $usuarioModificado = new Usuario(
+            $usuarioOriginal->id,
+            $usuarioOriginal->nombreUsuario,
+            $usuarioOriginal->nombre,
+            $usuarioOriginal->apellido,
+            $usuarioOriginal->cedula,
+            $usuarioOriginal->telefono,
+            $usuarioOriginal->direccion,
+            $usuarioOriginal->contrasenia,
+            $usuarioOriginal->rol,
+            $nuevoEstado
+        );
 
         $consultaEditarUsuario = $conexionBaseDatos->prepare("
             UPDATE usuarios 
@@ -260,6 +370,8 @@ class Usuario
             $nuevoEstado,
             $id
         ]);
+
+        self::guardarHistorial($usuarioSesion, $usuarioOriginal, $usuarioModificado, null);
     }
 
     public static function getUsuario($id)

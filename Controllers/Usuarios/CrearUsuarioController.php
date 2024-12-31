@@ -18,7 +18,8 @@ try {
         $data['direccion'],
         $data['contrasenia'],
         $data['rol'],
-        $data['estado']
+        $data['estado'],
+        $data['usuarioSesion']
     );
 
     echo json_encode([

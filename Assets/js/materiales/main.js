@@ -57,6 +57,7 @@ const estadoLabel = (estado) => {
 
 const cambiarEstado = (id) => {
   const confirmacion = confirm('¿Está seguro de cambiar el estado del material?');
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   if (confirmacion == false) {
     return;
@@ -68,7 +69,8 @@ const cambiarEstado = (id) => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      id
+      id,
+      usuarioSesion: usuarioSesion.id
     }),
   })
     .then(response => response.json())

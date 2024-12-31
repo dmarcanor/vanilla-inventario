@@ -14,7 +14,8 @@ try {
         $data['numero_identificacion'],
         $data['telefono'],
         $data['direccion'],
-        $data['estado']
+        $data['estado'],
+        $data['usuarioSesion']
     );
 
     echo json_encode([

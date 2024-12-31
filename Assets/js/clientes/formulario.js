@@ -41,6 +41,7 @@ const crear = (formulario) => {
   const telefono = formulario.telefono.value;
   const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Clientes/CrearClienteController.php', {
     method: 'POST',
@@ -54,7 +55,8 @@ const crear = (formulario) => {
       numero_identificacion,
       telefono,
       direccion,
-      estado
+      estado,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {
@@ -78,6 +80,7 @@ const editar = (id, formulario) => {
   const telefono = formulario.telefono.value;
   const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Clientes/EditarClienteController.php', {
     method: 'POST',
@@ -92,7 +95,8 @@ const editar = (id, formulario) => {
       numero_identificacion,
       telefono,
       direccion,
-      estado
+      estado,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {
