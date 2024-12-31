@@ -5,6 +5,8 @@ require_once __DIR__ . '/../../Models/Usuarios/Usuario.php';
 require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
 require_once __DIR__ . '/../../Models/Materiales/Material.php';
 require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
+require_once __DIR__ . '/../../Models/Entradas/Entrada.php';
+require_once __DIR__ . '/../../Models/Salidas/Salida.php';
 
 class Historial
 {
@@ -95,6 +97,14 @@ class Historial
             return Categoria::getCategoria($this->entidadId);
         }
 
+        if ($this->tipoEntidad === 'Entrada') {
+            return Entrada::getEntrada($this->entidadId);
+        }
+
+        if ($this->tipoEntidad === 'Salida') {
+            return Salida::getSalida($this->entidadId);
+        }
+
         return null;
     }
 
@@ -116,6 +126,14 @@ class Historial
 
         if ($this->tipoEntidad === 'Categoria') {
             return "<a href='/vanilla-inventario/Views/Categorias/editar.php?id={$this->entidadId}'>{$entidad->nombre()}</a>";
+        }
+
+        if ($this->tipoEntidad === 'Entrada') {
+            return "<a href='/vanilla-inventario/Views/Entradas/editar.php?id={$this->entidadId}'>{$entidad->numeroEntrada()}</a>";
+        }
+
+        if ($this->tipoEntidad === 'Salida') {
+            return "<a href='/vanilla-inventario/Views/Salidas/editar.php?id={$this->entidadId}'>{$entidad->id()}</a>";
         }
 
         return '';

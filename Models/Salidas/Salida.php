@@ -35,7 +35,7 @@ class Salida
         return Cliente::getCliente($this->cliente_id);
     }
 
-    public static function crear($cliente_id, $observacion, $usuarioId, $lineas)
+    public static function crear($cliente_id, $observacion, $usuarioId, $lineas, $usuarioSesion)
     {
         self::validarCamposVacios($cliente_id, $observacion, $usuarioId);
 
@@ -86,6 +86,27 @@ class Salida
             // se rebaja el stock del material seleccionado en la linea
             Material::getMaterial($entradaLinea['materialId'])->rebajarStock($entradaLinea['cantidad']);
         }
+
+        self::guardarHistorial($usuarioSesion, $salidaConId);
+    }
+
+    private static function guardarHistorial($usuarioSesion, $salida)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+
+        $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+        $consultaHistorial->execute([
+            $usuarioSesion,
+            'Creado',
+            'Salida',
+            $salida->id,
+            'Salida creada',
+            date('Y-m-d H:i:s')
+        ]);
     }
 
     public static function eliminar($id)
@@ -215,6 +236,11 @@ class Salida
         }
 
         return $lineas;
+    }
+
+    public function id()
+    {
+        return $this->id;
     }
 
     public function toArray()

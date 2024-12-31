@@ -46,6 +46,7 @@ const crear = (formulario) => {
   const observacion = formulario.observacion.value;
   const usuario = JSON.parse(window.localStorage.getItem('usuario'));
   const usuario_id = usuario.id;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Salidas/CrearSalidaController.php', {
     method: 'POST',
@@ -56,7 +57,8 @@ const crear = (formulario) => {
       clienteId,
       observacion,
       usuario_id,
-      lineas
+      lineas,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {

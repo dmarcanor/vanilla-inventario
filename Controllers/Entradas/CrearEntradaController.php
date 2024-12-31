@@ -13,7 +13,8 @@ try {
         $data['numeroEntrada'],
         $data['observacion'],
         $data['usuario_id'],
-        $data['lineas']
+        $data['lineas'],
+        $data['usuarioSesion']
     );
 
     echo json_encode([

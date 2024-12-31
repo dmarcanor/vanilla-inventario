@@ -13,7 +13,8 @@ try {
         $data['clienteId'],
         $data['observacion'],
         $data['usuario_id'],
-        $data['lineas']
+        $data['lineas'],
+        $data['usuarioSesion']
     );
 
     $respuesta = ['ok' => true];

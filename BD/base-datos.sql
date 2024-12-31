@@ -223,16 +223,3 @@ CREATE TABLE IF NOT EXISTS usuarios_historial
     cambio       TEXT         NOT NULL,
     fecha        DATETIME     NOT NULL
 );
-
-select * from usuarios_historial;
-
-
-private $id;
-private $nombre;
-private $apellido;
-private $tipoIdentificacion;
-private $numeroIdentificacion;
-private $telefono;
-private $direccion;
-private $fechaCreacion;
-private $estado;

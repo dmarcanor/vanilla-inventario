@@ -24,7 +24,7 @@ class Entrada
         $this->lineas = $lineas;
     }
 
-    public static function crear($numeroEntrada, $observacion, $usuarioId, $lineas)
+    public static function crear($numeroEntrada, $observacion, $usuarioId, $lineas, $usuarioSesion)
     {
         self::validarCamposVacios($numeroEntrada, $observacion, $usuarioId);
 
@@ -83,6 +83,40 @@ class Entrada
 
             $material->incrementarStock($salidaLinea['cantidad']);
         }
+
+        $consultaEntradaId = (new ConexionBD())->getConexion()->prepare("SELECT id FROM entradas ORDER BY id DESC LIMIT 1");
+        $consultaEntradaId->execute();
+        $entradaId = $consultaEntradaId->fetch(PDO::FETCH_ASSOC);
+
+        $nuevaEntrada = new Entrada(
+            $entradaId['id'],
+            $entrada->numeroEntrada,
+            $entrada->observacion,
+            $entrada->usuarioId,
+            $entrada->fechaCreacion,
+            $lineas
+        );
+
+        self::guardarHistorial($usuarioSesion, $nuevaEntrada);
+    }
+
+    private static function guardarHistorial($usuarioSesion, $entrada)
+    {
+        $conexionBaseDatos = (new ConexionBD())->getConexion();
+
+        $consultaHistorial = $conexionBaseDatos->prepare("
+                INSERT INTO usuarios_historial (usuario_id, tipo_accion, tipo_entidad, entidad_id, cambio, fecha) VALUES 
+                (?, ?, ?, ?, ?, ?)
+            ");
+
+        $consultaHistorial->execute([
+            $usuarioSesion,
+            'Creado',
+            'Entrada',
+            $entrada->id,
+            'Entrada creada',
+            date('Y-m-d H:i:s')
+        ]);
     }
 
     public static function eliminar($id)
@@ -237,6 +271,11 @@ class Entrada
     public function usuario()
     {
         return Usuario::getUsuario($this->usuarioId);
+    }
+
+    public function numeroEntrada()
+    {
+        return $this->numeroEntrada;
     }
 
     public function lineasArray()

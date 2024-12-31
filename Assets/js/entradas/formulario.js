@@ -29,6 +29,7 @@ const crear = (formulario) => {
   const numeroEntrada = formulario.numero_entrada.value;
   const usuario = JSON.parse(window.localStorage.getItem('usuario'));
   const usuario_id = usuario.id;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
   fetch('/vanilla-inventario/Controllers/Entradas/CrearEntradaController.php', {
     method: 'POST',
@@ -39,7 +40,8 @@ const crear = (formulario) => {
       observacion,
       numeroEntrada,
       usuario_id,
-      lineas
+      lineas,
+      usuarioSesion: usuarioSesion.id
     })
   }).then(response => response.json())
     .then(json => {
