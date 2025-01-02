@@ -51,3 +51,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cambiarNombreUsuarioSesion();
 });
+
+const buscar = (event) => {
+  event.preventDefault();
+
+  const busqueda = event.target;
+  const table = $('#usuarios-table').DataTable();
+  //
+  // const fechaDesde =  new Date(busqueda.fecha_desde.value);
+  // fechaDesde.setHours(0, 0, 0, 0);
+  //
+  // const fechaHasta =  new Date(busqueda.fecha_hasta.value);
+  // fechaDesde.setHours(23, 59, 59, 999);
+
+  const parametros = {
+    "usuarios": busqueda.usuarios.value,
+    "fecha_desde": busqueda.fecha_desde.value,
+    "fecha_hasta": busqueda.fecha_hasta.value
+  };
+
+  table.settings()[0].ajax.data = (data) => ({...data, ...parametros})
+
+  table.ajax.reload();
+}
+
+const limpiarFormulario = () => {
+  const table = $('#usuarios-table').DataTable();
+
+  table.settings()[0].ajax.data = (data) => ({...data, ...{}})
+
+  table.ajax.reload();
+}

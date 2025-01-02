@@ -246,7 +246,7 @@ class Entrada
             }
         }
 
-        $consultaEntradas .= "GROUP BY entradas.id ORDER BY entradas.id {$orden}";
+        $consultaEntradas .= " GROUP BY entradas.id ORDER BY entradas.id {$orden}";
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaEntradas);
         $consulta->execute();
@@ -261,7 +261,7 @@ class Entrada
                 $entrada['observacion'],
                 $entrada['usuario_id'],
                 $entrada['fecha_creacion'],
-                []
+                EntradaLinea::getEntradaLineasDeEntrada($entrada['id'])
             );
         }
 
@@ -276,6 +276,21 @@ class Entrada
     public function numeroEntrada()
     {
         return $this->numeroEntrada;
+    }
+
+    public function observacion()
+    {
+        return $this->observacion;
+    }
+
+    public function fechaCreacion()
+    {
+        return $this->fechaCreacion;
+    }
+
+    public function lineas()
+    {
+        return $this->lineas;
     }
 
     public function lineasArray()

@@ -330,6 +330,26 @@ final class Categoria
         return Material::getMaterialesPorCategoria($this->id);
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
+    public function descripcion()
+    {
+        return $this->descripcion;
+    }
+
+    public function fechaCreacion()
+    {
+        return $this->fechaCreacion;
+    }
+
+    public function estado()
+    {
+        return $this->estado;
+    }
+
     public function toArray()
     {
         return [

@@ -27,8 +27,14 @@
                     <option value="">Seleccione</option>
                 </select>
             </div>
-            <div class="form-group"></div>
-            <div class="form-group"></div>
+            <div class="form-group">
+                <label for="fecha_desde">Fecha desde</label>
+                <input type="date" id="fecha_desde">
+            </div>
+            <div class="form-group">
+                <label for="fecha_hasta">Fecha hasta</label>
+                <input type="date" id="fecha_hasta">
+            </div>
             <div class="form-group"></div>
         </div>
         <div class="form-row">

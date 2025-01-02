@@ -43,7 +43,7 @@ const esAdmin = () => {
 
 const esconderModuloUsuarios = () => {
   const menuUsuarios = document.getElementById('menu-usuarios');
-  const menuHistorialUsuarios = document.getElementById('menu-historial-usuarios');
+  const menuHistorialUsuarios = document.getElementById('menu-historial');
 
   menuUsuarios.hidden = true;
   menuHistorialUsuarios.hidden = true;

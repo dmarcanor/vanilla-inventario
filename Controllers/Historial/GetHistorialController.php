@@ -2,11 +2,13 @@
 
 require_once __DIR__ . '/../../Models/Historial/Historial.php';
 
+$fechaDesde = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('Y-m-d 00:00:00') : '';
+$fechaHasta = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('Y-m-d 23:59:59') : '';
+
 $filtros = [
-    'id' => !empty($_GET['id']) ? $_GET['id'] : '',
-    'usuarios' => !empty($_GET['usuarios']) ? $_GET['usuarios'] : '',
-    'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',
-    'fecha_hasta' => !empty($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : ''
+    'usuario_id' => !empty($_GET['usuarios']) ? $_GET['usuarios'] : '',
+    'fecha_desde' => $fechaDesde,
+    'fecha_hasta' => $fechaHasta
 ];
 
 $filtros = array_filter($filtros);

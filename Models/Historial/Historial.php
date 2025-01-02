@@ -41,6 +41,14 @@ class Historial
                 $campos = [];
                 $operador = in_array($key, $campos) ? 'LIKE' : '=';
 
+                if ($key === 'fecha_desde') {
+                    $key = 'fecha';
+                    $operador = '>=';
+                } elseif ($key === 'fecha_hasta') {
+                    $key = 'fecha';
+                    $operador = '<=';
+                }
+
                 $consultaHistorial .= "{$key} {$operador} '{$filtro}'";
 
                 $iteracion++;

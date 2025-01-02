@@ -455,6 +455,36 @@ class Cliente
         return $this->apellido;
     }
 
+    public function tipoIdentificacion()
+    {
+        return $this->tipoIdentificacion;
+    }
+
+    public function numeroIdentificacion()
+    {
+        return $this->numeroIdentificacion;
+    }
+
+    public function telefono()
+    {
+        return $this->telefono;
+    }
+
+    public function direccion()
+    {
+        return $this->direccion;
+    }
+
+    public function fechaCreacion()
+    {
+        return $this->fechaCreacion;
+    }
+
+    public function estado()
+    {
+        return $this->estado;
+    }
+
     public function toArray()
     {
         return [

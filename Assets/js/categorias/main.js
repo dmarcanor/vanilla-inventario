@@ -123,8 +123,6 @@ const buscar = (event) => {
   const parametros = {
     "nombre": busqueda.nombre.value,
     "descripcion": busqueda.descripcion.value,
-    "fecha_desde": busqueda.fecha_desde.value,
-    "fecha_hasta": busqueda.fecha_hasta.value,
     "estado": busqueda.estado.value,
   };
 

@@ -66,8 +66,8 @@ document.addEventListener('DOMContentLoaded', () => {
     columns: [
       { data: "id" },
       { data: "observacion", orderable: false },
-      { data: "usuarioFullNombre", orderable: false },
       { data: "clienteFullNombre", orderable: false },
+      { data: "usuarioFullNombre", orderable: false },
       { data: "fechaCreacion", orderable: false },
       {
         data: "acciones",

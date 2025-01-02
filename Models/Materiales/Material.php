@@ -555,6 +555,66 @@ class Material
         return $this->nombre;
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
+    public function codigo()
+    {
+        return $this->codigo;
+    }
+
+    public function descripcion()
+    {
+        return $this->descripcion;
+    }
+
+    public function marca()
+    {
+        return $this->marca;
+    }
+
+    public function categoriaId()
+    {
+        return $this->categoriaId;
+    }
+
+    public function unidad()
+    {
+        return $this->unidad;
+    }
+
+    public function presentacion()
+    {
+        return $this->presentacion;
+    }
+
+    public function stock()
+    {
+        return $this->stock;
+    }
+
+    public function precio()
+    {
+        return $this->precio;
+    }
+
+    public function fechaCreacion()
+    {
+        return $this->fechaCreacion;
+    }
+
+    public function estado()
+    {
+        return $this->estado;
+    }
+
+    public function stockMinimo()
+    {
+        return $this->stockMinimo;
+    }
+
     public function toArray()
     {
         return [

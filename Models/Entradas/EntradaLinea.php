@@ -25,6 +25,16 @@ class EntradaLinea
         return $this->id;
     }
 
+    public function cantidad()
+    {
+        return $this->cantidad;
+    }
+
+    public function precio()
+    {
+        return $this->precio;
+    }
+
     public static function crear($entradaId, $materialId, $cantidad, $precio)
     {
         self::validarCamposVacios($entradaId, $materialId, $cantidad, $precio);

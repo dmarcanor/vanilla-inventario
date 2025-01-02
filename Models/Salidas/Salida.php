@@ -205,7 +205,7 @@ class Salida
                 $salida['observacion'],
                 $salida['usuario_id'],
                 $salida['fecha_creacion'],
-                []
+                SalidaLinea::getSalidaLineasDeSalida($salida['id'])
             );
         }
 
@@ -241,6 +241,21 @@ class Salida
     public function id()
     {
         return $this->id;
+    }
+
+    public function observacion()
+    {
+        return $this->observacion;
+    }
+
+    public function lineas()
+    {
+        return $this->lineas;
+    }
+
+    public function fechaCreacion()
+    {
+        return $this->fechaCreacion;
     }
 
     public function toArray()

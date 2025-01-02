@@ -114,6 +114,16 @@ class SalidaLinea
         return Material::getMaterial($this->materialId);
     }
 
+    public function cantidad()
+    {
+        return $this->cantidad;
+    }
+
+    public function precio()
+    {
+        return $this->precio;
+    }
+
     public function toArray()
     {
         return [

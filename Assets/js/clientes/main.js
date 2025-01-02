@@ -130,8 +130,6 @@ const buscar = (event) => {
     "numero_identificacion": busqueda.numero_identificacion.value,
     "telefono": busqueda.telefono.value,
     "direccion": busqueda.direccion.value,
-    "fecha_desde": busqueda.fecha_desde.value,
-    "fecha_hasta": busqueda.fecha_hasta.value,
     "estado": busqueda.estado.value,
   };
 

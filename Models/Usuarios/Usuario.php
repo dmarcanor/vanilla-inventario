@@ -29,6 +29,41 @@ class Usuario
         $this->estado = $estado;
     }
 
+    public function id()
+    {
+        return $this->id;
+    }
+
+    public function nombreUsuario()
+    {
+        return $this->nombreUsuario;
+    }
+
+    public function cedula()
+    {
+        return $this->cedula;
+    }
+
+    public function telefono()
+    {
+        return $this->telefono;
+    }
+
+    public function direccion()
+    {
+        return $this->direccion;
+    }
+
+    public function rol()
+    {
+        return $this->rol;
+    }
+
+    public function estado()
+    {
+        return $this->estado;
+    }
+
     public function nombre()
     {
         return $this->nombre;
