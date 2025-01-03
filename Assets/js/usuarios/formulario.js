@@ -1,7 +1,9 @@
 const passwordInfo = document.getElementById('contraseniaInfo');
 const passwordGuide = document.getElementById('contraseniaGuia');
-const togglePassword = document.getElementById('togglePassword');
-const passwordInput = document.getElementById('contrasenia');
+const mostrarContrasenia = document.getElementById('mostrarContrasenia');
+const campoContrasenia = document.getElementById('contrasenia');
+const mostrarRepetirContrasenia = document.getElementById('mostrarRepetirContrasenia');
+const campoRepetirContrasenia = document.getElementById('repetir_contrasenia');
 let guideVisible = false;
 
 // Mostrar u ocultar la guía de contraseñas
@@ -12,10 +14,18 @@ passwordInfo.addEventListener('click', function(e) {
 });
 
 // Mostrar u ocultar la contraseña
-togglePassword.addEventListener('click', function(e) {
+mostrarContrasenia.addEventListener('click', function(e) {
   e.preventDefault();
-  const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-  passwordInput.setAttribute('type', type);
+  const type = campoContrasenia.getAttribute('type') === 'password' ? 'text' : 'password';
+  campoContrasenia.setAttribute('type', type);
+  this.textContent = type === 'password' ? '👁️' : '🔒';
+});
+
+// Mostrar u ocultar la repetición de la contraseña
+mostrarRepetirContrasenia.addEventListener('click', function(e) {
+  e.preventDefault();
+  const type = campoRepetirContrasenia.getAttribute('type') === 'password' ? 'text' : 'password';
+  campoRepetirContrasenia.setAttribute('type', type);
   this.textContent = type === 'password' ? '👁️' : '🔒';
 });
 

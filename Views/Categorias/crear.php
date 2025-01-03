@@ -31,10 +31,8 @@
             </div>
             <div class="form-group">
                 <label for="estado">Estado *</label>
-                <select name="estado" id="estado" required>
-                    <option value="">Seleccione</option>
-                    <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
+                <select name="estado" id="estado" disabled required>
+                    <option selected value="activo">Activo</option>
                 </select>
             </div>
         </div>

@@ -56,7 +56,7 @@
                 </label>
                 <div class="password-container">
                     <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" minlength="8">
-                    <button type="button" style="background-color: inherit" class="toggle-password" id="togglePassword">👁️</button>
+                    <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarContrasenia">👁️</button>
                     <div class="password-guide" id="contraseniaGuia">
                         <p>La contraseña debe cumplir con los siguientes requisitos:</p>
                         <ul>
@@ -71,7 +71,10 @@
             </div>
             <div class="form-group password-container">
                 <label for="repetir_contrasenia">Repetir contraseña</label>
-                <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8">
+                <div class="password-container">
+                    <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8" required>
+                    <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarRepetirContrasenia">👁️</button>
+                </div>
             </div>
             <div class="form-group">
                 <label for="rol">Rol *</label>

@@ -55,7 +55,7 @@
                 <label for="contrasenia">Contraseña * <button type="button" style="background-color: inherit; font-size: 11pt" class="info-btn" id="contraseniaInfo">ℹ️</button></label>
                 <div class="password-container">
                     <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" minlength="8" required>
-                    <button type="button" style="background-color: inherit" class="toggle-password" id="togglePassword">👁️</button>
+                    <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarContrasenia">👁️</button>
                     <div class="password-guide" id="contraseniaGuia">
                         <p>La contraseña debe cumplir con los siguientes requisitos:</p>
                         <ul>
@@ -70,7 +70,10 @@
             </div>
             <div class="form-group password-container">
                 <label for="repetir_contrasenia">Repetir contraseña *</label>
-                <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8" required>
+                <div class="password-container">
+                    <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8" required>
+                    <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarRepetirContrasenia">👁️</button>
+                </div>
             </div>
             <div class="form-group">
                 <label for="rol">Rol *</label>
@@ -84,10 +87,8 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="estado">Estado *</label>
-                <select name="estado" id="estado" required>
-                    <option value="">Seleccione</option>
-                    <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
+                <select name="estado" id="estado" disabled required>
+                    <option selected value="activo">Activo</option>
                 </select>
             </div>
             <div class="big-form-group">

@@ -16,9 +16,12 @@
             <label for="usuario">Nombre de usuario</label>
             <input type="text" id="usuario" name="usuario" placeholder="Usuario" required aria-label="Usuario">
         </div>
-        <div class="form-group">
+        <div class="form-group password-container">
             <label for="contrasenia">Contraseña</label>
-            <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" required>
+            <div class="password-container">
+                <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" required>
+                <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarContrasenia">👁️</button>
+            </div>
         </div>
         <button type="submit">Iniciar sesión</button>
     </form>

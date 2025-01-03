@@ -1,3 +1,13 @@
+const mostrarContrasenia = document.getElementById('mostrarContrasenia');
+const campoContrasenia = document.getElementById('contrasenia');
+
+mostrarContrasenia.addEventListener('click', function(e) {
+  e.preventDefault();
+  const type = campoContrasenia.getAttribute('type') === 'password' ? 'text' : 'password';
+  campoContrasenia.setAttribute('type', type);
+  this.textContent = type === 'password' ? '👁️' : '🔒';
+});
+
 const login = (event) => {
   event.preventDefault();
 
