@@ -223,6 +223,9 @@ class Entrada
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
+                } elseif ($key === 'id') {
+                    $key = 'entradas.id';
+                    $operador = '=';
                 } elseif ($key === 'fecha_desde') {
                     $key = 'fecha_creacion';
                     $operador = '>=';

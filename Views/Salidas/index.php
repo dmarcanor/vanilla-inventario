@@ -16,7 +16,10 @@
 <div id="content">
     <div class="module-header">
         <h1 class="module-title">Salidas</h1>
-        <a class="new-user-btn" href="crear.php">Registrar nueva salida</a>
+        <div class="module-actions">
+            <a class="btn btn-success" href="crear.php">Registrar nueva salida</a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Imprimir</button>
+        </div>
     </div>
     <form class="form" onsubmit="buscar(event)">
         <h3>Búsqueda de salidas</h3>
@@ -59,8 +62,8 @@
 
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button" id="submit">Buscar</button>
-                <button type="reset" class="cancel-button" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+                <button type="submit" class="btn btn-success" id="submit">Buscar</button>
+                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
             </div>
         </div>
     </form>

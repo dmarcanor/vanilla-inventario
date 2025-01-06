@@ -39,8 +39,8 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button" id="submit">Buscar</button>
-                <button type="reset" class="cancel-button" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+                <button type="submit" class="btn btn-success" id="submit">Buscar</button>
+                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
             </div>
         </div>
     </form>

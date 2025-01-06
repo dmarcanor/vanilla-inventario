@@ -12,7 +12,11 @@ let lineas = [
 let materialesEnBaseDeDatos = [];
 
 document.addEventListener('DOMContentLoaded', () => {
-  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=activo&length=1000&start=0')
+  const ruta = window.location.pathname;
+  const estaEditando = ruta.includes('editar.php');
+  const filtroMaterialesActivas = estaEditando ?  '' : '&estado=activo';
+
+  fetch(`/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=1000&start=0${filtroMaterialesActivas}`)
     .then(response => response.json())
     .then(json => {
       if (json.ok === false) {

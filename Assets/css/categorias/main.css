@@ -35,6 +35,11 @@ body {
     margin: 0;
 }
 
+.module-actions {
+    display: flex;
+    gap: 10px;
+}
+
 .search-form {
     background-color: white;
     padding: 20px;
