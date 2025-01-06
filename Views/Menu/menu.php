@@ -1,7 +1,7 @@
 <div id="sidebar">
     <div class="app-name">Sistema de inventario de la Comercializadora GYS C.A.</div>
     <ul class="module-list">
-        <li id="menu-inicio"><a href="#inicio"><span class="icon">🏠</span> Inicio</a></li>
+        <li id="menu-inicio"><a href="/vanilla-inventario/Views/Inicio/index.php"><span class="icon">🏠</span> Inicio</a></li>
         <li id="menu-entradas"><a href="/vanilla-inventario/Views/Entradas/index.php"><span class="icon">⬇️</span> Entradas</a></li>
         <li id="menu-salidas"><a href="/vanilla-inventario/Views/Salidas/index.php"><span class="icon">⬆️</span> Salidas</a></li>
         <li id="menu-materiales"><a href="/vanilla-inventario/Views/Materiales/index.php"><span class="icon">📦</span> Materiales</a></li>
