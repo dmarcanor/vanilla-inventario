@@ -72,6 +72,7 @@ function renderTabla() {
     });
 
     // Actualizar unidad cuando cambia el item seleccionado
+    itemSelect.addEventListener("change", (e) => actualizarCantidad(index, 1));
     itemSelect.addEventListener("change", (e) => actualizarUnidad(index, e.target.value));
     itemTd.appendChild(itemSelect);
     tr.appendChild(itemTd);
@@ -91,10 +92,8 @@ function renderTabla() {
     // Columna de precio
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
-    precioInput.type = "number";
+    precioInput.type = "text";
     precioInput.value = precioPorMaterialId(linea.materialId); // Obtener precio del material
-    precioInput.min = '0.01';
-    precioInput.step = '0.01';
     precioInput.disabled = true;
     lineas[index].precio = precioPorMaterialId(linea.materialId); // Actualizar precio en el arreglo
     precioTd.appendChild(precioInput);

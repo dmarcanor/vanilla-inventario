@@ -19,7 +19,13 @@ document.addEventListener('DOMContentLoaded', () => {
       { data: "presentacion", orderable: false },
       { data: "marca", orderable: false },
       { data: "categoriaNombre", orderable: false },
-      { data: "precio", orderable: false },
+      {
+        data: "precio",
+        orderable: false,
+        render: (data) => {
+          return `$${data}`;
+        }
+      },
       { data: "stock", orderable: false },
       {
         data: "estado",

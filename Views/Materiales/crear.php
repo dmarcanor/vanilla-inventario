@@ -27,7 +27,7 @@
                 <input type="text" id="nombre" placeholder="Nombre" required>
             </div>
             <div class="form-group">
-                <label for="descripcion">Descripción *</label>
+                <label for="descripcion">Descripción</label>
                 <input type="text" id="descripcion" placeholder="Descripción">
             </div>
             <div class="form-group">
@@ -68,7 +68,10 @@
         <class class="form-row">
             <div class="form-group">
                 <label for="precio">Precio *</label>
-                <input type="number" id="precio" name="precio" min="0.01" step="0.01" placeholder="Precio" required>
+                <div style="display: flex">
+                    <span style="border: ridge">$</span>
+                    <input type="number" id="precio" name="precio" min="0.01" step="0.01" placeholder="Precio" style="padding-left: 20px;" required>
+                </div>
             </div>
             <div class="form-group">
                 <label for="stock_minimo">Stock mínimo *</label>

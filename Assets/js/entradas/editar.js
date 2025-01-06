@@ -18,10 +18,15 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('numero_entrada').value = json.entrada.numeroEntrada;
 
       lineas = json.entrada.lineas;
+
+      setTimeout(() => {
+        const inputs = document.querySelectorAll('input');
+        const selects = document.querySelectorAll('select');
+        inputs.forEach(input => input.disabled = true);
+        selects.forEach(select => select.disabled = true);
+      }, 1000);
     })
     .catch((mensaje) => {
       alert(mensaje);
-
-      // window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
     });
 });

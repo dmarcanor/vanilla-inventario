@@ -19,10 +19,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       lineas = json.salida.lineas;
       vista = 'editar';
+
+      setTimeout(() => {
+        const inputs = document.querySelectorAll('input');
+        const selects = document.querySelectorAll('select');
+        inputs.forEach(input => input.disabled = true);
+        selects.forEach(select => select.disabled = true);
+      }, 1000);
     })
     .catch((mensaje) => {
       alert(mensaje);
-
-      // window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
     });
 });

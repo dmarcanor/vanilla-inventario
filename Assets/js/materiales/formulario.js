@@ -7,7 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('precio').addEventListener('blur', dosDecimales);
 
-  fetch('/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=activo', {
+  // al editar se deben traer todas las categorias para que no desaparezcan las categorias inactivas
+  const ruta = window.location.pathname;
+  const estaEditando = ruta.includes('editar.php');
+  const filtroCategoriasActivas = estaEditando ?  '' : '&estado=activo';
+
+  fetch(`/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0${filtroCategoriasActivas}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
