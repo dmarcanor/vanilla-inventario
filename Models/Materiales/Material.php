@@ -357,7 +357,7 @@ class Material
         );
     }
 
-    public static function getMateriales($filtros, $orden)
+    public static function getMateriales($filtros, $orden, $limit)
     {
         $consultaMateriales = "SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado FROM materiales";
 
@@ -388,11 +388,16 @@ class Material
                 } elseif ($key === 'stock_hasta') {
                     $key = 'stock';
                     $operador = '<=';
+                } elseif ($key === 'stock_minimo') {
+                    $key = 'stock';
+                    $operador = '<=';
+                    $filtro = 'stock_minimo';
                 } else {
                     $operador = '=';
+                    $filtro = "'{$filtro}'";
                 }
 
-                $consultaMateriales .= "{$key} {$operador} '{$filtro}'";
+                $consultaMateriales .= "{$key} {$operador} {$filtro}";
 
                 $iteracion++;
 
@@ -403,6 +408,10 @@ class Material
         }
 
         $consultaMateriales .= " ORDER BY id {$orden}";
+
+        if ($limit > 0) {
+            $consultaMateriales .= " LIMIT {$limit}";
+        }
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaMateriales);
         $consulta->execute();

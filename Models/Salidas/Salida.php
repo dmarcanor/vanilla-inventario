@@ -157,7 +157,7 @@ class Salida
         );
     }
 
-    public static function getSalidas($filtros, $orden)
+    public static function getSalidas($filtros, $orden, $limit)
     {
         $consultaSalidas = "SELECT id, observacion, cliente_id, usuario_id, fecha_creacion FROM salidas";
 
@@ -191,6 +191,10 @@ class Salida
         }
 
         $consultaSalidas .= " ORDER BY id {$orden}";
+
+        if ($limit > 0) {
+            $consultaSalidas .= " LIMIT {$limit}";
+        }
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaSalidas);
         $consulta->execute();
@@ -268,6 +272,7 @@ class Salida
             'clienteId' => $this->cliente_id,
             'clienteFullNombre' => "{$this->cliente()->nombre()} {$this->cliente()->apellido()}",
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),
+            'fechaCreacionSinHora' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y'),
             'lineas' => $this->lineasArray()
         ];
     }

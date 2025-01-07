@@ -207,7 +207,7 @@ class Entrada
         );
     }
 
-    public static function getEntradas($filtros, $orden)
+    public static function getEntradas($filtros, $orden, $limit)
     {
         $consultaEntradas = "
             SELECT entradas.id, numero_entrada, observacion, usuario_id, fecha_creacion FROM entradas
@@ -250,6 +250,10 @@ class Entrada
         }
 
         $consultaEntradas .= " GROUP BY entradas.id ORDER BY entradas.id {$orden}";
+
+        if ($limit > 0) {
+            $consultaEntradas .= " LIMIT {$limit}";
+        }
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaEntradas);
         $consulta->execute();

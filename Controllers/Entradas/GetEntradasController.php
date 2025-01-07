@@ -11,23 +11,25 @@ $filtros = [
 ];
 
 $filtros = array_filter($filtros);
-$limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
+$limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 0;
+$length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
 
 try {
-    $clientes = Entrada::getEntradas($filtros, $order);
-    $clientesArray = [];
+    $entradas = Entrada::getEntradas($filtros, $order, $limit);
+    $entradasArray = [];
 
-    foreach ($clientes as $cliente) {
-        $clientesArray[] = $cliente->toArray();
+    foreach ($entradas as $entrada) {
+        $entradasArray[] = $entrada->toArray();
     }
-
+//var_dump($limit, $skip, $order, $entradasArray);
+//    exit();
     echo json_encode([
         'ok' => true,
-        "recordsTotal" => $limit,
-        "recordsFiltered" => count($clientes),
-        'data' => array_slice($clientesArray, $skip, $limit)
+        "recordsTotal" => $length,
+        "recordsFiltered" => count($entradas),
+        'data' => array_slice($entradasArray, $skip, $length)
     ]);
 } catch (\Exception $exception) {
     echo json_encode([

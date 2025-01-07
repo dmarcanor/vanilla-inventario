@@ -223,3 +223,6 @@ CREATE TABLE IF NOT EXISTS usuarios_historial
     cambio       TEXT         NOT NULL,
     fecha        DATETIME     NOT NULL
 );
+
+select stock, stock_minimo from materiales
+where stock <= stock_minimo;

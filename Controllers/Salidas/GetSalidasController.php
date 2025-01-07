@@ -13,12 +13,13 @@ $filtros = [
 ];
 
 $filtros = array_filter($filtros);
-$limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
+$limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
 
 try {
-    $salidas = Salida::getSalidas($filtros, $order);
+    $salidas = Salida::getSalidas($filtros, $order, $limit);
     $salidasArray = [];
 
     foreach ($salidas as $salida) {
@@ -27,9 +28,9 @@ try {
 
     echo json_encode([
         'ok' => true,
-        "recordsTotal" => $limit,
+        "recordsTotal" => $length,
         "recordsFiltered" => count($salidas),
-        'data' => array_slice($salidasArray, $skip, $limit)
+        'data' => array_slice($salidasArray, $skip, $length)
     ]);
 } catch (\Exception $exception) {
     echo json_encode([

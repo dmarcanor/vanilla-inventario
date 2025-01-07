@@ -17,16 +17,18 @@ $filtros = [
     'stock_hasta' => !empty($_GET['stock_hasta']) ? $_GET['stock_hasta'] : 0,
     'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',
     'fecha_hasta' => !empty($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : '',
-    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
+    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : '',
+    'stock_minimo' => !empty($_GET['stock_minimo']) ? $_GET['stock_minimo'] : ''
 ];
 
 $filtros = array_filter($filtros);
-$limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
+$limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
 $order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
 
 try {
-    $materiales = Material::getMateriales($filtros, $order);
+    $materiales = Material::getMateriales($filtros, $order, $limit);
     $materialesArray = [];
 
     foreach ($materiales as $material) {
