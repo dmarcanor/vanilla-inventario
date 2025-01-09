@@ -72,7 +72,7 @@
             <div class="form-group password-container">
                 <label for="repetir_contrasenia">Repetir contraseña</label>
                 <div class="password-container">
-                    <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8" required>
+                    <input type="password" id="repetir_contrasenia" placeholder="Repetir contraseña" minlength="8">
                     <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarRepetirContrasenia">👁️</button>
                 </div>
             </div>

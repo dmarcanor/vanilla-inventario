@@ -18,7 +18,7 @@
     </div>
 
     <div class="cuadricula-tablero">
-        <a href="/vanilla-inventario/Views/Usuarios/index.php" class="tarjeta-tablero">
+        <a href="/vanilla-inventario/Views/Usuarios/index.php" id="tarjeta_usuario" class="tarjeta-tablero" onload="ocultarSiNoEsAdmin()">
             <div class="emoji-tarjeta" style="background-color: limegreen">👤</div>
             <div class="info-tarjeta">
                 <div class="titulo-tarjeta">Usuarios</div>
@@ -26,7 +26,7 @@
             </div>
         </a>
 
-        <a href="/vanilla-inventario/Views/Clientes/index.php" class="tarjeta-tablero">
+        <a href="/vanilla-inventario/Views/Clientes/index.php" id="tarjeta_cliente" class="tarjeta-tablero">
             <div class="emoji-tarjeta" style="background-color: orange">🤝</div>
             <div class="info-tarjeta">
                 <div class="titulo-tarjeta">Clientes</div>
@@ -34,7 +34,7 @@
             </div>
         </a>
 
-        <a href="/vanilla-inventario/Views/Materiales/index.php" class="tarjeta-tablero">
+        <a href="/vanilla-inventario/Views/Materiales/index.php" id="tarjeta_materiales" class="tarjeta-tablero">
             <div class="emoji-tarjeta" style="background-color: deepskyblue">📦</div>
             <div class="info-tarjeta">
                 <div class="titulo-tarjeta">Materiales</div>
@@ -42,7 +42,7 @@
             </div>
         </a>
 
-        <a href="/vanilla-inventario/Views/Categorias/index.php" class="tarjeta-tablero">
+        <a href="/vanilla-inventario/Views/Categorias/index.php" id="tarjeta_categorias" class="tarjeta-tablero">
             <div class="emoji-tarjeta" style="background-color: yellow">🏷️</div>
             <div class="info-tarjeta">
                 <div class="titulo-tarjeta">Categorías</div>

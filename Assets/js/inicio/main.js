@@ -162,6 +162,10 @@ const cargarTablaMaterialesStockMinimo = () => {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  if (!esAdmin()) {
+    document.getElementById('tarjeta_usuario').hidden = true;
+  }
+
   const contadorUsuarios = document.getElementById('contadorUsuarios');
   const contadorClientes = document.getElementById('contadorClientes');
   const contadorMateriales = document.getElementById('contadorMateriales');

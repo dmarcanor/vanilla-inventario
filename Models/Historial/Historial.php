@@ -121,37 +121,30 @@ class Historial
         $entidad = $this->getEntidad();
 
         if ($this->tipoEntidad === 'Usuario') {
-            return "<a href='/vanilla-inventario/Views/Usuarios/editar.php?id={$this->entidadId}'>{$entidad->nombre()} {$entidad->apellido()}</a>";
+            return "{$entidad->nombre()} {$entidad->apellido()}";
         }
 
         if ($this->tipoEntidad === 'Cliente') {
-            return "<a href='/vanilla-inventario/Views/Clientes/editar.php?id={$this->entidadId}'>{$entidad->nombre()} {$entidad->apellido()}</a>";
+            return "{$entidad->nombre()} {$entidad->apellido()}";
         }
 
         if ($this->tipoEntidad === 'Material') {
-            return "<a href='/vanilla-inventario/Views/Materiales/editar.php?id={$this->entidadId}'>{$entidad->nombre()}</a>";
+            return $entidad->nombre();
         }
 
         if ($this->tipoEntidad === 'Categoria') {
-            return "<a href='/vanilla-inventario/Views/Categorias/editar.php?id={$this->entidadId}'>{$entidad->nombre()}</a>";
+            return $entidad->nombre();
         }
 
         if ($this->tipoEntidad === 'Entrada') {
-            return "<a href='/vanilla-inventario/Views/Entradas/editar.php?id={$this->entidadId}'>{$entidad->numeroEntrada()}</a>";
+            return $entidad->numeroEntrada();
         }
 
         if ($this->tipoEntidad === 'Salida') {
-            return "<a href='/vanilla-inventario/Views/Salidas/editar.php?id={$this->entidadId}'>{$entidad->id()}</a>";
+            return $entidad->id();
         }
 
         return '';
-    }
-
-    private function getEnlaceUsuario()
-    {
-        $usuario = $this->usuario();
-
-        return "<a href='/vanilla-inventario/Views/Usuarios/editar.php?id={$this->usuarioId}'>{$usuario->nombre()} {$usuario->apellido()}</a>";
     }
 
     public function toArray()
@@ -159,7 +152,7 @@ class Historial
         return [
             'id' => $this->id,
             'usuarioId' => $this->usuarioId,
-            'usuario' => $this->getEnlaceUsuario(),
+            'usuario' => "{$this->usuario()->nombre()} {$this->usuario()->apellido()}",
             'tipoAccion' => $this->tipoAccion,
             'tipoEntidad' => $this->tipoEntidad,
             'entidadId' => $this->entidadId,

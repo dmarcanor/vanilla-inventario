@@ -75,8 +75,9 @@ function renderTabla() {
       itemSelect.appendChild(option);
     });
 
-    // Actualizar unidad cuando cambia el item seleccionado
+    // Actualizar cantidad cuando cambia el item seleccionado
     itemSelect.addEventListener("change", (e) => actualizarCantidad(index, 1));
+    // Actualizar unidad cuando cambia el item seleccionado
     itemSelect.addEventListener("change", (e) => actualizarUnidad(index, e.target.value));
     itemTd.appendChild(itemSelect);
     tr.appendChild(itemTd);

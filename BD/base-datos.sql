@@ -226,3 +226,5 @@ CREATE TABLE IF NOT EXISTS usuarios_historial
 
 select stock, stock_minimo from materiales
 where stock <= stock_minimo;
+
+select * from materiales;

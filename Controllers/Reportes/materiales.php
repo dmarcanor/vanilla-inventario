@@ -46,12 +46,13 @@ $filtros = [
 ];
 
 $filtros = array_filter($filtros);
-$limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
+$limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 0;
+$length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
 $order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
 
 try {
-    $materiales = Material::getMateriales($filtros, $order);
+    $materiales = Material::getMateriales($filtros, $order, $limit);
 
     foreach ($materiales as $material) {
         $html .= '

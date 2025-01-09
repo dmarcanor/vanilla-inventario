@@ -22,7 +22,7 @@ $filtros = [
 ];
 
 $filtros = array_filter($filtros);
-$limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 0;
 $length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
 $order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
@@ -39,7 +39,7 @@ try {
         'ok' => true,
         "recordsTotal" => $limit,
         "recordsFiltered" => count($materiales),
-        'data' => array_slice($materialesArray, $skip, $limit)
+        'data' => array_slice($materialesArray, $skip, $length)
     ]);
 } catch (\Exception $exception) {
     echo json_encode([

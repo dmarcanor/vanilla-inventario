@@ -121,7 +121,6 @@ function renderTabla() {
       stockPosteriorInput.type = "text";
       stockPosteriorInput.disabled = true;
       stockPosteriorInput.value = linea.stockPosterior;
-      // stockPosteriorInput.value = parseFloat(stockPorMaterialId(linea.materialId) - parseFloat(linea.cantidad));
       stockPosteriorTd.appendChild(stockPosteriorInput);
       tr.appendChild(stockPosteriorTd);
     }
@@ -164,9 +163,9 @@ function borrarLinea(index) {
 
 const actualizarLinea = (index, materialId) => {
   actualizarUnidad(index, materialId);
-  lineas[index].cantidad = 0 // Actualizar cantidad a 0
+  lineas[index].cantidad = 1 // Actualizar cantidad a 0
   lineas[index].stockActual = stockPorMaterialId(materialId) // Actualizar stock actual
-  lineas[index].stockPosterior = stockPorMaterialId(materialId) // Actualizar el stock posterior
+  lineas[index].stockPosterior = stockPorMaterialId(materialId) - lineas[index].cantidad // Actualizar el stock posterior
   renderTabla();
 }
 
@@ -181,7 +180,7 @@ function actualizarCantidad(index, cantidad) {
   lineas[index].cantidad = parseInt(cantidad) || 1; // Actualizar cantidad, por defecto 1
   lineas[index].stockActual = stockPorMaterialId(lineas[index].materialId) // Actualizar stock actual
   lineas[index].stockPosterior = parseFloat(stockPorMaterialId(lineas[index].materialId) - parseFloat(lineas[index].cantidad)) // Actualizar el stock posterior
-
+console.log("gg", index, cantidad, lineas);
   setTimeout(() => {
     renderTabla(); // Volver a renderizar para actualizar la unidad
   }, 1000);
