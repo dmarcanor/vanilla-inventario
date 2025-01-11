@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('apellido').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
+});
+
 const passwordInfo = document.getElementById('contraseniaInfo');
 const passwordGuide = document.getElementById('contraseniaGuia');
 const mostrarContrasenia = document.getElementById('mostrarContrasenia');

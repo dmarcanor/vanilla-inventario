@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
+
   const campoUsuarioRegistrador = document.getElementById('usuarioId');
   const campoCliente = document.getElementById('clienteId');
 

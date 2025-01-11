@@ -1,4 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
+
   const campoCliente = document.getElementById('clienteId');
 
   fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?estado=activo&length=1000&start=0', {

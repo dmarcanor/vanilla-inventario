@@ -62,5 +62,6 @@
 <script src="/vanilla-inventario/Assets/js/entradas/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/entradas/materiales-tabla.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
+<script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
 </body>
 </html>

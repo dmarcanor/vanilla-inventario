@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const cambiarNombreUsuarioSesion = () => {
-    const sesion = JSON.parse(localStorage.getItem('usuario'));
-    const usuarioHTML = document.getElementById('usuario');
-
-    usuarioHTML.textContent = sesion.nombre;
-  }
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
 
   $('#usuarios-table').DataTable({
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
@@ -41,8 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     ]
   });
-
-  cambiarNombreUsuarioSesion();
 });
 
 const estadoLabel = (estado) => {

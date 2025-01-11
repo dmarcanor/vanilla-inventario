@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const campoCategoria = document.getElementById('categoria_id');
 
+  document.getElementById('codigo').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
@@ -37,13 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(mensaje);
     });
 });
-
-const primeraLetraMayuscula = (event) => {
-  const campo = event.target;
-  const valor = campo.value;
-
-  campo.value = valor.charAt(0).toUpperCase() + valor.slice(1);
-}
 
 const dosDecimales = (event) => {
   const campo = event.target;

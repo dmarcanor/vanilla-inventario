@@ -1,3 +1,8 @@
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
+});
+
 const guardar = (event) => {
   event.preventDefault();
 

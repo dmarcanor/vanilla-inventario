@@ -1,15 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const campoObservacion = document.getElementById('observacion');
-
-  campoObservacion.addEventListener('input', (event) => {
-    const observacion = event.target.value;
-
-    if (!observacion) {
-      return "";
-    }
-
-    campoObservacion.value = observacion.charAt(0).toUpperCase() + observacion.slice(1);
-  });
+  document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
 });
 
 const guardar = (event) => {

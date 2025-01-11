@@ -109,5 +109,6 @@
 <script src="/vanilla-inventario/Assets/js/usuarios/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/usuarios/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
+<script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
 </body>
 </html>

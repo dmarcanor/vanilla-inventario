@@ -236,3 +236,6 @@ ALTER TABLE usuarios AUTO_INCREMENT = 1;
 INSERT INTO usuarios (nombre_usuario, nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
 VALUES ('admin2025', 'admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==',  '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
         'calle juncal', 'admin', 'activo');
+
+select * from usuarios
+where BINARY usuarios.nombre_usuario = 'admin2025';

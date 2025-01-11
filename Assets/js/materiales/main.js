@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('codigo').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
+
   $('#usuarios-table').DataTable({
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor

@@ -1,3 +1,9 @@
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('apellido').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
+});
+
 const validarTelefono = (telefono) => {
   const regex = /^(0412|0414|0416|0424|0426)\d{7}$/;
 

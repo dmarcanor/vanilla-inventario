@@ -71,5 +71,6 @@
 <script src="/vanilla-inventario/Assets/js/categorias/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 <script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>
+<script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
 </body>
 </html>

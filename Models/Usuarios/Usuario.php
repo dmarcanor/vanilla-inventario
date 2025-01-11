@@ -380,7 +380,7 @@ class Usuario
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
             SELECT id, nombre_usuario, iv, contrasenia, nombre, apellido, cedula, telefono, direccion, estado, rol 
-            FROM usuarios WHERE nombre_usuario = ?
+            FROM usuarios WHERE BINARY nombre_usuario = ?
         ");
         $consulta->execute([$nombreUsuario]);
         $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
