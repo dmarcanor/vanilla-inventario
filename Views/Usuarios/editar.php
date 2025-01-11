@@ -52,7 +52,6 @@
                 <label for="contrasenia">
                     Contraseña
                     <button type="button" style="background-color: inherit; font-size: 11pt" class="info-btn" id="contraseniaInfo">ℹ️</button>
-                    <small style="font-size: 8pt">No llenar si no desea cambiar la contraseña</small>
                 </label>
                 <div class="password-container">
                     <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" minlength="8">

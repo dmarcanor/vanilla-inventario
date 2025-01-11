@@ -17,8 +17,8 @@
     <div class="module-header">
         <h1 class="module-title">Usuarios</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="/vanilla-inventario/Views/Usuarios/crear.php">Registrar nuevo usuario</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Imprimir</button>
+            <a class="btn btn-success" href="/vanilla-inventario/Views/Usuarios/crear.php">Crear nuevo usuario</a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
         </div>
     </div>
     <form class="form" onsubmit="buscar(event)">
@@ -27,7 +27,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="cedula">Cédula</label>
-                <input type="text" id="cedula" name="cedula" placeholder="Cédula">
+                <input type="number" id="cedula" name="cedula" placeholder="Cédula">
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre</label>
@@ -39,7 +39,7 @@
             </div>
             <div class="form-group">
                 <label for="telefono">Teléfono</label>
-                <input type="text" id="telefono" name="telefono" placeholder="Teléfono">
+                <input type="number" id="telefono" name="telefono" placeholder="Teléfono">
             </div>
         </div>
         <div class="form-row">

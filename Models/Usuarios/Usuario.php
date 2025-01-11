@@ -4,6 +4,9 @@ require_once __DIR__ . '/../../BD/ConexionBD.php';
 
 class Usuario
 {
+    public const LLAVE = 'clave-secreta-vanilla-inventario';
+    public const METODO_ENCRIPTADO = 'aes-256-cbc';
+
     private $id;
     private $nombreUsuario;
     private $nombre;
@@ -12,10 +15,11 @@ class Usuario
     private $telefono;
     private $direccion;
     private $contrasenia;
+    private $iv;
     private $rol;
     private $estado;
 
-    public function __construct($id, $nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
+    public function __construct($id, $nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $iv, $rol, $estado)
     {
         $this->id = $id;
         $this->nombreUsuario = $nombreUsuario;
@@ -25,6 +29,7 @@ class Usuario
         $this->telefono = $telefono;
         $this->direccion = $direccion;
         $this->contrasenia = $contrasenia;
+        $this->iv = $iv;
         $this->rol = $rol;
         $this->estado = $estado;
     }
@@ -74,6 +79,26 @@ class Usuario
         return $this->apellido;
     }
 
+    public function contrasenia()
+    {
+        return $this->contrasenia;
+    }
+
+    public static function ivAleatorio()
+    {
+        return openssl_random_pseudo_bytes(openssl_cipher_iv_length(self::METODO_ENCRIPTADO));
+    }
+
+    public function contraseniaDesencriptada()
+    {
+        return openssl_decrypt($this->contrasenia, 'aes-256-cbc', self::LLAVE, 0, hex2bin($this->iv));
+    }
+
+    public static function contraseniaEncriptada($contrasenia, $iv)
+    {
+        return openssl_encrypt($contrasenia, self::METODO_ENCRIPTADO, self::LLAVE, 0, $iv);
+    }
+
     public static function crear($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado, $usuarioSesion)
     {
         $validarContraseniaVacia = true;
@@ -96,6 +121,9 @@ class Usuario
             throw new Exception("El nombre de usuario {$nombreUsuario} ya está en uso.");
         }
 
+        $ivAleatorio = self::ivAleatorio();
+        $contraseniaEncriptada = self::contraseniaEncriptada($contrasenia, $ivAleatorio);
+
         $usuario = new Usuario(
             null,
             $nombreUsuario,
@@ -104,14 +132,15 @@ class Usuario
             $cedula,
             $telefono,
             $direccion,
-            password_hash($contrasenia, PASSWORD_DEFAULT),
+            $contraseniaEncriptada,
+            $ivAleatorio,
             $rol,
             $estado
         );
 
         $consultaCrearUsuario = (new ConexionBD())->getConexion()->prepare("
-            INSERT INTO usuarios (nombre_usuario, nombre, apellido, cedula, telefono, direccion, contrasenia, rol, estado) VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO usuarios (nombre_usuario, nombre, apellido, cedula, telefono, direccion, contrasenia, iv, rol, estado) VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $consultaCrearUsuario->execute([
@@ -122,6 +151,7 @@ class Usuario
             $usuario->telefono,
             $usuario->direccion,
             $usuario->contrasenia,
+            bin2hex($usuario->iv),
             $usuario->rol,
             $usuario->estado
         ]);
@@ -139,6 +169,7 @@ class Usuario
             $usuario->telefono,
             $usuario->direccion,
             $usuario->contrasenia,
+            $usuario->iv,
             $usuario->rol,
             $usuario->estado
         );
@@ -182,6 +213,9 @@ class Usuario
             }
         }
 
+        $iv = hex2bin($usuarioOriginal->iv);
+        $contraseniaEncriptada = self::contraseniaEncriptada($contrasenia, $iv);
+
         $usuarioModificado = new Usuario(
             $id,
             $nombreUsuario,
@@ -190,7 +224,8 @@ class Usuario
             $cedula,
             $telefono,
             $direccion,
-            password_hash($contrasenia, PASSWORD_DEFAULT),
+            $contraseniaEncriptada,
+            $iv,
             $rol,
             $estado
         );
@@ -316,7 +351,7 @@ class Usuario
     public static function getUsuarioPorCedula($cedula)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre_usuario, nombre, apellido, cedula, telefono, direccion, estado, rol 
+            SELECT id, nombre_usuario, contrasenia, iv, nombre, apellido, cedula, telefono, direccion, estado, rol 
             FROM usuarios WHERE cedula = ?
         ");
         $consulta->execute([$cedula]);
@@ -334,7 +369,8 @@ class Usuario
             $usuario['cedula'],
             $usuario['telefono'],
             $usuario['direccion'],
-            null,
+            $usuario['contrasenia'],
+            $usuario['iv'],
             $usuario['rol'],
             $usuario['estado']
         );
@@ -343,7 +379,7 @@ class Usuario
     public static function getUsuarioPorNombreUsuario($nombreUsuario)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre_usuario, nombre, apellido, cedula, telefono, direccion, estado, rol 
+            SELECT id, nombre_usuario, iv, contrasenia, nombre, apellido, cedula, telefono, direccion, estado, rol 
             FROM usuarios WHERE nombre_usuario = ?
         ");
         $consulta->execute([$nombreUsuario]);
@@ -361,7 +397,8 @@ class Usuario
             $usuario['cedula'],
             $usuario['telefono'],
             $usuario['direccion'],
-            null,
+            $usuario['contrasenia'],
+            $usuario['iv'],
             $usuario['rol'],
             $usuario['estado']
         );
@@ -391,6 +428,7 @@ class Usuario
             $usuarioOriginal->telefono,
             $usuarioOriginal->direccion,
             $usuarioOriginal->contrasenia,
+            $usuarioOriginal->iv,
             $usuarioOriginal->rol,
             $nuevoEstado
         );
@@ -412,7 +450,7 @@ class Usuario
     public static function getUsuario($id)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, nombre_usuario, nombre, apellido, cedula, telefono, direccion, estado, rol, estado 
+            SELECT id, nombre_usuario, contrasenia, iv, nombre, apellido, cedula, telefono, direccion, estado, rol, estado 
             FROM usuarios WHERE id = ?
         ");
         $consulta->execute([$id]);
@@ -430,7 +468,8 @@ class Usuario
             $usuario['cedula'],
             $usuario['telefono'],
             $usuario['direccion'],
-            null,
+            $usuario['contrasenia'],
+            $usuario['iv'],
             $usuario['rol'],
             $usuario['estado']
         );
@@ -475,6 +514,7 @@ class Usuario
                 $usuario['cedula'],
                 $usuario['telefono'],
                 $usuario['direccion'],
+                null,
                 null,
                 $usuario['rol'],
                 $usuario['estado']
@@ -609,7 +649,8 @@ class Usuario
             'telefono' => $this->telefono,
             'direccion' => $this->direccion,
             'rol' => $this->rol,
-            'estado' => $this->estado
+            'estado' => $this->estado,
+            'contrasenia' => $this->contraseniaDesencriptada()
         ];
     }
 }

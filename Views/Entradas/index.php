@@ -17,8 +17,8 @@
     <div class="module-header">
         <h1 class="module-title">Entradas</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="crear.php">Registrar nueva entrada</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Imprimir</button>
+            <a class="btn btn-success" href="crear.php">Crear nueva entrada</a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
         </div>
     </div>
     <form class="form" onsubmit="buscar(event)">
@@ -27,11 +27,11 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="id">ID</label>
-                <input type="text" id="id" placeholder="ID">
+                <input type="number" id="id" placeholder="ID">
             </div>
             <div class="form-group">
                 <label for="numero_entrada">Número de entrada</label>
-                <input type="text" id="numero_entrada" placeholder="Número de entrada">
+                <input type="number" id="numero_entrada" placeholder="Número de entrada">
             </div>
             <div class="form-group">
                 <label for="fecha_desde">Fecha creación desde</label>

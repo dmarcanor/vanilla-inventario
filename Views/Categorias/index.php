@@ -17,8 +17,8 @@
     <div class="module-header">
         <h1 class="module-title">Categorías</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="crear.php">Registrar nueva categoría</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Imprimir</button>
+            <a class="btn btn-success" href="crear.php">Crear nueva categoría</a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
         </div>
     </div>
     <form class="form" onsubmit="buscar(event)">

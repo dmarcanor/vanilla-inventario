@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS usuarios
     eliminado   BOOL DEFAULT FALSE
 );
 
-INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, telefono, direccion, rol, estado)
-VALUES ('admin', 'apellido', '12345670', '$2y$10$qGY76PQnevfXJvhxfRM6cOoj.oKPH9uGvI4rmLh7e6kh6TBJQcAB2', '04161234567',
+INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
+VALUES ('admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==',  '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
         'calle juncal', 'admin', 'activo');
 
 DROP TABLE IF EXISTS clientes;
@@ -224,7 +224,15 @@ CREATE TABLE IF NOT EXISTS usuarios_historial
     fecha        DATETIME     NOT NULL
 );
 
-select stock, stock_minimo from materiales
-where stock <= stock_minimo;
+ALTER TABLE usuarios
+ADD COLUMN iv VARCHAR(255) NOT NULL AFTER contrasenia;
 
-select * from materiales;
+DELETE FROM salida_lineas;
+DELETE FROM salidas;
+DELETE FROM usuarios;
+
+ALTER TABLE usuarios AUTO_INCREMENT = 1;
+
+INSERT INTO usuarios (nombre_usuario, nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
+VALUES ('admin2025', 'admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==',  '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
+        'calle juncal', 'admin', 'activo');

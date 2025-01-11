@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       document.getElementById('id').value = id;
       document.getElementById('nombre_usuario').value = json.usuario.nombreUsuario;
+      document.getElementById('contrasenia').value = json.usuario.contrasenia;
       document.getElementById('nombre').value = json.usuario.nombre;
       document.getElementById('apellido').value = json.usuario.apellido;
       document.getElementById('cedula').value = json.usuario.cedula;
@@ -26,6 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch((mensaje) => {
       alert(mensaje);
 
-      window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
+      // window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
     });
 });

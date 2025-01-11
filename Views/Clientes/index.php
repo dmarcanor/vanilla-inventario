@@ -17,8 +17,8 @@
     <div class="module-header">
         <h1 class="module-title">Clientes</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="crear.php">Registrar nuevo cliente</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Imprimir</button>
+            <a class="btn btn-success" href="crear.php">Crear nuevo cliente</a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
         </div>
     </div>
     <form class="form" onsubmit="buscar(event)">
@@ -50,7 +50,7 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="telefono">Teléfono</label>
-                <input type="text" id="telefono" placeholder="Teléfono">
+                <input type="number" id="telefono" placeholder="Teléfono">
             </div>
             <div class="form-group">
                 <label for="estado">Estado</label>

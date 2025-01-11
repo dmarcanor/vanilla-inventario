@@ -17,8 +17,8 @@
     <div class="module-header">
         <h1 class="module-title">Materiales</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="crear.php">Registrar nuevo material</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Imprimir</button>
+            <a class="btn btn-success" href="crear.php">Crear nuevo material</a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
         </div>
     </div>
     <form class="form" onsubmit="buscar(event)">
@@ -68,13 +68,13 @@
             </div>
             <div class="form-group">
                 <label for="fecha_desde">Fecha de Creación (Desde)</label>
-                <input type="datetime-local" id="fecha_desde" name="fecha_desde">
+                <input type="date" id="fecha_desde" name="fecha_desde">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label for="fecha_hasta">Fecha de Creación (Hasta)</label>
-                <input type="datetime-local" id="fecha_hasta" name="fecha_hasta">
+                <input type="date" id="fecha_hasta" name="fecha_hasta">
             </div>
             <div class="form-group">
                 <div class="form-group">

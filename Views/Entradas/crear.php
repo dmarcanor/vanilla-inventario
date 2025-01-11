@@ -24,8 +24,8 @@
                 <input type="number" id="numero_entrada" placeholder="Número de entrada" required>
             </div>
             <div class="big-form-group">
-                <label for="observacion">Observación *</label>
-                <input type="text" id="observacion" placeholder="Observación" required>
+                <label for="observacion">Observación</label>
+                <input type="text" id="observacion" placeholder="Observación">
             </div>
             <div class="form-group"></div>
         </div>

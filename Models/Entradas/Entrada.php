@@ -26,7 +26,7 @@ class Entrada
 
     public static function crear($numeroEntrada, $observacion, $usuarioId, $lineas, $usuarioSesion)
     {
-        self::validarCamposVacios($numeroEntrada, $observacion, $usuarioId);
+        self::validarCamposVacios($numeroEntrada, $usuarioId);
 
         $entradaConNumero = self::getEntradaConNumero($numeroEntrada);
 
@@ -142,14 +142,10 @@ class Entrada
         $consultaEliminarCliente->execute([$id]);
     }
 
-    private static function validarCamposVacios($numeroEntrada, $observacion, $usuarioId)
+    private static function validarCamposVacios($numeroEntrada, $usuarioId)
     {
         if (empty($numeroEntrada)) {
             throw new Exception("El número de la entrada no puede estar vacía.");
-        }
-
-        if (empty($observacion)) {
-            throw new Exception("La descripción no puede estar vacía.");
         }
 
         if (empty($usuarioId)) {
