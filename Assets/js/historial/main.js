@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id" },
+      { data: "id", orderable: false },
       { data: "usuario", orderable: false },
       { data: "tipoAccion", orderable: false },
       { data: "tipoEntidad", orderable: false },

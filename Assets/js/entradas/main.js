@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       materiales.forEach(material => {
         const option = document.createElement('option');
         option.value = material.id;
-        option.text = material.nombre;
+        option.text = `${material.nombre} - ${material.presentacion}`;
 
         campoMaterial.appendChild(option);
       });
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id" },
+      { data: "id", orderable: false },
       { data: "numeroEntrada", orderable: false },
       { data: "observacion", orderable: false },
       { data: "fechaCreacionSinHora", orderable: false },

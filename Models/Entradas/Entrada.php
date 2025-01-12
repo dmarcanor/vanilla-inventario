@@ -26,6 +26,8 @@ class Entrada
 
     public static function crear($numeroEntrada, $observacion, $usuarioId, $lineas, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         self::validarCamposVacios($numeroEntrada, $usuarioId);
 
         $entradaConNumero = self::getEntradaConNumero($numeroEntrada);
@@ -102,6 +104,8 @@ class Entrada
 
     private static function guardarHistorial($usuarioSesion, $entrada)
     {
+        date_default_timezone_set('America/Caracas');
+
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
         $consultaHistorial = $conexionBaseDatos->prepare("

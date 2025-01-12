@@ -37,6 +37,8 @@ class Salida
 
     public static function crear($cliente_id, $observacion, $usuarioId, $lineas, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         self::validarCamposVacios($cliente_id, $observacion, $usuarioId);
 
         $conexionBD = (new ConexionBD())->getConexion();
@@ -92,6 +94,8 @@ class Salida
 
     private static function guardarHistorial($usuarioSesion, $salida)
     {
+        date_default_timezone_set('America/Caracas');
+
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
         $consultaHistorial = $conexionBaseDatos->prepare("
@@ -271,7 +275,7 @@ class Salida
             'usuarioFullNombre' => "{$this->usuario()->nombre()} {$this->usuario()->apellido()}",
             'clienteId' => $this->cliente_id,
             'clienteFullNombre' => "{$this->cliente()->nombre()} {$this->cliente()->apellido()}",
-            'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),
+            'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y h:i:sA'),
             'fechaCreacionSinHora' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y'),
             'lineas' => $this->lineasArray()
         ];

@@ -77,6 +77,7 @@ function renderTabla() {
     cantidadInput.value = linea.cantidad;
     cantidadInput.min = '0.01';
     cantidadInput.step = '0.01';
+    cantidadInput.addEventListener("focus", (e) => vaciarContenidoSiEsCero(index, e.target));
     cantidadInput.addEventListener("keyup", (e) => actualizarCantidad(index, e.target.value));
     cantidadTd.appendChild(cantidadInput);
     tr.appendChild(cantidadTd);
@@ -164,7 +165,6 @@ function borrarLinea(index) {
 
 const actualizarLinea = (index, materialId) => {
   actualizarUnidad(index, materialId);
-  lineas[index].cantidad = 1 // Actualizar cantidad a 0
   lineas[index].stockActual = stockPorMaterialId(materialId) // Actualizar stock actual
   lineas[index].stockPosterior = stockPorMaterialId(materialId) - lineas[index].cantidad // Actualizar el stock posterior
   renderTabla();
@@ -176,9 +176,16 @@ function actualizarUnidad(index, materialId) {
   renderTabla(); // Volver a renderizar para actualizar la unidad
 }
 
+// Funciones para vaciar contenido si es cero
+function vaciarContenidoSiEsCero(index, campo) {
+  if (campo.value == 0) {
+    campo.value = "";
+  }
+}
+
 // Función para actualizar la cantidad
 function actualizarCantidad(index, cantidad) {
-  lineas[index].cantidad = parseInt(cantidad) || 1; // Actualizar cantidad, por defecto 1
+  lineas[index].cantidad = parseInt(cantidad); // Actualizar cantidad, por defecto 1
   lineas[index].stockActual = stockPorMaterialId(lineas[index].materialId) // Actualizar stock actual
   lineas[index].stockPosterior = parseFloat(stockPorMaterialId(lineas[index].materialId) - parseFloat(lineas[index].cantidad)) // Actualizar el stock posterior
 console.log("gg", index, cantidad, lineas);

@@ -2,13 +2,16 @@
 
 require_once __DIR__ . '/../../Models/Salidas/Salida.php';
 
+$fechaDesde = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('Y-m-d 00:00:00') : '';
+$fechaHasta = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('Y-m-d 23:59:59') : '';
+
 $filtros = [
     'id' => !empty($_GET['id']) ? $_GET['id'] : '',
     'observacion' => !empty($_GET['observacion']) ? "%{$_GET['observacion']}%" : '',
     'usuario_id' => !empty($_GET['usuarioId']) ? $_GET['usuarioId'] : '',
     'cliente_id' => !empty($_GET['clienteId']) ? $_GET['clienteId'] : '',
-    'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',
-    'fecha_hasta' => !empty($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : '',
+    'fecha_desde' => $fechaDesde,
+    'fecha_hasta' => $fechaHasta,
     'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
 ];
 

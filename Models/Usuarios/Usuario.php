@@ -101,6 +101,8 @@ class Usuario
 
     public static function crear($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         $validarContraseniaVacia = true;
 
         self::validarCamposVacios($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado);
@@ -179,6 +181,8 @@ class Usuario
 
     public static function editar($id, $nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         $usuarioOriginal = self::getUsuario($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
@@ -269,6 +273,8 @@ class Usuario
 
     private static function guardarHistorial($usuarioSesion, $usuarioOriginal, $usuarioModificado, $contraseniaModificada)
     {
+        date_default_timezone_set('America/Caracas');
+
         $conexionBaseDatos = (new ConexionBD())->getConexion();
         $cambios = [];
 
@@ -470,7 +476,7 @@ class Usuario
         );
     }
 
-    public static function getUsuarios($filtros, $orden)
+    public static function getUsuarios($filtros, $orden, $ordenCampo)
     {
         $consultaUsuarios = "SELECT id, nombre_usuario, nombre, apellido, cedula, telefono, direccion, rol, estado FROM usuarios";
 
@@ -492,7 +498,7 @@ class Usuario
             }
         }
 
-        $consultaUsuarios .= " ORDER BY id {$orden}";
+        $consultaUsuarios .= " ORDER BY {$ordenCampo} {$orden}";
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaUsuarios);
         $consulta->execute();

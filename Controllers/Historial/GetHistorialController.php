@@ -33,6 +33,7 @@ try {
 } catch (\Exception $exception) {
     echo json_encode([
         'ok' => false,
-        'data' => []
+        'data' => [],
+        'mensaje' => $exception->getMessage()
     ]);
 }

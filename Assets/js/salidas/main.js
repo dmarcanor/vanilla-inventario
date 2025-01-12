@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const campoUsuarioRegistrador = document.getElementById('usuarioId');
   const campoCliente = document.getElementById('clienteId');
 
-  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?estado=activo&length=1000&start=0', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(mensaje);
     });
 
-  fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?activo&length=1000&start=0', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id" },
+      { data: "id", orderable: false },
       { data: "observacion", orderable: false },
       { data: "clienteFullNombre", orderable: false },
       { data: "usuarioFullNombre", orderable: false },

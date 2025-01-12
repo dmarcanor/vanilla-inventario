@@ -27,6 +27,8 @@ class SalidaLinea
 
     public static function crear($salidaId, $materialId, $cantidad, $precio)
     {
+        date_default_timezone_set('America/Caracas');
+
         self::validarCamposVacios($salidaId, $materialId, $cantidad, $precio);
 
         $salidaLinea = new SalidaLinea(

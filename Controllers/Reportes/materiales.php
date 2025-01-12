@@ -27,6 +27,9 @@ $html = '
 ';
 
 // buscando los registros
+$fechaDesde = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('Y-m-d 00:00:00') : '';
+$fechaHasta = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('Y-m-d 23:59:59') : '';
+
 $filtros = [
     'id' => !empty($_GET['id']) ? $_GET['id'] : 0,
     'codigo' => !empty($_GET['codigo']) ? "%{$_GET['codigo']}%" : '',
@@ -40,8 +43,8 @@ $filtros = [
     'precio_hasta' => !empty($_GET['precio_hasta']) ? $_GET['precio_hasta'] : 0,
     'stock_desde' => !empty($_GET['stock_desde']) ? $_GET['stock_desde'] : 0,
     'stock_hasta' => !empty($_GET['stock_hasta']) ? $_GET['stock_hasta'] : 0,
-    'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',
-    'fecha_hasta' => !empty($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : '',
+    'fecha_desde' => $fechaDesde,
+    'fecha_hasta' => $fechaHasta,
     'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
 ];
 
@@ -49,10 +52,11 @@ $filtros = array_filter($filtros);
 $limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 0;
 $length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
+$ordenCampo = !empty($_GET['ordenCampo']) ? $_GET['ordenCampo'] : 'id';
 
 try {
-    $materiales = Material::getMateriales($filtros, $order, $limit);
+    $materiales = Material::getMateriales($filtros, $order, $ordenCampo, $limit);
 
     foreach ($materiales as $material) {
         $html .= '

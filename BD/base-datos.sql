@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS usuarios
 );
 
 INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
-VALUES ('admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==',  '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
+VALUES ('admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==', '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
         'calle juncal', 'admin', 'activo');
 
 DROP TABLE IF EXISTS clientes;
@@ -211,7 +211,9 @@ ALTER TABLE entradas
 ALTER TABLE usuarios
     ADD COLUMN nombre_usuario VARCHAR(255) NOT NULL;
 
-UPDATE usuarios SET nombre_usuario = 'admin' WHERE id = 1;
+UPDATE usuarios
+SET nombre_usuario = 'admin'
+WHERE id = 1;
 
 CREATE TABLE IF NOT EXISTS usuarios_historial
 (
@@ -225,17 +227,47 @@ CREATE TABLE IF NOT EXISTS usuarios_historial
 );
 
 ALTER TABLE usuarios
-ADD COLUMN iv VARCHAR(255) NOT NULL AFTER contrasenia;
+    ADD COLUMN iv VARCHAR(255) NOT NULL AFTER contrasenia;
 
-DELETE FROM salida_lineas;
-DELETE FROM salidas;
-DELETE FROM usuarios;
+DELETE
+FROM salida_lineas;
+DELETE
+FROM salidas;
+DELETE
+FROM usuarios;
 
-ALTER TABLE usuarios AUTO_INCREMENT = 1;
+ALTER TABLE usuarios
+    AUTO_INCREMENT = 1;
 
 INSERT INTO usuarios (nombre_usuario, nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
-VALUES ('admin2025', 'admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==',  '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
+VALUES ('admin2025', 'admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==', '6de83e1d37e577d83e7be9fb96f90d7b',
+        '04161234567',
         'calle juncal', 'admin', 'activo');
 
-select * from usuarios
-where BINARY usuarios.nombre_usuario = 'admin2025';
+DELETE
+FROM usuarios_historial
+WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.usuario_id);
+DELETE
+FROM usuarios_historial
+WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.entidad_id);
+
+SELECT id,
+       codigo,
+       nombre,
+       descripcion,
+       marca,
+       categoria_id,
+       unidad,
+       presentacion,
+       precio,
+       stock,
+       stock_minimo,
+       fecha_creacion,
+       estado
+FROM materiales
+WHERE fecha_creacion >= '2024-12-08 00:00:00'
+AND fecha_creacion <= '2024-12-08 23:59:59'
+ORDER BY estado ASC;
+
+select *
+from materiales;

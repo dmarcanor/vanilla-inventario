@@ -18,14 +18,14 @@ document.addEventListener('DOMContentLoaded', () => {
     searching: false,
     scrollX: true,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Clientes/GetClientesController.php", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Clientes/GetClientesController.php?ordenCampo=estado", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id" },
+      { data: "id", orderable: false },
       { data: "nombre", orderable: false },
       { data: "apellido", orderable: false },
       { data: "tipoIdentificacion", orderable: false },

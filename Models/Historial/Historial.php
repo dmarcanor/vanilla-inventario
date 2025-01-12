@@ -158,7 +158,7 @@ class Historial
             'entidadId' => $this->entidadId,
             'entidad' => $this->getEnlaceEntidad(),
             'cambio' => $this->cambio,
-            'fecha' =>  DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fecha)->format('d/m/Y H:i:s'),
+            'fecha' =>  DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fecha)->format('d/m/Y h:i:sA'),
         ];
     }
 }

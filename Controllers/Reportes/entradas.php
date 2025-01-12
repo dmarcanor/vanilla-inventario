@@ -22,12 +22,15 @@ $html = '
 ';
 
 // buscando los registros
+$fechaDesde = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('Y-m-d 00:00:00') : '';
+$fechaHasta = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('Y-m-d 23:59:59') : '';
+
 $filtros = [
     'id' => !empty($_GET['id']) ? $_GET['id'] : '',
     'numero_entrada' => !empty($_GET['numeroEntrada']) ? "%{$_GET['numeroEntrada']}%" : '',
     'material' => !empty($_GET['material']) ? $_GET['material'] : '',
-    'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',
-    'fecha_hasta' => !empty($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : ''
+    'fecha_desde' => $fechaDesde,
+    'fecha_hasta' => $fechaHasta
 ];
 
 $filtros = array_filter($filtros);

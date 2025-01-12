@@ -64,6 +64,8 @@ final class Categoria
 
     public static function editar($id, $nombre, $descripcion, $estado, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         $categoriaOriginal = self::getCategoria($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
@@ -103,6 +105,8 @@ final class Categoria
 
     private static function guardarHistorial($usuarioSesion, $usuarioOriginal, $usuarioModificado)
     {
+        date_default_timezone_set('America/Caracas');
+
         $conexionBaseDatos = (new ConexionBD())->getConexion();
         $cambios = [];
 
@@ -193,7 +197,9 @@ final class Categoria
         if ($nuevoEstado === 'inactivo') {
             $filtros = ['categoria_id' => $id, 'estado' => 'activo'];
             $orden = 'ASC';
-            $tieneMaterialesActivos = Material::getMateriales($filtros, $orden);
+            $ordenCampo = 'id';
+            $limit = 0;
+            $tieneMaterialesActivos = Material::getMateriales($filtros, $orden, $ordenCampo, $limit);
 
             if (!empty($tieneMaterialesActivos)) {
                 throw new Exception("No se puede desactivar la categoría porque tiene materiales activos.");
@@ -244,7 +250,7 @@ final class Categoria
         );
     }
 
-    public static function getCategorias($filtros, $orden)
+    public static function getCategorias($filtros, $orden, $ordenCampo)
     {
         $consultaCategorias = "SELECT id, nombre, descripcion, fecha_creacion, estado FROM categorias WHERE eliminado = 0";
 
@@ -277,7 +283,7 @@ final class Categoria
             }
         }
 
-        $consultaCategorias .= " ORDER BY id {$orden}";
+        $consultaCategorias .= " ORDER BY {$ordenCampo} {$orden}";
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaCategorias);
         $consulta->execute();

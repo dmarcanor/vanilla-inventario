@@ -103,6 +103,8 @@ class Cliente
 
     public static function editar($id, $nombre, $apellido, $tipoIdentificacion, $numeroIdentificacion, $telefono, $direccion, $estado, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         $cliente = self::getCliente($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
@@ -169,6 +171,8 @@ class Cliente
 
     private static function guardarHistorial($usuarioSesion, $clienteOriginal, $clienteModificado)
     {
+        date_default_timezone_set('America/Caracas');
+
         $conexionBaseDatos = (new ConexionBD())->getConexion();
         $cambios = [];
 
@@ -328,7 +332,7 @@ class Cliente
         );
     }
 
-    public static function getClientes($filtros, $orden)
+    public static function getClientes($filtros, $orden, $ordenCampo)
     {
         $consultaClientes = "SELECT id, nombre, apellido, tipo_identificacion, numero_identificacion, telefono, direccion, fecha_creacion, estado FROM clientes";
 
@@ -361,7 +365,7 @@ class Cliente
             }
         }
 
-        $consultaClientes .= " ORDER BY id {$orden}";
+        $consultaClientes .= " ORDER BY {$ordenCampo} {$orden}";
 
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaClientes);
         $consulta->execute();

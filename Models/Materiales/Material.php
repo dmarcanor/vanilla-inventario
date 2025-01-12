@@ -111,6 +111,8 @@ class Material
 
     public static function editar($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo, $usuarioSesion)
     {
+        date_default_timezone_set('America/Caracas');
+
         $materialOriginal = self::getMaterial($id);
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
@@ -171,6 +173,8 @@ class Material
 
     private static function guardarHistorial($usuarioSesion, $materialOriginal, $materialModificado)
     {
+        date_default_timezone_set('America/Caracas');
+
         $conexionBaseDatos = (new ConexionBD())->getConexion();
         $cambios = [];
 
@@ -357,7 +361,7 @@ class Material
         );
     }
 
-    public static function getMateriales($filtros, $orden, $limit)
+    public static function getMateriales($filtros, $orden, $ordenCampo, $limit)
     {
         $consultaMateriales = "SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado FROM materiales";
 
@@ -370,12 +374,15 @@ class Material
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
+                    $filtro = "'{$filtro}'";
                 } elseif ($key === 'fecha_desde') {
                     $key = 'fecha_creacion';
                     $operador = '>=';
+                    $filtro = "'{$filtro}'";
                 } elseif ($key === 'fecha_hasta') {
                     $key = 'fecha_creacion';
                     $operador = '<=';
+                    $filtro = "'{$filtro}'";
                 } elseif ($key === 'precio_desde') {
                     $key = 'precio';
                     $operador = '>=';
@@ -407,7 +414,7 @@ class Material
             }
         }
 
-        $consultaMateriales .= " ORDER BY id {$orden}";
+        $consultaMateriales .= " ORDER BY {$ordenCampo} {$orden}";
 
         if ($limit > 0) {
             $consultaMateriales .= " LIMIT {$limit}";

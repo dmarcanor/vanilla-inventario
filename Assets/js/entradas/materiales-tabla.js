@@ -76,7 +76,7 @@ function renderTabla() {
     });
 
     // Actualizar cantidad cuando cambia el item seleccionado
-    itemSelect.addEventListener("change", (e) => actualizarCantidad(index, 1));
+    // itemSelect.addEventListener("change", (e) => actualizarCantidad(index, 0));
     // Actualizar unidad cuando cambia el item seleccionado
     itemSelect.addEventListener("change", (e) => actualizarUnidad(index, e.target.value));
     itemTd.appendChild(itemSelect);
@@ -89,6 +89,7 @@ function renderTabla() {
     cantidadInput.value = linea.cantidad;
     cantidadInput.min = '0.01';
     cantidadInput.step = '0.01';
+    cantidadInput.addEventListener("focus", (e) => vaciarContenidoSiEsCero(index, e.target));
     cantidadInput.addEventListener("input", (e) => actualizarCantidad(index, e.target.value));
     cantidadInput.addEventListener("blur", (e) => formatearCantidad(index, e.target.value));
     cantidadTd.appendChild(cantidadInput);
@@ -151,8 +152,14 @@ function actualizarUnidad(index, materialId) {
 }
 
 // Función para actualizar la cantidad
+function vaciarContenidoSiEsCero(index, campo) {
+  if (campo.value == 0) {
+    campo.value = "";
+  }
+}
+
 function actualizarCantidad(index, cantidad) {
-  lineas[index].cantidad = parseInt(cantidad) || 1; // Actualizar cantidad, por defecto 1
+  lineas[index].cantidad = parseInt(cantidad); // Actualizar cantidad, por defecto 1
 }
 
 function formatearCantidad(index, cantidad) {

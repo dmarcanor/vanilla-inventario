@@ -37,6 +37,8 @@ class EntradaLinea
 
     public static function crear($entradaId, $materialId, $cantidad, $precio)
     {
+        date_default_timezone_set('America/Caracas');
+
         self::validarCamposVacios($entradaId, $materialId, $cantidad, $precio);
 
         $entradaLinea = new EntradaLinea(
