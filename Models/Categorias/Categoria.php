@@ -331,11 +331,6 @@ final class Categoria
         }
     }
 
-    public function materiales()
-    {
-        return Material::getMaterialesPorCategoria($this->id);
-    }
-
     public function id()
     {
         return $this->id;

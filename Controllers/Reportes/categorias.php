@@ -10,6 +10,7 @@ $pdf->SetFont('times', '', 11); // Establecer fuente
 
 // Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
 $html = '
+<img src="/vanilla-inventario/Assets/imagenes/logo.jpg" alt="logo.jpg">
 <h1>Reporte de categorías</h1>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
@@ -31,10 +32,11 @@ $filtros = [
 $filtros = array_filter($filtros);
 $limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
+$ordenCampo = !empty($_GET['ordenCampo']) ? $_GET['ordenCampo'] : 'id';
 
 try {
-    $categorias = Categoria::getCategorias($filtros, $order);
+    $categorias = Categoria::getCategorias($filtros, $order, $ordenCampo);
 
     foreach ($categorias as $categoria) {
         $html .= '
@@ -43,7 +45,7 @@ try {
                 <td>' . $categoria->nombre() . '</td>
                 <td>' . $categoria->descripcion() . '</td>
                 <td>' . $categoria->estado() . '</td>
-                <td>' . $categoria->fechacreacion() . '</td>
+                <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $categoria->fechaCreacion())->format('d/m/Y h:i:sA') . '</td>
             </tr>
         ';
     }
@@ -54,7 +56,7 @@ try {
 
     $pdf->writeHTML($html, true, false, true, false, '');
 
-    $pdf->Output('reporte_usuarios.pdf', 'I');
+    $pdf->Output('reporte_categorias.pdf', 'I');
 } catch (\Exception $exception) {
     echo json_encode([
         'ok' => false,

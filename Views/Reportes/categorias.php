@@ -43,7 +43,7 @@
         <div class="form-row">
             <div class="form-group">
                 <button type="submit" class="success-button" id="submit">Generar</button>
-                <button type="reset" class="cancel-button" id="limpiar"">Limpiar</button>
+                <button type="reset" class="cancel-button" id="limpiar">Limpiar</button>
             </div>
         </div>
     </form>

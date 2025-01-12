@@ -10,6 +10,7 @@ $pdf->SetFont('times', '', 11); // Establecer fuente
 
 // Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
 $html = '
+<img src="/vanilla-inventario/Assets/imagenes/logo.jpg" alt="logo.jpg">
 <h1>Reporte de clientes</h1>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center;">
     <tr>
@@ -39,10 +40,11 @@ $filtros = [
 $filtros = array_filter($filtros);
 $limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
+$ordenCampo = !empty($_GET['ordenCampo']) ? $_GET['ordenCampo'] : 'id';
 
 try {
-    $clientes = Cliente::getClientes($filtros, $order);
+    $clientes = Cliente::getClientes($filtros, $order, $ordenCampo);
 
     foreach ($clientes as $cliente) {
         $html .= '
@@ -53,7 +55,7 @@ try {
                 <td>' . $cliente->numeroIdentificacion() . '</td>
                 <td>' . $cliente->telefono() . '</td>
                 <td>' . $cliente->direccion() . '</td>
-                <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $cliente->fechaCreacion())->format('d/m/Y H:i:s') . '</td>
+                <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $cliente->fechaCreacion())->format('d/m/Y h:i:sA') . '</td>
             </tr>
         ';
     }
