@@ -98,6 +98,7 @@
                     <option value="">Seleccionar estado</option>
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
+                    <option value="stock_minimo">En stock mínimo</option>
                 </select>
             </div>
             <div class="form-group"></div>

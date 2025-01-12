@@ -177,6 +177,14 @@ const buscar = (event) => {
   const busqueda = event.target;
   const table = $('#usuarios-table').DataTable();
 
+  let filtroEstado = busqueda.estado.value;
+  let filtroStockMinimo = false;
+
+  if (filtroEstado === 'stock_minimo') {
+    filtroEstado = '';
+    filtroStockMinimo = true;
+  }
+
   const parametros = {
     "id": busqueda.id.value,
     "codigo": busqueda.codigo.value,
@@ -186,11 +194,12 @@ const buscar = (event) => {
     "marca": busqueda.marca.value,
     "categoria_id": busqueda.categoria_id.value,
     "unidad": busqueda.unidad.value,
-    "estado": busqueda.estado.value,
+    "estado": filtroEstado,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
     "precio_desde": busqueda.precio_desde.value,
-    "precio_hasta": busqueda.precio_hasta.value
+    "precio_hasta": busqueda.precio_hasta.value,
+    "stock_minimo": filtroStockMinimo
   };
 
   table.settings()[0].ajax.data = (data) => ({...data, ...parametros})
