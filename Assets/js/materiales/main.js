@@ -1,9 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
+  const campoCategoria = document.getElementById('categoria_id');
+
   document.getElementById('codigo').addEventListener('blur', primeraLetraMayuscula);
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('marca').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('presentacion').addEventListener('input', soloPermitirLetras);
+
+  fetch(`/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=activo`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const categorias = json.data;
+
+      categorias.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria.id;
+        option.text = categoria.nombre;
+
+        campoCategoria.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
 
   $('#usuarios-table').DataTable({
     processing: true, // Muestra un indicador de carga mientras se procesan los datos

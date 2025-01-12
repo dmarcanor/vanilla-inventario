@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 
@@ -16,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('id').value = id;
       document.getElementById('nombre_usuario').value = json.usuario.nombreUsuario;
       document.getElementById('contrasenia').value = json.usuario.contrasenia;
+      document.getElementById('repetir_contrasenia').value = json.usuario.contrasenia;
       document.getElementById('nombre').value = json.usuario.nombre;
       document.getElementById('apellido').value = json.usuario.apellido;
       document.getElementById('cedula').value = json.usuario.cedula;

@@ -23,13 +23,19 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="cedula">Cédula *</label>
-                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required
-                oninvalid="this.setCustomValidity('La cédula debe tener entre 7 y 8 caracteres.')"
-                oninput="this.setCustomValidity('')">
+                <div style="display: flex">
+                    <span style="border: ridge">V-</span>
+                    <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required
+                           oninvalid="this.setCustomValidity('La cédula debe tener entre 7 y 8 caracteres.')"
+                           oninput="this.setCustomValidity('')">
+                </div>
             </div>
             <div class="form-group">
                 <label for="nombre_usuario">Nombre de usuario*</label>
-                <input type="text" id="nombre_usuario" placeholder="Nombre de usuario" required>
+                <input type="text" id="nombre_usuario" placeholder="Nombre de usuario"
+                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$"
+                       title="El nombre de usuario debe contener letras y números."
+                       required>
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre *</label>
@@ -54,7 +60,7 @@
                     <button type="button" style="background-color: inherit; font-size: 11pt" class="info-btn" id="contraseniaInfo">ℹ️</button>
                 </label>
                 <div class="password-container">
-                    <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" minlength="8">
+                    <input type="password" id="contrasenia" name="contrasenia" placeholder="Contraseña" minlength="8" required>
                     <button type="button" style="background-color: inherit" class="toggle-password" id="mostrarContrasenia">👁️</button>
                     <div class="password-guide" id="contraseniaGuia">
                         <p>La contraseña debe cumplir con los siguientes requisitos:</p>

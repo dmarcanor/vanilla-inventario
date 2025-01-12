@@ -103,6 +103,7 @@
     </div>
 </div>
 
+<script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/inicio/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 <script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>

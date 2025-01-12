@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 

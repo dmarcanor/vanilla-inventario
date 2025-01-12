@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
 
   const campoUsuarioRegistrador = document.getElementById('usuarioId');

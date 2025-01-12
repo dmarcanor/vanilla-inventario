@@ -1,6 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
+  document.getElementById('nombre_usuario').addEventListener('input', noPermitirCaracteresEspeciales);
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('apellido').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('apellido').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
 });
 
@@ -67,7 +78,6 @@ const validarContrasenia = (contrasenia, repetirContrasenia, esEditar) => {
   const tieneNumero = /\d/.test(contrasenia);
   const tieneCaracterEspecial = /[!@#$%^&*]/.test(contrasenia);
 
-  console.log(esEditar);
   // Si es una edición y no se ingresó una nueva contraseña, se asume que no se desea cambiarla
   if (esEditar && contrasenia == '' && repetirContrasenia == '') {
     return true;

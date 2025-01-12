@@ -1,3 +1,28 @@
+document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
+  if (!esAdmin()) {
+    document.getElementById('tarjeta_usuario').hidden = true;
+  }
+
+  const contadorUsuarios = document.getElementById('contadorUsuarios');
+  const contadorClientes = document.getElementById('contadorClientes');
+  const contadorMateriales = document.getElementById('contadorMateriales');
+  const contadorCategorias = document.getElementById('contadorCategorias');
+
+  cambiarContadorUsuarios(contadorUsuarios);
+  cambiarContadorClientes(contadorClientes);
+  cambiarContadorMateriales(contadorMateriales);
+  cambiarContadorCategorias(contadorCategorias);
+
+  cargarTablaEntradas();
+  cargarTablaSalidas();
+  cargarTablaMaterialesStockMinimo();
+});
+
 const cambiarContadorUsuarios = (contadorUsuarios) => {
   fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=100000', {
     method: 'GET',
@@ -160,23 +185,3 @@ const cargarTablaMaterialesStockMinimo = () => {
     ]
   });
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-  if (!esAdmin()) {
-    document.getElementById('tarjeta_usuario').hidden = true;
-  }
-
-  const contadorUsuarios = document.getElementById('contadorUsuarios');
-  const contadorClientes = document.getElementById('contadorClientes');
-  const contadorMateriales = document.getElementById('contadorMateriales');
-  const contadorCategorias = document.getElementById('contadorCategorias');
-
-  cambiarContadorUsuarios(contadorUsuarios);
-  cambiarContadorClientes(contadorClientes);
-  cambiarContadorMateriales(contadorMateriales);
-  cambiarContadorCategorias(contadorCategorias);
-
-  cargarTablaEntradas();
-  cargarTablaSalidas();
-  cargarTablaMaterialesStockMinimo();
-});

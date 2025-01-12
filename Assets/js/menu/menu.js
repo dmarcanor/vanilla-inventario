@@ -32,13 +32,11 @@ const cambiarNombreUsuarioSesion = () => {
   const sesion = JSON.parse(localStorage.getItem('usuario'));
   const usuarioHTML = document.getElementById('usuario');
 
+  if (!sesion) {
+    return;
+  }
+
   usuarioHTML.textContent = `${sesion.nombre} ${sesion.apellido}`;
-}
-
-const esAdmin = () => {
-  const usuario = JSON.parse(window.localStorage.getItem('usuario'));
-
-  return usuario.rol === 'admin';
 }
 
 const esconderModuloUsuarios = () => {

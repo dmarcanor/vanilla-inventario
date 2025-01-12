@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   const campoMaterial = document.getElementById('material');
 
   fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=activo&length=1000&start=0', {

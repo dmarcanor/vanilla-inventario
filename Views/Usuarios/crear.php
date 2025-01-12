@@ -23,15 +23,18 @@
         <div class="form-row">
             <div class="form-group">
                 <label for="cedula">Cédula *</label>
-                <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required
-                oninvalid="this.setCustomValidity('La cédula debe tener entre 7 y 8 caracteres.')"
-                oninput="this.setCustomValidity('')">
+                <div style="display: flex">
+                    <span style="border: ridge">V-</span>
+                    <input type="number" id="cedula" placeholder="Cédula" min="1000000" max="99999999" required
+                           oninvalid="this.setCustomValidity('La cédula debe tener entre 7 y 8 caracteres.')"
+                           oninput="this.setCustomValidity('')">
+                </div>
             </div>
             <div class="form-group">
                 <label for="nombre_usuario">Nombre de usuario*</label>
                 <input type="text" id="nombre_usuario" placeholder="Nombre de usuario"
-                       pattern="^\S+$"
-                       title="El nombre de usuario no puede contener espacios."
+                       pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]+$"
+                       title="El nombre de usuario debe contener letras y números."
                        required>
             </div>
             <div class="form-group">

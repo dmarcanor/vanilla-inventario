@@ -14,8 +14,8 @@ $html = '
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
         <th width="8%">ID</th>
-        <th width="15%">Nombre de usuario</th>
-        <th width="12%">Cédula</th>
+        <th width="14%">Nombre de usuario</th>
+        <th width="13%">Cédula</th>
         <th width="16%">Teléfono</th>
         <th width="30%">Dirección</th>
         <th width="10%">Rol</th>
@@ -47,8 +47,8 @@ try {
             <tr>
                 <td>' . $usuario->id() . '</td>
                 <td>' . $usuario->nombreUsuario() . '</td>
-                <td>' . $usuario->cedula() . '</td>
-                <td>' . $usuario->telefono() . '</td>
+                <td>' . "V-{$usuario->cedula()}" . '</td>
+                <td>' . preg_replace('/(\d{4})(\d{3})(\d{2})(\d{2})/', '$1-$2-$3-$4', $usuario->telefono()) . '</td>
                 <td>' . $usuario->direccion() . '</td>
                 <td>' . $usuario->rol() . '</td>
                 <td>' . $usuario->estado() . '</td>

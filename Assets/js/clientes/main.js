@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('apellido').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('apellido').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
 
   $('#usuarios-table').DataTable({

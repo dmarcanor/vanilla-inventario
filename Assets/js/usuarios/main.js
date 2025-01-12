@@ -1,7 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
 
-  document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('apellido').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('apellido').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
 
   $('#usuarios-table').DataTable({
@@ -19,8 +27,20 @@ document.addEventListener('DOMContentLoaded', () => {
       { data: "id" },
       { data: "nombre", orderable: false },
       { data: "apellido", orderable: false },
-      { data: "cedula", orderable: false },
-      { data: "telefono", orderable: false },
+      {
+        data: "cedula",
+        orderable: false,
+        render: (data) => {
+          return `V-${data}`;
+        }
+      },
+      {
+        data: "telefono",
+        orderable: false,
+        render: (data) => {
+          return `${formatearTelefono(data)}`;
+        }
+      },
       { data: "direccion", orderable: false },
       {
         data: "rol" ,

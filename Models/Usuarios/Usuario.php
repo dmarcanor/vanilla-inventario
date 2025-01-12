@@ -186,16 +186,11 @@ class Usuario
             throw new Exception("Usuario no encontrado.");
         }
 
-        $validarContraseniaVacia = !empty($contrasenia) && $usuarioOriginal->contrasenia !== $contrasenia;
-
-        self::validarCamposVacios($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado);
+        self::validarCamposVacios($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado);
         self::validarCedula($cedula);
         self::validarTelefono($telefono);
         self::validarNombreUsuario($nombreUsuario);
-
-        if (!empty($contrasenia)) {
-            self::validarContrasenia($contrasenia);
-        }
+        self::validarContrasenia($contrasenia);
 
         if ($usuarioOriginal->cedula !== $cedula) {
             $usuarioConCedula = self::getUsuarioPorCedula($cedula);
@@ -230,7 +225,7 @@ class Usuario
             $estado
         );
 
-        if (!empty($contrasenia)) {
+        if ($contrasenia !== $usuarioOriginal->contraseniaDesencriptada()) {
             $consultaEditarUsuario = $conexionBaseDatos->prepare("
                 UPDATE usuarios 
                 SET nombre_usuario = ?, nombre = ?, apellido = ?, cedula = ?, telefono = ?, direccion = ?, contrasenia = ?, rol = ?, estado = ?
@@ -541,7 +536,7 @@ class Usuario
         $consultaEliminarUsuario->execute([$id]);
     }
 
-    public static function validarCamposVacios($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $validarContraseniaVacia, $contrasenia, $rol, $estado)
+    public static function validarCamposVacios($nombreUsuario, $nombre, $apellido, $cedula, $telefono, $direccion, $contrasenia, $rol, $estado)
     {
         if (empty($nombreUsuario)) {
             throw new Exception("El nombre de usuario no puede estar vacío.");
@@ -567,7 +562,7 @@ class Usuario
             throw new Exception("La dirección no puede estar vacía.");
         }
 
-        if ($validarContraseniaVacia === true && empty($contrasenia)) {
+        if (empty($contrasenia)) {
             throw new Exception("La contraseña no puede estar vacía.");
         }
 

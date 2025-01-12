@@ -1,11 +1,25 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   const campoCategoria = document.getElementById('categoria_id');
 
   document.getElementById('codigo').addEventListener('blur', primeraLetraMayuscula);
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('marca').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('presentacion').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('precio').addEventListener('blur', dosDecimales);
 
   // al editar se deben traer todas las categorias para que no desaparezcan las categorias inactivas

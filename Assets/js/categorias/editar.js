@@ -1,4 +1,10 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
+
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 
@@ -12,10 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
-console.log(
-  json,
-  document.getElementById('id')
-);
+
       document.getElementById('id').value = id;
       document.getElementById('nombre').value = json.categoria.nombre;
       document.getElementById('descripcion').value = json.categoria.descripcion;

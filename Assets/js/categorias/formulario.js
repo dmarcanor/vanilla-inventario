@@ -1,6 +1,14 @@
 document.addEventListener('DOMContentLoaded', () => {
+  if (!usuarioSesion()) {
+    salirDelSistema();
+    return;
+  }
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
+
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
 });
 
 const guardar = (event) => {
