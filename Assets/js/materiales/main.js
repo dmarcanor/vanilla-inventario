@@ -197,8 +197,7 @@ const buscar = (event) => {
     "estado": filtroEstado,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
-    "precio_desde": busqueda.precio_desde.value,
-    "precio_hasta": busqueda.precio_hasta.value,
+    "precio": busqueda.precio.value,
     "stock_minimo": filtroStockMinimo
   };
 

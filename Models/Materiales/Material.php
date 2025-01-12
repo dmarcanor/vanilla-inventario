@@ -383,12 +383,26 @@ class Material
                     $key = 'fecha_creacion';
                     $operador = '<=';
                     $filtro = "'{$filtro}'";
-                } elseif ($key === 'precio_desde') {
+                } elseif ($key === 'precio') {
                     $key = 'precio';
-                    $operador = '>=';
-                } elseif ($key === 'precio_hasta') {
-                    $key = 'precio';
-                    $operador = '<=';
+
+                    if (strpos($filtro, '.') === false) {
+                        // Caso: filtrando por número entero (7)
+                        $inicio = $filtro;
+                        $fin = $filtro + 0.99;
+
+                        $operador = 'BETWEEN';
+                        $filtro = "{$inicio} AND {$fin}";
+                    } elseif (strlen(explode('.', $filtro)[1]) === 1) {
+                        // Caso: filtrando por número con un solo decimal (7.2)
+                        $inicio = $filtro;
+                        $fin = $filtro + 0.09;
+                        $operador = 'BETWEEN';
+                        $filtro = "{$inicio} AND {$fin}";
+                    } else {
+                        // Caso: dos decimales exactos (7.25)
+                        $operador = '=';
+                    }
                 } elseif ($key === 'stock_desde') {
                     $key = 'stock';
                     $operador = '>=';

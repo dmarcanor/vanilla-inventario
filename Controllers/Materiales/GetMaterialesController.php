@@ -14,14 +14,13 @@ $filtros = [
     'marca' => !empty($_GET['marca']) ? "%{$_GET['marca']}%" : '',
     'categoria_id' => !empty($_GET['categoria_id']) ? $_GET['categoria_id'] : '',
     'unidad' => !empty($_GET['unidad']) ? $_GET['unidad'] : '',
-    'precio_desde' => !empty($_GET['precio_desde']) ? $_GET['precio_desde'] : 0,
-    'precio_hasta' => !empty($_GET['precio_hasta']) ? $_GET['precio_hasta'] : 0,
+    'precio' => !empty($_GET['precio']) ? $_GET['precio'] : 0,
     'stock_desde' => !empty($_GET['stock_desde']) ? $_GET['stock_desde'] : 0,
     'stock_hasta' => !empty($_GET['stock_hasta']) ? $_GET['stock_hasta'] : 0,
     'fecha_desde' => $fechaDesde,
     'fecha_hasta' => $fechaHasta,
     'estado' => !empty($_GET['estado']) ? $_GET['estado'] : '',
-    'stock_minimo' => !empty($_GET['stock_minimo']) ? $_GET['stock_minimo'] : ''
+    'stock_minimo' => !empty($_GET['stock_minimo']) && $_GET['stock_minimo'] === 'true' ? $_GET['stock_minimo'] : ''
 ];
 
 $filtros = array_filter($filtros);

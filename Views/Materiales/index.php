@@ -78,20 +78,14 @@
             </div>
             <div class="form-group">
                 <div class="form-group">
-                    <label for="precio_desde">Precio (Desde)</label>
-                    <input type="number" id="precio_desde" name="precio_desde" placeholder="Precio del material (Desde)" min="0.01" step="0.01">
+                    <label for="precio">Precio</label>
+                    <input type="number" id="precio" name="precio" placeholder="Precio del material" min="0.01" step="0.01">
                 </div>
-            </div>
-            <div class="form-group">
-                <label for="precio_hasta">Precio (Hasta)</label>
-                <input type="number" id="precio_hasta" name="precio_hasta" placeholder="Precio del material (Hasta)" min="0.01" step="0.01">
             </div>
             <div class="form-group">
                 <label for="presentacion">Presentación</label>
                 <input type="text" id="presentacion" name="presentacion" placeholder="Presentación">
             </div>
-        </div>
-        <div class="form-row">
             <div class="form-group">
                 <label for="estado">Estado</label>
                 <select id="estado" name="estado">
@@ -101,9 +95,6 @@
                     <option value="stock_minimo">En stock mínimo</option>
                 </select>
             </div>
-            <div class="form-group"></div>
-            <div class="form-group"></div>
-            <div class="form-group"></div>
         </div>
         <div class="form-row">
             <div class="form-group">

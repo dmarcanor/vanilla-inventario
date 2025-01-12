@@ -253,3 +253,6 @@ WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.u
 DELETE
 FROM usuarios_historial
 WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.entidad_id);
+
+select * from materiales
+where precio like '7.%';
