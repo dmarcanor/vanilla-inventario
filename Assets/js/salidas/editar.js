@@ -28,8 +28,13 @@ document.addEventListener('DOMContentLoaded', () => {
       setTimeout(() => {
         const inputs = document.querySelectorAll('input');
         const selects = document.querySelectorAll('select');
+        const botonesEliminarLinea = document.querySelectorAll('.delete-row-btn');
+        const botonAgregarLina = document.getElementById('addRow');
+
         inputs.forEach(input => input.disabled = true);
         selects.forEach(select => select.disabled = true);
+        botonesEliminarLinea.forEach(botonEliminarLinea => botonEliminarLinea.hidden = true);
+        botonAgregarLina.hidden = true;
       }, 1000);
     })
     .catch((mensaje) => {

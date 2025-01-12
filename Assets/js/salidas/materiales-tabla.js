@@ -129,6 +129,7 @@ function renderTabla() {
     const eliminarTd = document.createElement("td");
     const eliminarButton = document.createElement("button");
     eliminarButton.textContent = "-";
+    eliminarButton.classList.add("delete-row-btn");
     eliminarButton.addEventListener("click", () => borrarLinea(index)); // Asignar evento para borrar
     eliminarTd.appendChild(eliminarButton);
     tr.appendChild(eliminarTd);

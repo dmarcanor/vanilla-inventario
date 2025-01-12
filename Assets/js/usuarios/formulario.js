@@ -180,6 +180,12 @@ const crear = (formulario) => {
 }
 
 const editar = (id, formulario) => {
+  const continuarEdicion = confirm('¿Está seguro de editar este usuario?');
+
+  if (continuarEdicion == false) {
+    return;
+  }
+
   const nombreUsuario = formulario.nombre_usuario.value;
   const nombre = formulario.nombre.value;
   const apellido = formulario.apellido.value;

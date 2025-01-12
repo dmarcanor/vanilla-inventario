@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
+    scrollX: true,
     ajax: {
       url: "/vanilla-inventario/Controllers/Categorias/GetCategoriasController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
@@ -58,7 +59,12 @@ const estadoLabel = (estado) => {
 }
 
 const cambiarEstado = (id) => {
+  const confirmacion = confirm('¿Está seguro de cambiar el estado de la categoria?');
   const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
+
+  if (confirmacion == false) {
+    return;
+  }
 
   fetch(`/vanilla-inventario/Controllers/Categorias/CambiarEstadoCategoriaController.php`, {
     method: 'POST',

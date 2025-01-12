@@ -63,6 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
+    scrollX: true,
     ajax: {
       url: "/vanilla-inventario/Controllers/Salidas/GetSalidasController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
@@ -98,6 +99,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const eliminar = (id) => {
+  const confirmar = confirm('¿Está seguro de eliminar este registro?');
+
+  if (confirmar == false) {
+    return;
+  }
+
   fetch(`/vanilla-inventario/Controllers/Salidas/EliminarSalidaController.php`, {
     method: 'POST',
     headers: {

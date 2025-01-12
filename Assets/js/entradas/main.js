@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
+    scrollX: true,
     ajax: {
       url: "/vanilla-inventario/Controllers/Entradas/GetEntradasController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)

@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  document.getElementById('nombre_usuario').addEventListener('input', noPermitirCaracteresEspeciales);
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
 
@@ -16,6 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
+    scrollX: true,
     ajax: {
       url: "/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
@@ -25,6 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lengthChange: false,
     columns: [
       { data: "id" },
+      { data: "nombreUsuario", orderable: false },
       { data: "nombre", orderable: false },
       { data: "apellido", orderable: false },
       {
@@ -84,7 +88,12 @@ const estadoLabel = (estado) => {
 }
 
 const cambiarEstado = (id) => {
+  const confirmacion = confirm('¿Está seguro de cambiar el estado del usuario?');
   const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
+
+  if (confirmacion == false) {
+    return;
+  }
 
   fetch(`/vanilla-inventario/Controllers/Usuarios/CambiarEstadoUsuarioController.php`, {
     method: 'POST',
@@ -156,6 +165,7 @@ const buscar = (event) => {
     "direccion": busqueda.direccion.value,
     "estado": busqueda.estado.value,
     "rol": busqueda.rol.value,
+    "nombre_usuario": busqueda.nombre_usuario.value
   };
 
   table.settings()[0].ajax.data = (data) => ({...data, ...parametros})
@@ -184,6 +194,7 @@ const imprimir = (event) => {
     "direccion": busqueda.direccion.value,
     "estado": busqueda.estado.value,
     "rol": busqueda.rol.value,
+    "nombre_usuario": busqueda.nombre_usuario.value,
   };
 
   const queryParams = new URLSearchParams(parametros).toString();

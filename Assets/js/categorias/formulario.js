@@ -57,6 +57,12 @@ const crear = (formulario) => {
 }
 
 const editar = (id, formulario) => {
+  const continuarEdicion = confirm('¿Está seguro de editar esta categoría?');
+
+  if (continuarEdicion == false) {
+    return;
+  }
+
   const nombre = formulario.nombre.value;
   const descripcion = formulario.descripcion.value;
   const estado = formulario.estado.value;

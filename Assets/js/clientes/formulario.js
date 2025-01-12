@@ -88,6 +88,12 @@ const crear = (formulario) => {
 }
 
 const editar = (id, formulario) => {
+  const continuarEdicion = confirm('¿Está seguro de editar este cliente?');
+
+  if (continuarEdicion == false) {
+    return;
+  }
+
   const nombre = formulario.nombre.value;
   const apellido = formulario.apellido.value;
   const tipo_identificacion = formulario.tipo_identificacion.value;

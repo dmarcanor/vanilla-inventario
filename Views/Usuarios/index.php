@@ -66,6 +66,15 @@
         </div>
         <div class="form-row">
             <div class="form-group">
+                <label for="nombre_usuario">Nombre de usuario</label>
+                <input type="text" id="nombre_usuario" name="nombre_usuario" placeholder="Nombre de usuario">
+            </div>
+            <div class="form-group"></div>
+            <div class="form-group"></div>
+            <div class="form-group"></div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
                 <button type="submit" class="btn btn-success" id="submit">Buscar</button>
                 <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
             </div>
@@ -78,6 +87,7 @@
             <thead>
             <tr>
                 <th class="dt-center">ID</th>
+                <th class="dt-center">Nombre de usuario</th>
                 <th class="dt-center">Nombre</th>
                 <th class="dt-center">Apellido</th>
                 <th class="dt-center">Cédula</th>

@@ -9,7 +9,8 @@ $filtros = [
     'telefono' => !empty($_GET['telefono']) ? "%{$_GET['telefono']}%" : '',
     'direccion' => !empty($_GET['direccion']) ? "%{$_GET['direccion']}%" : '',
     'estado' => !empty($_GET['estado']) ? $_GET['estado'] : '',
-    'rol' => !empty($_GET['rol']) ? $_GET['rol'] : ''
+    'rol' => !empty($_GET['rol']) ? $_GET['rol'] : '',
+    'nombre_usuario' => !empty($_GET['nombre_usuario']) ? "%{$_GET['nombre_usuario']}%" : ''
 ];
 
 $filtros = array_filter($filtros);
