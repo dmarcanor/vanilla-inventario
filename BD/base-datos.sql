@@ -231,8 +231,10 @@ ALTER TABLE usuarios
 
 DELETE
 FROM salida_lineas;
+
 DELETE
 FROM salidas;
+
 DELETE
 FROM usuarios;
 
@@ -247,27 +249,7 @@ VALUES ('admin2025', 'admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ=='
 DELETE
 FROM usuarios_historial
 WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.usuario_id);
+
 DELETE
 FROM usuarios_historial
 WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.entidad_id);
-
-SELECT id,
-       codigo,
-       nombre,
-       descripcion,
-       marca,
-       categoria_id,
-       unidad,
-       presentacion,
-       precio,
-       stock,
-       stock_minimo,
-       fecha_creacion,
-       estado
-FROM materiales
-WHERE fecha_creacion >= '2024-12-08 00:00:00'
-AND fecha_creacion <= '2024-12-08 23:59:59'
-ORDER BY estado ASC;
-
-select *
-from materiales;

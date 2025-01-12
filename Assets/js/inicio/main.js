@@ -165,7 +165,7 @@ const cargarTablaMaterialesStockMinimo = () => {
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=10&orden=ASC&limit=10&stock_minimo=true", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=10&orden=ASC&stock_minimo=true", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
