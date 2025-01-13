@@ -231,8 +231,7 @@ const imprimir = (event) => {
     "estado": busqueda.estado.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
-    "precio_desde": busqueda.precio_desde.value,
-    "precio_hasta": busqueda.precio_hasta.value
+    "precio": busqueda.precio.value
   };
 
   const queryParams = new URLSearchParams(parametros).toString();

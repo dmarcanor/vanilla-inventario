@@ -18,9 +18,9 @@ $html = '
         <th width="11%">Apellido</th>
         <th width="10%">Tipo de identificación</th>
         <th width="14%">Número de identificación</th>
-        <th width="14%">Teléfono</th>
-        <th width="26%">Dirección</th>
-        <th width="14%">Fecha y hora</th>
+        <th width="16%">Teléfono</th>
+        <th width="25%">Dirección</th>
+        <th width="13%">Fecha y hora</th>
     </tr>
 ';
 
@@ -53,7 +53,7 @@ try {
                 <td>' . $cliente->apellido() . '</td>
                 <td>' . $cliente->tipoIdentificacion() . '</td>
                 <td>' . $cliente->numeroIdentificacion() . '</td>
-                <td>' . $cliente->telefono() . '</td>
+                <td>' . preg_replace('/(\d{4})(\d{3})(\d{2})(\d{2})/', '$1-$2-$3-$4', $cliente->telefono()) . '</td>
                 <td>' . $cliente->direccion() . '</td>
                 <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $cliente->fechaCreacion())->format('d/m/Y h:i:sA') . '</td>
             </tr>

@@ -30,7 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
       { data: "apellido", orderable: false },
       { data: "tipoIdentificacion", orderable: false },
       { data: "numeroIdentificacion", orderable: false },
-      { data: "telefono", orderable: false },
+      {
+        data: "telefono",
+        orderable: false,
+        render: (data) => {
+          return `${formatearTelefono(data)}`;
+        }
+      },
       {
         data: "estado",
         orderable: false,
