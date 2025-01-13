@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  console.log("f", usuarioSesion());
   if (!usuarioSesion()) {
     salirDelSistema();
     return;
