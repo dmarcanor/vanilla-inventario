@@ -13,6 +13,7 @@ header("Expires: 0");
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/categorias/crear.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
@@ -29,11 +30,11 @@ header("Expires: 0");
         <div class="form-row">
             <div class="form-group">
                 <label for="nombre">Nombre *</label>
-                <input type="text" id="nombre" placeholder="Nombre" required>
+                <input type="text" id="nombre" placeholder="Nombre" maxlength="20" required>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción *</label>
-                <input type="text" id="descripcion" placeholder="Descripción" required>
+                <input type="text" id="descripcion" placeholder="Descripción" maxlength="30" required>
             </div>
             <div class="form-group">
                 <label for="estado">Estado *</label>
@@ -44,10 +45,15 @@ header("Expires: 0");
         </div>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button">Guardar</button>
-                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+                <button type="submit" class="btn btn-success">
+                    <img src="/vanilla-inventario/Assets/iconos/guardar.svg" alt="guardar.svg"> Guardar</button>
+                <button type="reset" class="btn btn-secondary" onclick="cancelar(event)">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg">Cancelar
+                </button>
             </div>
         </div>
+        <hr>
+        <p>Todos los campos con asterisco (*) son obligatorios.</p>
     </form>
 </div>
 

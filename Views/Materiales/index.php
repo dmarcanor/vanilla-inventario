@@ -23,11 +23,15 @@ header("Expires: 0");
     <div class="module-header">
         <h1 class="module-title">Materiales</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="crear.php">Crear nuevo material</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
+            <a class="btn btn-success" href="crear.php">
+                <img src="/vanilla-inventario/Assets/iconos/crear.svg" alt="crear.svg"> Crear nuevo material
+            </a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">
+                <img src="/vanilla-inventario/Assets/iconos/imprimir.svg" alt="imprimir.svg"> Reporte
+            </button>
         </div>
     </div>
-    <form class="form" onsubmit="buscar(event)">
+    <form class="form" id="form" onsubmit="buscar(event)">
         <h3>Búsqueda de materiales</h3>
         <hr>
         <div class="form-row">
@@ -57,19 +61,21 @@ header("Expires: 0");
                 <label for="categoria_id">Categoría</label>
                 <select id="categoria_id" name="categoria_id">
                     <option value="">Seleccionar categoría</option>
-                    <option value="1">categoria de purbea</option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="unidad">Unidad</label>
                 <select id="unidad" name="unidad">
                     <option value="">Seleccionar unidad</option>
+                    <option value="unidad">Unidad</option>
                     <option value="kilogramos">Kilogramos (kg)</option>
                     <option value="gramos">Gramos (g)</option>
                     <option value="miligramos">Miligramos (mg)</option>
                     <option value="libras">Libras (lb)</option>
                     <option value="onzas">Onzas (oz)</option>
                     <option value="toneladas">Toneladas métricas (t)</option>
+                    <option value="metros">Metros (m)</option>
+                    <option value="metros_cuadrado">Metros cuadrados(m2)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -104,32 +110,25 @@ header("Expires: 0");
         </div>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" id="submit">Buscar</button>
-                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+                <button type="submit" class="btn btn-success" id="submit">
+                    <img src="/vanilla-inventario/Assets/iconos/buscar.svg" alt="buscar.svg"> Buscar
+                </button>
+                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">
+                    <img src="/vanilla-inventario/Assets/iconos/limpiar.svg" alt="limpiar.svg"> Limpiar
+                </button>
             </div>
         </div>
     </form>
     <div class="usuarios-table-seccion">
         <h3>Listado de materiales</h3>
         <hr/>
-        <table id="usuarios-table" class="display nowrap" style="width:100%">
-            <thead>
-            <tr>
-                <th class="dt-center">ID</th>
-                <th class="dt-center">Código</th>
-                <th class="dt-center">Nombre</th>
-                <th class="dt-center">Descripción</th>
-                <th class="dt-center">Presentación</th>
-                <th class="dt-center">Marca</th>
-                <th class="dt-center">Categoría</th>
-                <th class="dt-center">Precio</th>
-                <th class="dt-center">Stock</th>
-                <th class="dt-center">Estado</th>
-                <th class="dt-center">Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            </tbody>
+        <form class="form_dolar" onsubmit="calcularPrecioBolivar(event)">
+            <input type="number" id="precio_dolar" name="precio_dolar" placeholder="Precio del dolar" min="0" step="0.01" required>
+            <button type="submit" class="btn btn-success" id="submit">
+                <img src="/vanilla-inventario/Assets/iconos/calcular.svg" alt="calcular.svg"> Calcular
+            </button>
+        </form>
+        <table id="usuarios-table" class="table table-bordered" style="width:100%">
         </table>
     </div>
 </div>

@@ -69,8 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
           }
 
           return `
-            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Editar</button>
-            <button class="${accionEstadoEstilo}" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>         
+            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
+                <img src="/vanilla-inventario/Assets/iconos/editar.svg" alt="editar.svg"> Editar
+            </button>
+            <button class="${accionEstadoEstilo}" onclick="cambiarEstado(${row.id})")>
+                <img src="/vanilla-inventario/Assets/iconos/switch.svg" alt="switch.svg"> ${accionEstado}
+            </button>         
           `;
         }
       }

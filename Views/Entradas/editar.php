@@ -10,6 +10,7 @@ header("Expires: 0");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/editar.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/formulario.css">
@@ -21,7 +22,7 @@ header("Expires: 0");
 
 <div id="content">
     <div class="module-header">
-        <h1 class="module-title">Entradas - Editar</h1>
+        <h1 class="module-title">Entradas - Observar</h1>
     </div>
     <form class="form" onsubmit="guardar(event)">
         <div class="form-row">
@@ -31,23 +32,23 @@ header("Expires: 0");
             </div>
             <div class="big-form-group">
                 <label for="observacion">Observación *</label>
-                <input type="text" id="observacion" placeholder="Observación" required>
+                <input type="text" id="observacion" placeholder="Observación" maxlength="30">
             </div>
-            <div class="form-group"></div>
+            <div class="form-group">
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" required>
+            </div>
         </div>
 
         <div class="form-row">
             <div class="form-group">
-                <table id="entrada-items" class="dynamic-table">
+                <table id="entrada-items" class="table table-bordered">
                     <thead>
                     <tr>
-                        <th>Material *</th>
-                        <th>Cantidad *</th>
-                        <th>Precio *</th>
+                        <th>Material</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
                         <th>Unidad</th>
-                        <th>
-                            <button type="button" id="addRow" class="add-row-btn">+</button>
-                        </th>
                     </tr>
                     </thead>
                     <tbody id="entrada-items-body">
@@ -58,7 +59,9 @@ header("Expires: 0");
 
         <div class="form-row">
             <div class="form-group">
-                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+                <button type="reset" class="cancel-button" onclick="cancelar(event)">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg"> Cancelar
+                </button>
             </div>
         </div>
 
@@ -68,7 +71,6 @@ header("Expires: 0");
 
 <script src="/vanilla-inventario/Assets/js/entradas/editar.js"></script>
 <script src="/vanilla-inventario/Assets/js/entradas/formulario.js"></script>
-<script src="/vanilla-inventario/Assets/js/entradas/materiales-tabla.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 <script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
 </body>

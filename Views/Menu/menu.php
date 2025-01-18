@@ -1,5 +1,4 @@
 <div id="sidebar">
-    <img src="/vanilla-inventario/Assets/imagenes/logo.jpg" alt="logo.jpg" style="max-height: 10%; height: 100%; max-width: 100%">
     <div class="app-name">Sistema de inventario de la Comercializadora G&S C.A.</div>
     <ul class="module-list">
         <li id="menu-inicio"><a href="/vanilla-inventario/Views/Inicio/index.php"><span class="icon">🏠</span> Inicio</a></li>
@@ -9,8 +8,14 @@
         <li id="menu-categorias"><a href="/vanilla-inventario/Views/Categorias/index.php"><span class="icon">📁</span> Categorías</a></li>
         <li id="menu-clientes"><a href="/vanilla-inventario/Views/Clientes/index.php"><span class="icon">🏢</span> Clientes</a></li>
         <li id="menu-usuarios"><a href="/vanilla-inventario/Views/Usuarios/index.php"><span class="icon">👥</span> Usuarios</a></li>
+<!--        <li id="menu-usuarios">-->
+<!--            <a href="/vanilla-inventario/Views/Usuarios/index.php">-->
+<!--                <span class="icon">-->
+<!--                    <img src="/vanilla-inventario/Assets/iconos/usuarios.svg" alt="usuarios svg">-->
+<!--                </span> Usuarios-->
+<!--            </a>-->
+<!--        </li>-->
         <li id="menu-historial"><a href="/vanilla-inventario/Views/Historial/index.php"><span class="icon">📖</span> Historial de usuarios</a></li>
-<!--        <li id="menu-reportes"><a href="/vanilla-inventario/Views/Reportes/index.php"><span class="icon">📊</span> Reportes</a></li>-->
     </ul>
     <div class="user-info">
         <p id="usuario">Usuario</p>

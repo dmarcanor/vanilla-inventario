@@ -91,7 +91,10 @@ header("Expires: 0");
         </div>
 
         <div class="tabla-rapida">
-            <h2 class="titulo-tabla">Materiales en Stock Mínimo</h2>
+            <div style="display: ruby">
+                <h2 class="titulo-tabla">Materiales en Stock Mínimo</h2>
+                <button class="btn btn-primary" onclick="imprimirMaterialesStockMinimo(event)">Reporte</button>
+            </div>
             <div class="tabla-contenedor">
                 <table class="table" id="tabla_materiales_stock_minimo">
                     <thead>

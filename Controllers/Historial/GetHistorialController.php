@@ -14,7 +14,7 @@ $filtros = [
 $filtros = array_filter($filtros);
 $limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
 
 try {
     $historialUsuarios = Historial::getHistorialUsuarios($filtros, $order);

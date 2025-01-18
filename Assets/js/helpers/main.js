@@ -29,6 +29,12 @@ const soloPermitirLetras = (event) => {
   campo.value = campo.value.replace(/[^a-zA-Z ]/g, '');
 }
 
+const soloPermitirNumerosYCaracterDivision = (event) => {
+  const campo = event.target;
+
+  campo.value = campo.value.replace(/[^0-9\/]/g, '');
+}
+
 const noPermitirCaracteresEspeciales = (event) => {
   const campo = event.target;
 

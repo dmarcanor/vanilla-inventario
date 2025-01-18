@@ -10,7 +10,7 @@ $pdf->SetFont('times', '', 11); // Establecer fuente
 
 // Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
 $html = '
-<h1>Reporte de materiales</h1>
+<h1>Reporte de materiales en stock mínimo</h1>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
         <th width="12%">Código</th>
@@ -29,20 +29,7 @@ $fechaDesde = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha
 $fechaHasta = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('Y-m-d 23:59:59') : '';
 
 $filtros = [
-    'id' => !empty($_GET['id']) ? $_GET['id'] : 0,
-    'codigo' => !empty($_GET['codigo']) ? "%{$_GET['codigo']}%" : '',
-    'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
-    'descripcion' => !empty($_GET['descripcion']) ? "%{$_GET['descripcion']}%" : '',
-    'presentacion' => !empty($_GET['presentacion']) ? "%{$_GET['presentacion']}%" : '',
-    'marca' => !empty($_GET['marca']) ? "%{$_GET['marca']}%" : '',
-    'categoria_id' => !empty($_GET['categoria_id']) ? $_GET['categoria_id'] : '',
-    'unidad' => !empty($_GET['unidad']) ? $_GET['unidad'] : '',
-    'precio' => !empty($_GET['precio']) ? $_GET['precio'] : 0,
-    'stock_desde' => !empty($_GET['stock_desde']) ? $_GET['stock_desde'] : 0,
-    'stock_hasta' => !empty($_GET['stock_hasta']) ? $_GET['stock_hasta'] : 0,
-    'fecha_desde' => $fechaDesde,
-    'fecha_hasta' => $fechaHasta,
-    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
+    'stock_minimo' => !empty($_GET['stock_minimo']) && $_GET['stock_minimo'] === 'true' ? $_GET['stock_minimo'] : ''
 ];
 
 $filtros = array_filter($filtros);

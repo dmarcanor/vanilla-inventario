@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
       materiales.forEach(material => {
         const option = document.createElement('option');
         option.value = material.id;
-        option.text = `${material.nombre} - ${material.presentacion}`;
+        option.text = `${material.nombre} - ${material.descripcion} - ${material.marca}`;
 
         campoMaterial.appendChild(option);
       });
@@ -52,15 +52,10 @@ document.addEventListener('DOMContentLoaded', () => {
         data: "acciones",
         orderable: false,
         render: (data, type, row) => {
-          let botonEliminar = `<button class="btn btn-danger" onclick="eliminar(${row.id})">Eliminar</button>`;
-
-          if (esAdmin() == false) {
-            botonEliminar = '';
-          }
-
           return `
-            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Ver</button>
-            ${botonEliminar}
+            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
+                <img src="/vanilla-inventario/Assets/iconos/ver.svg" alt="ver.svg"> Ver
+            </button>
           `;
         }
       }
@@ -70,38 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 const redireccionarEditar = (id) => {
   window.location.href = `/vanilla-inventario/Views/Entradas/editar.php?id=${id}`;
-}
-
-const eliminar = (id) => {
-  const confirmar = confirm('¿Está seguro de eliminar este registro?');
-
-  if (confirmar == false) {
-    return;
-  }
-
-  fetch(`/vanilla-inventario/Controllers/Entradas/EliminarEntradaController.php`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id
-    }),
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Entrada eliminada satisfactoriamente.');
-
-      const table = $('#usuarios-table').DataTable();
-      table.ajax.reload();
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
 }
 
 const buscar = (event) => {

@@ -45,8 +45,12 @@ header("Expires: 0");
         </div>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" id="submit">Buscar</button>
-                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+                <button type="submit" class="btn btn-success" id="submit">
+                    <img src="/vanilla-inventario/Assets/iconos/buscar.svg" alt="buscar.svg"> Buscar
+                </button>
+                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">
+                    <img src="/vanilla-inventario/Assets/iconos/limpiar.svg" alt="limpiar.svg"> Limpiar
+                </button>
             </div>
         </div>
     </form>

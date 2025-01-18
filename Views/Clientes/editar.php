@@ -10,6 +10,7 @@ header("Expires: 0");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/clientes/editar.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
@@ -34,16 +35,40 @@ header("Expires: 0");
                 </select>
             </div>
             <div class="form-group">
-                <label for="numero_identificacion">Número de identificación *</label>
-                <input type="text" id="numero_identificacion" placeholder="Número de identificación" required>
+                <label for="numero_identificacion">Número de identificación * <button type="button" style="background-color: inherit; font-size: 11pt" class="info-btn" id="numeroIdentificacionInfo">ℹ️</button></label>
+                <div class="numero-identificacion-container">
+                    <select name="numero_identificacion_letra" id="numero_identificacion_letra" style="width: 20%" hidden>
+                        <option value="V" selected>V</option>
+                        <option value="E">E</option>
+                        <option value=J>J</option>
+                        <option value=G>G</option>
+                        <option value="P">P</option>
+                        <option value="C">C</option>
+                    </select>
+                    <input type="text" id="numero_identificacion" placeholder="Número de identificación" required>
+                    <div class="numero-identificacion-guide" id="numeroIdentificacionGuia">
+                        <p>El número de identificación debe cumplir con los siguientes requisitos:</p>
+                        <ul>
+                            <li>Cédula: Debe contener de 6 a 8 dígios numéricos.</li>
+                            <li>Rif:
+                                <ul>
+                                    <li>Debe iniciar con una letra, que puede ser únicamente V, E, J, G, P o C.</li>
+                                    <li>Debe continuar con 8 dígitos numéricos, luego un guión (-) y por último otro dígito numérico.</li>
+                                    <li>Ejemplo de un RIF válido: J1234678-9</li>
+                                </ul>
+                            </li>
+                            <li>Pasaporte: Debe contener de 6 a 9 caracteres.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre *</label>
-                <input type="text" id="nombre" placeholder="Nombre" required>
+                <input type="text" id="nombre" placeholder="Nombre" maxlength="20" required>
             </div>
             <div class="form-group">
-                <label for="apellido">Apellido *</label>
-                <input type="text" id="apellido" placeholder="Apellido" required>
+                <label for="apellido">Apellido</label>
+                <input type="text" id="apellido" placeholder="Apellido" maxlength="20">
             </div>
         </div>
         <div class="form-row">
@@ -64,21 +89,27 @@ header("Expires: 0");
             </div>
             <div class="big-form-group">
                 <label for="direccion">Dirección *</label>
-                <input type="text" id="direccion" placeholder="Dirección" required>
+                <input type="text" id="direccion" placeholder="Dirección" maxlength="20" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button">Guardar</button>
-                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+                <button type="submit" class="btn btn-success">
+                    <img src="/vanilla-inventario/Assets/iconos/guardar.svg" alt="guardar.svg"> Guardar
+                </button>
+                <button type="reset" class="btn btn-secondary" onclick="cancelar(event)">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg"> Cancelar
+                </button>
             </div>
         </div>
+
+        <hr>
+        <p>Todos los campos con asterisco (*) son obligatorios.</p>
 
         <input type="hidden" id="id" name="id" value="">
     </form>
 </div>
 
-<script src="/vanilla-inventario/Assets/js/clientes/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/clientes/editar.js"></script>
 <script src="/vanilla-inventario/Assets/js/clientes/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>

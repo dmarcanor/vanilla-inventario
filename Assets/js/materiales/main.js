@@ -45,6 +45,78 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(mensaje);
     });
 
+  actualizarTabla();
+
+  cambiarNombreUsuarioSesion();
+});
+
+const actualizarTabla = () => {
+  const precioDolar = document.getElementById('precio_dolar').value;
+
+  // Genera las columnas dependiendo de la condición
+  let columnas = [
+    { title: "ID", data: "id", orderable: false },
+    { title: "Código", data: "codigo", orderable: false },
+    { title: "Nombre", data: "nombre", orderable: false },
+    { title: "Descripción", data: "descripcion", orderable: false },
+    { title: "Presentación", data: "presentacion", orderable: false },
+    { title: "Marca", data: "marca", orderable: false },
+    { title: "Categoría", data: "categoriaNombre", orderable: false },
+    {
+      title: "Precio",
+      data: "precio",
+      orderable: false,
+      render: (data) => {
+        return `$${data}`;
+      }
+    }
+  ];
+
+  if (precioDolar !== '' && precioDolar !== '0') {
+    columnas.push({
+      title: 'Precio (Bs)',
+      data: null,
+      orderable: false,
+      render: function(data, type, row) {
+        return `Bs ${(row.precio * precioDolar).toFixed(2)}`;
+      }
+    });
+  }
+
+  columnas.push(
+    { title: "Stock", data: "stock", orderable: false },
+    {
+      title: "Estado",
+      data: "estado",
+      orderable: false,
+      render: (data) => estadoLabel(data)
+    },
+    {
+      title: "Acciones",
+      data: "acciones",
+      orderable: false,
+      render: (data, type, row) => {
+        const accionEstado = row.estado === 'activo' ? 'Inactivar' : 'Activar';
+        const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-danger' : 'btn btn-success';
+
+        return `
+            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
+                <img src="/vanilla-inventario/Assets/iconos/editar.svg" alt="editar.svg"> Editar
+            </button>
+            <button class="${accionEstadoEstilo}" onclick="cambiarEstado(${row.id})")>
+                <img src="/vanilla-inventario/Assets/iconos/switch.svg" alt="switch.svg"> ${accionEstado}
+            </button>
+          `;
+      }
+    }
+  );
+
+  // Destruye y reinicia la tabla
+  if ($.fn.DataTable.isDataTable('#usuarios-table')) {
+    $('#usuarios-table').DataTable().destroy();
+    $('#usuarios-table').empty();
+  }
+
   $('#usuarios-table').DataTable({
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
@@ -53,49 +125,37 @@ document.addEventListener('DOMContentLoaded', () => {
     ajax: {
       url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?ordenCampo=estado", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
+      data: (parametros) => {
+        const form = document.getElementById('form');
+        let filtroEstado = form.estado.value;
+        let filtroStockMinimo = false;
+
+        if (filtroEstado === 'stock_minimo') {
+          filtroEstado = '';
+          filtroStockMinimo = true;
+        }
+
+        parametros.id = form.id.value;
+        parametros.codigo = form.codigo.value;
+        parametros.nombre = form.nombre.value;
+        parametros.descripcion = form.descripcion.value;
+        parametros.presentacion = form.presentacion.value;
+        parametros.marca = form.marca.value;
+        parametros.categoria_id = form.categoria_id.value;
+        parametros.unidad = form.unidad.value;
+        parametros.estado = filtroEstado; // *
+        parametros.fecha_desde = form.fecha_desde.value;
+        parametros.fecha_hasta = form.fecha_hasta.value;
+        parametros.precio = form.precio.value;
+        parametros.stock_minimo = filtroStockMinimo;
+      }
     },
     paging: true, // Activa la paginación
     pageLength: 10, // Número de filas por página
     lengthChange: false,
-    columns: [
-      { data: "id", orderable: false },
-      { data: "codigo", orderable: false },
-      { data: "nombre", orderable: false },
-      { data: "descripcion", orderable: false },
-      { data: "presentacion", orderable: false },
-      { data: "marca", orderable: false },
-      { data: "categoriaNombre", orderable: false },
-      {
-        data: "precio",
-        orderable: false,
-        render: (data) => {
-          return `$${data}`;
-        }
-      },
-      { data: "stock", orderable: false },
-      {
-        data: "estado",
-        orderable: false,
-        render: (data) => estadoLabel(data)
-      },
-      {
-        data: "acciones",
-        orderable: false,
-        render: (data, type, row) => {
-          const accionEstado = row.estado === 'activo' ? 'Inactivar' : 'Activar';
-          const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-danger' : 'btn btn-success';
-
-          return `
-            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Editar</button>
-            <button class="${accionEstadoEstilo}" onclick="cambiarEstado(${row.id})")>${accionEstado}</button>
-          `;
-        }
-      }
-    ]
+    columns: columnas
   });
-
-  cambiarNombreUsuarioSesion();
-});
+}
 
 const estadoLabel = (estado) => {
   if (estado === 'activo') {
@@ -174,36 +234,13 @@ const redireccionarEditar = (id) => {
 const buscar = (event) => {
   event.preventDefault();
 
-  const busqueda = event.target;
-  const table = $('#usuarios-table').DataTable();
+  actualizarTabla();
+}
 
-  let filtroEstado = busqueda.estado.value;
-  let filtroStockMinimo = false;
+const calcularPrecioBolivar = (event) => {
+  event.preventDefault();
 
-  if (filtroEstado === 'stock_minimo') {
-    filtroEstado = '';
-    filtroStockMinimo = true;
-  }
-
-  const parametros = {
-    "id": busqueda.id.value,
-    "codigo": busqueda.codigo.value,
-    "nombre": busqueda.nombre.value,
-    "descripcion": busqueda.descripcion.value,
-    "presentacion": busqueda.presentacion.value,
-    "marca": busqueda.marca.value,
-    "categoria_id": busqueda.categoria_id.value,
-    "unidad": busqueda.unidad.value,
-    "estado": filtroEstado,
-    "fecha_desde": busqueda.fecha_desde.value,
-    "fecha_hasta": busqueda.fecha_hasta.value,
-    "precio": busqueda.precio.value,
-    "stock_minimo": filtroStockMinimo
-  };
-
-  table.settings()[0].ajax.data = (data) => ({...data, ...parametros})
-
-  table.ajax.reload();
+  actualizarTabla();
 }
 
 const limpiarFormulario = () => {
@@ -228,7 +265,7 @@ const imprimir = (event) => {
     "marca": busqueda.marca.value,
     "categoria_id": busqueda.categoria_id.value,
     "unidad": busqueda.unidad.value,
-    "estado": busqueda.estado.value,
+    "estado": "activo",
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
     "precio": busqueda.precio.value

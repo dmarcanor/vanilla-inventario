@@ -67,7 +67,7 @@ function renderTabla() {
     materialesEnBaseDeDatos.forEach(materialEnBaseDeDatos => {
       const option = document.createElement("option");
       option.value = materialEnBaseDeDatos.id;
-      option.textContent = `${materialEnBaseDeDatos.nombre} - ${materialEnBaseDeDatos.presentacion}`;
+      option.textContent = `${materialEnBaseDeDatos.nombre} - ${materialEnBaseDeDatos.descripcion} - ${materialEnBaseDeDatos.marca}`;
 
       if (linea.materialId == materialEnBaseDeDatos.id) {
         option.selected = true;
@@ -75,8 +75,6 @@ function renderTabla() {
       itemSelect.appendChild(option);
     });
 
-    // Actualizar cantidad cuando cambia el item seleccionado
-    // itemSelect.addEventListener("change", (e) => actualizarCantidad(index, 0));
     // Actualizar unidad cuando cambia el item seleccionado
     itemSelect.addEventListener("change", (e) => actualizarUnidad(index, e.target.value));
     itemTd.appendChild(itemSelect);
@@ -99,9 +97,11 @@ function renderTabla() {
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
     precioInput.type = "text";
-    precioInput.value = precioPorMaterialId(linea.materialId); // Obtener precio del material
-    precioInput.disabled = true;
-    lineas[index].precio = precioPorMaterialId(linea.materialId); // Actualizar precio en el arreglo
+    precioInput.value = linea.precio;
+    // precioInput.value = precioPorMaterialId(linea.materialId); // Obtener precio del material
+    // lineas[index].precio = precioPorMaterialId(linea.materialId); // Actualizar precio en el arreglo
+    precioInput.addEventListener("focus", (e) => vaciarContenidoSiEsCero(index, e.target));
+    precioInput.addEventListener("blur", (e) => formatearPrecio(index, e.target.value));
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);
 

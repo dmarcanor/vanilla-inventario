@@ -10,17 +10,15 @@ $pdf->SetFont('times', '', 11); // Establecer fuente
 
 // Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
 $html = '
-<img src="/vanilla-inventario/Assets/imagenes/logo.jpg" alt="logo.jpg">
 <h1>Reporte de clientes</h1>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center;">
     <tr>
-        <th width="11%">Nombre</th>
-        <th width="11%">Apellido</th>
-        <th width="10%">Tipo de identificación</th>
+        <th width="22%">Nombre</th>
+        <th width="12%">Tipo de identificación</th>
         <th width="14%">Número de identificación</th>
         <th width="16%">Teléfono</th>
-        <th width="25%">Dirección</th>
-        <th width="13%">Fecha y hora</th>
+        <th width="24%">Dirección</th>
+        <th width="12%">Fecha</th>
     </tr>
 ';
 
@@ -49,13 +47,12 @@ try {
     foreach ($clientes as $cliente) {
         $html .= '
             <tr>
-                <td>' . $cliente->nombre() . '</td>
-                <td>' . $cliente->apellido() . '</td>
+                <td>' . $cliente->nombre() . " " .  $cliente->apellido() . '</td>
                 <td>' . $cliente->tipoIdentificacion() . '</td>
                 <td>' . $cliente->numeroIdentificacion() . '</td>
                 <td>' . preg_replace('/(\d{4})(\d{3})(\d{2})(\d{2})/', '$1-$2-$3-$4', $cliente->telefono()) . '</td>
                 <td>' . $cliente->direccion() . '</td>
-                <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $cliente->fechaCreacion())->format('d/m/Y h:i:sA') . '</td>
+                <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $cliente->fechaCreacion())->format('d/m/Y') . '</td>
             </tr>
         ';
     }

@@ -23,8 +23,12 @@ header("Expires: 0");
     <div class="module-header">
         <h1 class="module-title">Clientes</h1>
         <div class="module-actions">
-            <a class="btn btn-success" href="crear.php">Crear nuevo cliente</a>
-            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">Reporte</button>
+            <a class="btn btn-success" href="crear.php">
+                <img src="/vanilla-inventario/Assets/iconos/crear.svg" alt="crear.svg"> Crear nuevo cliente
+            </a>
+            <button type="button" id="imprimir" class="btn btn-primary" onclick="imprimir(event)">
+                <img src="/vanilla-inventario/Assets/iconos/imprimir.svg" alt="imprimir.svg"> Reporte
+            </button>
         </div>
     </div>
     <form class="form" onsubmit="buscar(event)">
@@ -73,8 +77,12 @@ header("Expires: 0");
         </div>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="btn btn-success" id="submit">Buscar</button>
-                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">Limpiar</button>
+                <button type="submit" class="btn btn-success" id="submit">
+                    <img src="/vanilla-inventario/Assets/iconos/buscar.svg" alt="buscar.svg"> Buscar
+                </button>
+                <button type="reset" class="btn btn-secondary" id="limpiar"  onclick="limpiarFormulario()">
+                    <img src="/vanilla-inventario/Assets/iconos/limpiar.svg" alt="limpiar.svg"> Limpiar
+                </button>
             </div>
         </div>
     </form>

@@ -6,15 +6,15 @@ DROP TABLE IF EXISTS usuarios;
 CREATE TABLE IF NOT EXISTS usuarios
 (
     id          INT AUTO_INCREMENT PRIMARY KEY,
-    nombre      VARCHAR(100)                NOT NULL,
-    apellido    VARCHAR(100)                NOT NULL,
+    nombre      VARCHAR(20)                NOT NULL,
+    apellido    VARCHAR(20)                NOT NULL,
     cedula      VARCHAR(10)                 NOT NULL UNIQUE,
     contrasenia VARCHAR(255)                NOT NULL,
-    telefono    VARCHAR(100)                NOT NULL,
-    direccion   VARCHAR(255)                NOT NULL,
+    iv          VARCHAR(64)                NOT NULL,
+    telefono    VARCHAR(11)                NOT NULL,
+    direccion   VARCHAR(30)                NOT NULL,
     rol         VARCHAR(10)                 NOT NULL,
-    estado      ENUM ('activo', 'inactivo') NOT NULL,
-    eliminado   BOOL DEFAULT FALSE
+    estado      ENUM ('activo', 'inactivo') NOT NULL
 );
 
 INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
@@ -25,26 +25,24 @@ DROP TABLE IF EXISTS clientes;
 CREATE TABLE IF NOT EXISTS clientes
 (
     id                    INT AUTO_INCREMENT PRIMARY KEY,
-    nombre                VARCHAR(100)                NOT NULL,
-    apellido              VARCHAR(100)                NOT NULL,
-    tipo_identificacion   VARCHAR(100)                NOT NULL,
-    numero_identificacion VARCHAR(100)                NOT NULL,
-    telefono              VARCHAR(100)                NOT NULL,
-    direccion             VARCHAR(255)                NOT NULL,
+    nombre                VARCHAR(20)                NOT NULL,
+    apellido              VARCHAR(20)                NOT NULL,
+    tipo_identificacion   VARCHAR(8)                NOT NULL,
+    numero_identificacion VARCHAR(11)                NOT NULL,
+    telefono              VARCHAR(11)                NOT NULL,
+    direccion             VARCHAR(20)                NOT NULL,
     fecha_creacion        DATETIME                    NOT NULL,
-    estado                ENUM ('activo', 'inactivo') NOT NULL,
-    eliminado             BOOL DEFAULT FALSE
+    estado                ENUM ('activo', 'inactivo') NOT NULL
 );
 
 DROP TABLE IF EXISTS categorias;
 CREATE TABLE IF NOT EXISTS categorias
 (
     id             INT AUTO_INCREMENT PRIMARY KEY,
-    nombre         VARCHAR(100)                NOT NULL,
-    descripcion    VARCHAR(255)                NOT NULL,
+    nombre         VARCHAR(20)                NOT NULL,
+    descripcion    VARCHAR(30)                NOT NULL,
     fecha_creacion DATETIME                    NOT NULL,
-    estado         ENUM ('activo', 'inactivo') NOT NULL,
-    eliminado      BOOL DEFAULT FALSE
+    estado         ENUM ('activo', 'inactivo') NOT NULL
 );
 
 INSERT INTO categorias (nombre, descripcion, fecha_creacion, estado)
@@ -54,18 +52,17 @@ DROP TABLE IF EXISTS materiales;
 CREATE TABLE IF NOT EXISTS materiales
 (
     id             INT AUTO_INCREMENT PRIMARY KEY,
-    nombre         VARCHAR(100)                NOT NULL,
-    descripcion    VARCHAR(255)                NOT NULL,
-    marca          VARCHAR(255)                NOT NULL,
+    nombre         VARCHAR(30)                NOT NULL,
+    descripcion    VARCHAR(30)                NOT NULL,
+    marca          VARCHAR(15)                NOT NULL,
     usuario_id     INT                         NOT NULL,
     categoria_id   INT                         NOT NULL,
-    unidad         VARCHAR(100)                NOT NULL,
+    unidad         VARCHAR(10)                NOT NULL,
     peso           DECIMAL(11, 2)              NOT NULL,
     precio         DECIMAL(11, 2)              NOT NULL,
     stock          DECIMAL(11, 2)              NOT NULL,
     fecha_creacion DATETIME                    NOT NULL,
-    estado         ENUM ('activo', 'inactivo') NOT NULL,
-    eliminado      BOOL DEFAULT FALSE
+    estado         ENUM ('activo', 'inactivo') NOT NULL
 );
 
 ALTER TABLE materiales
@@ -91,11 +88,10 @@ DROP TABLE IF EXISTS entradas;
 CREATE TABLE IF NOT EXISTS entradas
 (
     id             INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion    VARCHAR(255)                 NOT NULL,
+    descripcion    VARCHAR(30)                 NOT NULL,
     usuario_id     INT                          NOT NULL,
     fecha_creacion DATETIME                     NOT NULL,
-    estado         ENUM ('aprobado', 'anulado') NOT NULL,
-    eliminado      BOOL DEFAULT FALSE
+    estado         ENUM ('aprobado', 'anulado') NOT NULL
 );
 
 ALTER TABLE entradas
@@ -131,12 +127,11 @@ DROP TABLE IF EXISTS salidas;
 CREATE TABLE IF NOT EXISTS salidas
 (
     id             INT AUTO_INCREMENT PRIMARY KEY,
-    descripcion    VARCHAR(255)                 NOT NULL,
+    descripcion    VARCHAR(30)                 NOT NULL,
     cliente_id     INT                          NOT NULL,
     usuario_id     INT                          NOT NULL,
     fecha_creacion DATETIME                     NOT NULL,
-    estado         ENUM ('aprobado', 'anulado') NOT NULL,
-    eliminado      BOOL DEFAULT FALSE
+    estado         ENUM ('aprobado', 'anulado') NOT NULL
 );
 
 ALTER TABLE salidas
@@ -184,13 +179,13 @@ ALTER TABLE entradas
     DROP COLUMN estado;
 
 ALTER TABLE entradas
-    CHANGE COLUMN descripcion observacion VARCHAR(255) NOT NULL;
+    CHANGE COLUMN descripcion observacion VARCHAR(30) NOT NULL;
 
 ALTER TABLE salidas
     DROP COLUMN estado;
 
 ALTER TABLE salidas
-    CHANGE COLUMN descripcion observacion VARCHAR(255) NOT NULL;
+    CHANGE COLUMN descripcion observacion VARCHAR(30) NOT NULL;
 
 ALTER TABLE materiales
     CHANGE COLUMN peso presentacion VARCHAR(100) NOT NULL;
@@ -203,13 +198,13 @@ truncate table entrada_lineas;
 
 ALTER TABLE materiales
     ADD COLUMN stock_minimo DECIMAL(11, 2) NOT NULL,
-    ADD COLUMN codigo       VARCHAR(255)   NOT NULL;
+    ADD COLUMN codigo       VARCHAR(30)   NOT NULL;
 
 ALTER TABLE entradas
     ADD COLUMN numero_entrada INT NOT NULL;
 
 ALTER TABLE usuarios
-    ADD COLUMN nombre_usuario VARCHAR(255) NOT NULL;
+    ADD COLUMN nombre_usuario VARCHAR(30) NOT NULL;
 
 UPDATE usuarios
 SET nombre_usuario = 'admin'
@@ -220,7 +215,7 @@ CREATE TABLE IF NOT EXISTS usuarios_historial
     id           INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id   INT          NOT NULL,
     tipo_accion  VARCHAR(10)  NOT NULL,
-    tipo_entidad VARCHAR(255) NOT NULL,
+    tipo_entidad VARCHAR(10) NOT NULL,
     entidad_id   INT          NOT NULL,
     cambio       TEXT         NOT NULL,
     fecha        DATETIME     NOT NULL
@@ -254,5 +249,70 @@ DELETE
 FROM usuarios_historial
 WHERE NOT EXISTS(SELECT * FROM usuarios WHERE usuarios.id = usuarios_historial.entidad_id);
 
-select * from materiales
-where precio like '7.%';
+ALTER TABLE usuarios
+    DROP COLUMN eliminado;
+
+ALTER TABLE clientes
+    DROP COLUMN eliminado;
+
+ALTER TABLE categorias
+    DROP COLUMN eliminado;
+
+ALTER TABLE materiales
+    DROP COLUMN eliminado;
+
+ALTER TABLE entradas
+    DROP COLUMN eliminado;
+
+ALTER TABLE salidas
+    DROP COLUMN eliminado;
+
+DELETE FROM usuarios_historial;
+DELETE FROM clientes;
+DELETE FROM categorias;
+DELETE FROM entradas;
+DELETE FROM entrada_lineas;
+DELETE FROM salidas;
+DELETE FROM salida_lineas;
+DELETE FROM materiales;
+
+ALTER TABLE usuarios
+    MODIFY COLUMN nombre VARCHAR(20) NOT NULL,
+    MODIFY COLUMN apellido VARCHAR(20) NOT NULL,
+    MODIFY COLUMN cedula VARCHAR(10) NOT NULL UNIQUE,
+    MODIFY COLUMN contrasenia VARCHAR(255) NOT NULL,
+    MODIFY COLUMN iv VARCHAR(64) NOT NULL,
+    MODIFY COLUMN telefono VARCHAR(11) NOT NULL,
+    MODIFY COLUMN direccion VARCHAR(30) NOT NULL,
+    MODIFY COLUMN rol VARCHAR(10) NOT NULL,
+    MODIFY COLUMN nombre_usuario VARCHAR(30) NOT NULL;
+
+ALTER TABLE clientes
+    MODIFY COLUMN nombre VARCHAR(20) NOT NULL,
+    MODIFY COLUMN apellido VARCHAR(20),
+    MODIFY COLUMN tipo_identificacion VARCHAR(9) NOT NULL,
+    MODIFY COLUMN numero_identificacion VARCHAR(11) NOT NULL,
+    MODIFY COLUMN telefono VARCHAR(11) NOT NULL,
+    MODIFY COLUMN direccion VARCHAR(20) NOT NULL;
+
+ALTER TABLE categorias
+    MODIFY COLUMN nombre VARCHAR(20) NOT NULL,
+    MODIFY COLUMN descripcion VARCHAR(30) NOT NULL;
+
+ALTER TABLE materiales
+    MODIFY COLUMN nombre VARCHAR(20) NOT NULL,
+    MODIFY COLUMN descripcion VARCHAR(30) NOT NULL,
+    MODIFY COLUMN marca VARCHAR(15) NOT NULL,
+    MODIFY COLUMN unidad VARCHAR(15) NOT NULL,
+    MODIFY COLUMN presentacion VARCHAR(30) NOT NULL,
+    MODIFY COLUMN codigo VARCHAR(20) NOT NULL;
+
+ALTER TABLE entradas
+    MODIFY COLUMN observacion VARCHAR(30) NOT NULL;
+
+ALTER TABLE salidas
+    MODIFY COLUMN observacion VARCHAR(30) NOT NULL;
+
+ALTER TABLE usuarios_historial
+    MODIFY COLUMN tipo_accion VARCHAR(10) NOT NULL,
+    MODIFY COLUMN tipo_entidad VARCHAR(10) NOT NULL;

@@ -5,12 +5,42 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
-  document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
 
   document.getElementById('apellido').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('apellido').addEventListener('input', soloPermitirLetras);
 
   document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
+});
+
+const numeroIdentificacionInfo = document.getElementById('numeroIdentificacionInfo');
+const numeroIdentificacionGuia = document.getElementById('numeroIdentificacionGuia');
+const tipoIdentificacion = document.getElementById('tipo_identificacion');
+let guideVisible = false;
+
+// Mostrar u ocultar la guía de contraseñas
+numeroIdentificacionInfo.addEventListener('click', function(e) {
+  e.preventDefault();
+  guideVisible = !guideVisible;
+  numeroIdentificacionGuia.style.display = guideVisible ? 'block' : 'none';
+});
+
+// Ocultar la guía de numero de identificacion al hacer clic fuera de ella
+document.addEventListener('click', function(e) {
+  if (!numeroIdentificacionInfo.contains(e.target) && !numeroIdentificacionInfo.contains(e.target)) {
+    guideVisible = false;
+    numeroIdentificacionGuia.style.display = 'none';
+  }
+});
+
+tipoIdentificacion.addEventListener('change', function (e) {
+  console.log("change?");
+  if (e.target.value === 'rif') {
+    document.getElementById('numero_identificacion_letra').hidden = false;
+  }
+
+  if (e.target.value !== 'rif') {
+    document.getElementById('numero_identificacion_letra').hidden = true;
+  }
 });
 
 const validarTelefono = (telefono) => {
@@ -49,10 +79,14 @@ const guardar = (event) => {
 }
 
 const crear = (formulario) => {
+  const tipoIdentificacionLetra = formulario.tipo_identificacion.value === 'rif'
+    ? document.getElementById('numero_identificacion_letra').value
+    : '';
+
   const nombre = formulario.nombre.value;
   const apellido = formulario.apellido.value;
   const tipo_identificacion = formulario.tipo_identificacion.value;
-  const numero_identificacion = formulario.numero_identificacion.value;
+  const numero_identificacion = `${tipoIdentificacionLetra}${formulario.numero_identificacion.value}`;
   const telefono = formulario.telefono.value;
   const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;
@@ -94,10 +128,14 @@ const editar = (id, formulario) => {
     return;
   }
 
+  const tipoIdentificacionLetra = formulario.tipo_identificacion.value === 'rif'
+    ? document.getElementById('numero_identificacion_letra').value
+    : '';
+
   const nombre = formulario.nombre.value;
   const apellido = formulario.apellido.value;
   const tipo_identificacion = formulario.tipo_identificacion.value;
-  const numero_identificacion = formulario.numero_identificacion.value;
+  const numero_identificacion = `${tipoIdentificacionLetra}${formulario.numero_identificacion.value}`;
   const telefono = formulario.telefono.value;
   const direccion = formulario.direccion.value;
   const estado = formulario.estado.value;

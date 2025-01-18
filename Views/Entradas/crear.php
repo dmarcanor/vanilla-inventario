@@ -10,6 +10,7 @@ header("Expires: 0");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/crear.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/entradas/formulario.css">
@@ -31,7 +32,7 @@ header("Expires: 0");
             </div>
             <div class="big-form-group">
                 <label for="observacion">Observación</label>
-                <input type="text" id="observacion" placeholder="Observación">
+                <input type="text" id="observacion" placeholder="Observación" maxlength="30">
             </div>
             <div class="form-group"></div>
         </div>
@@ -43,7 +44,7 @@ header("Expires: 0");
                     <tr>
                         <th>Material *</th>
                         <th>Cantidad *</th>
-                        <th>Precio *</th>
+                        <th>Precio de costo *</th>
                         <th>Unidad</th>
                         <th>
                             <button type="button" id="addRow" class="add-row-btn">+</button>
@@ -58,10 +59,17 @@ header("Expires: 0");
 
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button">Guardar</button>
-                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+                <button type="submit" class="success-button">
+                    <img src="/vanilla-inventario/Assets/iconos/guardar.svg" alt="guardar.svg"> Guardar
+                </button>
+                <button type="reset" class="cancel-button" onclick="cancelar(event)">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg"> Cancelar
+                </button>
             </div>
         </div>
+
+        <hr>
+        <p>Todos los campos con asterisco (*) son obligatorios.</p>
     </form>
 </div>
 

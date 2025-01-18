@@ -4,6 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  tipoIdentificacion.addEventListener('change', function (e) {
+    if (e.target.value === 'rif') {
+      document.getElementById('numero_identificacion_letra').hidden = false;
+    }
+
+    if (e.target.value !== 'rif') {
+      document.getElementById('numero_identificacion_letra').hidden = true;
+    }
+  });
+
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 
@@ -17,18 +27,23 @@ document.addEventListener('DOMContentLoaded', () => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
-console.log(
-  json,
-  document.getElementById('id')
-);
+
+      const numeroIdentificacionLetra = json.cliente.tipoIdentificacion === 'rif' ? json.cliente.numeroIdentificacion[0] : '';
+      const numeroIdentificacion = json.cliente.tipoIdentificacion === 'rif' ? json.cliente.numeroIdentificacion.substring(1) : json.cliente.numeroIdentificacion;
+
       document.getElementById('id').value = id;
       document.getElementById('nombre').value = json.cliente.nombre;
       document.getElementById('apellido').value = json.cliente.apellido;
       document.getElementById('tipo_identificacion').value = json.cliente.tipoIdentificacion;
-      document.getElementById('numero_identificacion').value = json.cliente.numeroIdentificacion;
+      document.getElementById('numero_identificacion_letra').value = numeroIdentificacionLetra;
+      document.getElementById('numero_identificacion').value = numeroIdentificacion;
       document.getElementById('telefono').value = json.cliente.telefono;
       document.getElementById('direccion').value = json.cliente.direccion;
       document.getElementById('estado').value = json.cliente.estado;
+
+      if (numeroIdentificacionLetra) {
+        document.getElementById('numero_identificacion_letra').hidden = false;
+      }
     })
     .catch((mensaje) => {
       alert(mensaje);

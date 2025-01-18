@@ -81,14 +81,10 @@ document.addEventListener('DOMContentLoaded', () => {
         data: "acciones",
         orderable: false,
         render: (data, type, row) => {
-          let botonEliminar = `<button class="btn btn-danger" onclick="eliminar(${row.id})">Eliminar</button>`;
-
-          if (esAdmin() == false) {
-            botonEliminar = '';
-          }
           return `
-            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">Ver</button>
-            ${botonEliminar}
+            <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
+                <img src="/vanilla-inventario/Assets/iconos/ver.svg" alt="ver.svg"> Ver
+            </button>
           `;
         }
       }
@@ -97,38 +93,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   cambiarNombreUsuarioSesion();
 });
-
-const eliminar = (id) => {
-  const confirmar = confirm('¿Está seguro de eliminar este registro?');
-
-  if (confirmar == false) {
-    return;
-  }
-
-  fetch(`/vanilla-inventario/Controllers/Salidas/EliminarSalidaController.php`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id
-    }),
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Salida eliminada satisfactoriamente.');
-
-      const table = $('#usuarios-table').DataTable();
-      table.ajax.reload();
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
-}
 
 const redireccionarEditar = (id) => {
   window.location.href = `/vanilla-inventario/Views/Salidas/editar.php?id=${id}`;

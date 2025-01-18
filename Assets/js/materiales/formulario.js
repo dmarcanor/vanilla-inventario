@@ -17,8 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('marca').addEventListener('input', soloPermitirLetras);
 
-  document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
-  document.getElementById('presentacion').addEventListener('input', soloPermitirLetras);
+  document.getElementById('presentacion').addEventListener('input', soloPermitirNumerosYCaracterDivision);
 
   document.getElementById('precio').addEventListener('blur', dosDecimales);
 

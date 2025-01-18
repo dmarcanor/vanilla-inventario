@@ -185,3 +185,16 @@ const cargarTablaMaterialesStockMinimo = () => {
     ]
   });
 }
+
+const imprimirMaterialesStockMinimo = (event) => {
+  event.preventDefault();
+
+  const parametros = {
+    "stock_minimo": true
+  };
+
+  const queryParams = new URLSearchParams(parametros).toString();
+
+  // abrir enlace en otra pestaña
+  window.open(`/vanilla-inventario/Controllers/Reportes/materiales_stock_minimo.php?${queryParams}`);
+}

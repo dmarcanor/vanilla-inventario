@@ -13,6 +13,7 @@ header("Expires: 0");
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/crear.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/formulario.css">
@@ -36,7 +37,7 @@ header("Expires: 0");
             </div>
             <div class="big-form-group">
                 <label for="observacion">Observación *</label>
-                <input type="text" id="observacion" placeholder="Observacion">
+                <input type="text" id="observacion" placeholder="Observacion" maxlength="30">
             </div>
         </div>
 
@@ -64,10 +65,17 @@ header("Expires: 0");
 
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button">Guardar</button>
-                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+                <button type="submit" class="success-button">
+                    <img src="/vanilla-inventario/Assets/iconos/guardar.svg" alt="guardar.svg"> Guardar
+                </button>
+                <button type="reset" class="cancel-button" onclick="cancelar(event)">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg"> Cancelar
+                </button>
             </div>
         </div>
+
+        <hr>
+        <p>Todos los campos con asterisco (*) son obligatorios.</p>
     </form>
 </div>
 

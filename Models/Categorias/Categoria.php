@@ -252,10 +252,10 @@ final class Categoria
 
     public static function getCategorias($filtros, $orden, $ordenCampo)
     {
-        $consultaCategorias = "SELECT id, nombre, descripcion, fecha_creacion, estado FROM categorias WHERE eliminado = 0";
+        $consultaCategorias = "SELECT id, nombre, descripcion, fecha_creacion, estado FROM categorias";
 
         if (!empty($filtros)) {
-            $consultaCategorias .= " AND ";
+            $consultaCategorias .= " WHERE ";
             $iteracion = 0;
 
             foreach ($filtros as $key => $filtro) {

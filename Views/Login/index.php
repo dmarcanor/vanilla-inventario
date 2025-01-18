@@ -8,7 +8,6 @@
 </head>
 <body>
 <div class="login-container">
-    <img src="/vanilla-inventario/Assets/imagenes/logo.jpg" alt="logo.jpg" style="max-height: 10%; height: 100%; max-width: 100%">
     <div class="nombre-empresa">Comercializadora G&S C.A.</div>
     <hr class="separador">
     <h1>Iniciar Sesión</h1>

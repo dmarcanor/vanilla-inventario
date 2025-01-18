@@ -10,6 +10,7 @@ header("Expires: 0");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/materiales/crear.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
@@ -26,19 +27,19 @@ header("Expires: 0");
         <div class="form-row">
             <div class="form-group">
                 <label for="codigo">Código *</label>
-                <input type="text" id="codigo" placeholder="Código" required>
+                <input type="number" id="codigo" placeholder="Código" max="20000000000000000000" required>
             </div>
             <div class="form-group">
                 <label for="nombre">Nombre *</label>
-                <input type="text" id="nombre" placeholder="Nombre" required>
+                <input type="text" id="nombre" placeholder="Nombre" maxlength="20" required>
             </div>
             <div class="form-group">
                 <label for="descripcion">Descripción</label>
-                <input type="text" id="descripcion" placeholder="Descripción">
+                <input type="text" id="descripcion" placeholder="Descripción" maxlength="30">
             </div>
             <div class="form-group">
                 <label for="marca">Marca</label>
-                <input type="text" id="marca" placeholder="Marca">
+                <input type="text" id="marca" placeholder="Marca" maxlength="15">
             </div>
         </div>
         <div class="form-row">
@@ -50,18 +51,21 @@ header("Expires: 0");
             </div>
             <div class="form-group">
                 <label for="presentacion">Presentación *</label>
-                <input type="text" id="presentacion" placeholder="Presentación" required>
+                <input type="text" id="presentacion" placeholder="Presentación" maxlength="30" required>
             </div>
             <div class="form-group">
                 <label for="unidad">Unidad *</label>
                 <select name="unidad" id="unidad" required>
                     <option value="">Seleccione</option>
+                    <option value="unidad">Unidad</option>
                     <option value="kilogramos">Kilogramos (kg)</option>
                     <option value="gramos">Gramos (g)</option>
                     <option value="miligramos">Miligramos (mg)</option>
                     <option value="libras">Libras (lb)</option>
                     <option value="onzas">Onzas (oz)</option>
                     <option value="toneladas">Toneladas métricas (t)</option>
+                    <option value="metros">Metros (m)</option>
+                    <option value="metros_cuadrado">Metros cuadrados(m2)</option>
                 </select>
             </div>
             <div class="form-group">
@@ -88,10 +92,17 @@ header("Expires: 0");
         </class>
         <div class="form-row">
             <div class="form-group">
-                <button type="submit" class="success-button">Guardar</button>
-                <button type="reset" class="cancel-button" onclick="cancelar(event)">Cancelar</button>
+                <button type="submit" class="btn btn-success">
+                    <img src="/vanilla-inventario/Assets/iconos/guardar.svg" alt="guardar.svg"> Guardar
+                </button>
+                <button type="reset" class="btn btn-secondary" onclick="cancelar(event)">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg"> Cancelar
+                </button>
             </div>
         </div>
+
+        <hr>
+        <p>Todos los campos con asterisco (*) son obligatorios.</p>
     </form>
 </div>
 

@@ -57,7 +57,7 @@ function renderTabla() {
     materialesEnBaseDeDatos.forEach(materialEnBaseDeDatos => {
       const option = document.createElement("option");
       option.value = materialEnBaseDeDatos.id;
-      option.textContent = `${materialEnBaseDeDatos.nombre} - ${materialEnBaseDeDatos.presentacion}`;
+      option.textContent = `${materialEnBaseDeDatos.nombre} - ${materialEnBaseDeDatos.descripcion} - ${materialEnBaseDeDatos.marca}`;
 
       if (linea.materialId == materialEnBaseDeDatos.id) {
         option.selected = true;
