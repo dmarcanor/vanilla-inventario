@@ -98,6 +98,7 @@ header("Expires: 0");
                 <th class="dt-center">Tipo de identificación</th>
                 <th class="dt-center">Número de identificación</th>
                 <th class="dt-center">Teléfono</th>
+                <th class="dt-center">Dirección</th>
                 <th class="dt-center">Estado</th>
                 <th class="dt-center">Acciones</th>
             </tr>

@@ -415,7 +415,7 @@ class Cliente
         switch ($tipoIdentificacion) {
             case 'cedula':
                 // La cédula debe ser un número de 6 a 8 dígitos
-                if (!preg_match('/^\d{6,8}$/', $numeroIdentificacion)) {
+                if (!preg_match('/^[VEJGP]\d{6,8}$/', $numeroIdentificacion)) {
                     throw new Exception("La cédula debe tener de 6 a 8 dígitos numéricos.");
                 }
                 break;

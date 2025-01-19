@@ -17,7 +17,7 @@ const numeroIdentificacionGuia = document.getElementById('numeroIdentificacionGu
 const tipoIdentificacion = document.getElementById('tipo_identificacion');
 let guideVisible = false;
 
-// Mostrar u ocultar la guía de contraseñas
+// Mostrar u ocultar la guía de numero de identificacion
 numeroIdentificacionInfo.addEventListener('click', function(e) {
   e.preventDefault();
   guideVisible = !guideVisible;
@@ -33,12 +33,11 @@ document.addEventListener('click', function(e) {
 });
 
 tipoIdentificacion.addEventListener('change', function (e) {
-  console.log("change?");
-  if (e.target.value === 'rif') {
+  if (e.target.value == 'rif' || e.target.value == 'cedula') {
     document.getElementById('numero_identificacion_letra').hidden = false;
   }
 
-  if (e.target.value !== 'rif') {
+  if (e.target.value === 'pasaporte') {
     document.getElementById('numero_identificacion_letra').hidden = true;
   }
 });
@@ -79,7 +78,7 @@ const guardar = (event) => {
 }
 
 const crear = (formulario) => {
-  const tipoIdentificacionLetra = formulario.tipo_identificacion.value === 'rif'
+  const tipoIdentificacionLetra = formulario.tipo_identificacion.value === 'rif' || formulario.tipo_identificacion.value === 'cedula'
     ? document.getElementById('numero_identificacion_letra').value
     : '';
 
@@ -128,7 +127,7 @@ const editar = (id, formulario) => {
     return;
   }
 
-  const tipoIdentificacionLetra = formulario.tipo_identificacion.value === 'rif'
+  const tipoIdentificacionLetra = formulario.tipo_identificacion.value === 'rif' || formulario.tipo_identificacion.value === 'cedula'
     ? document.getElementById('numero_identificacion_letra').value
     : '';
 

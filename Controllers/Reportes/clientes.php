@@ -10,15 +10,28 @@ $pdf->SetFont('times', '', 11); // Establecer fuente
 
 // Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
 $html = '
-<h1>Reporte de clientes</h1>
+<table width="100%">
+<tbody>
+    <tr>
+        <td><h1>Comercializadora G&S C.A.</h1></td>
+        <td>Fecha de reporte: ' . (new DateTimeImmutable("now", new DateTimeZone("America/Caracas")))->format('d/m/Y h:i:sA') . '</td>
+    </tr>
+    <tr>
+        <td>Rif:50105235-2</td>
+    </tr>
+    <tr>
+        <td>Teléfono: 0412-1848791</td>
+    </tr>
+</tbody>
+</table>
+<h2>Reporte de clientes</h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center;">
     <tr>
         <th width="22%">Nombre</th>
-        <th width="12%">Tipo de identificación</th>
-        <th width="14%">Número de identificación</th>
-        <th width="16%">Teléfono</th>
+        <th width="18%">Tipo de identificación</th>
+        <th width="18%">Número de identificación</th>
+        <th width="18%">Teléfono</th>
         <th width="24%">Dirección</th>
-        <th width="12%">Fecha</th>
     </tr>
 ';
 
@@ -52,7 +65,6 @@ try {
                 <td>' . $cliente->numeroIdentificacion() . '</td>
                 <td>' . preg_replace('/(\d{4})(\d{3})(\d{2})(\d{2})/', '$1-$2-$3-$4', $cliente->telefono()) . '</td>
                 <td>' . $cliente->direccion() . '</td>
-                <td>' . DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $cliente->fechaCreacion())->format('d/m/Y') . '</td>
             </tr>
         ';
     }

@@ -4,15 +4,15 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  tipoIdentificacion.addEventListener('change', function (e) {
-    if (e.target.value === 'rif') {
-      document.getElementById('numero_identificacion_letra').hidden = false;
-    }
-
-    if (e.target.value !== 'rif') {
-      document.getElementById('numero_identificacion_letra').hidden = true;
-    }
-  });
+  // tipoIdentificacion.addEventListener('change', function (e) {
+  //   if (e.target.value == 'rif' || e.target.value == 'cedula') {
+  //     document.getElementById('numero_identificacion_letra').hidden = false;
+  //   }
+  //
+  //   if (e.target.value !== 'pasaporte') {
+  //     document.getElementById('numero_identificacion_letra').hidden = true;
+  //   }
+  // });
 
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
@@ -28,8 +28,10 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error(json.mensaje);
       }
 
-      const numeroIdentificacionLetra = json.cliente.tipoIdentificacion === 'rif' ? json.cliente.numeroIdentificacion[0] : '';
-      const numeroIdentificacion = json.cliente.tipoIdentificacion === 'rif' ? json.cliente.numeroIdentificacion.substring(1) : json.cliente.numeroIdentificacion;
+      const numeroIdentificacionLetra = json.cliente.tipoIdentificacion === 'rif' || json.cliente.tipoIdentificacion === 'cedula'
+        ? json.cliente.numeroIdentificacion[0] : '';
+      const numeroIdentificacion = json.cliente.tipoIdentificacion === 'rif' || json.cliente.tipoIdentificacion === 'cedula'
+        ? json.cliente.numeroIdentificacion.substring(1) : json.cliente.numeroIdentificacion;
 
       document.getElementById('id').value = id;
       document.getElementById('nombre').value = json.cliente.nombre;

@@ -316,3 +316,5 @@ ALTER TABLE salidas
 ALTER TABLE usuarios_historial
     MODIFY COLUMN tipo_accion VARCHAR(10) NOT NULL,
     MODIFY COLUMN tipo_entidad VARCHAR(10) NOT NULL;
+
+select * from clientes;

@@ -271,6 +271,10 @@ class Material
             $nuevoEstado = 'activo';
         }
 
+        if ($nuevoEstado == 'inactivo' && $a=$materialOriginal->stock > 0) {
+            throw new Exception("No se puede desactivar el material {$materialOriginal->nombre} porque tiene stock.");
+        }
+
         $materialModificado = new Material(
             $materialOriginal->id,
             $materialOriginal->codigo,

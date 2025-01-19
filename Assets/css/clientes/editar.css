@@ -36,6 +36,7 @@ body {
 }
 
 .numero-identificacion-container {
+    position: relative;
     display: flex;
 }
 .numero-identificacion-container input {

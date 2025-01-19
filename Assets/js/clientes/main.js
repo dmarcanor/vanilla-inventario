@@ -37,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
           return `${formatearTelefono(data)}`;
         }
       },
+      { data: "direccion", orderable: false },
       {
         data: "estado",
         orderable: false,
