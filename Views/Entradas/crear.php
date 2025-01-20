@@ -44,7 +44,7 @@ header("Expires: 0");
                     <tr>
                         <th>Material *</th>
                         <th>Cantidad *</th>
-                        <th>Precio de costo *</th>
+                        <th>Precio de costo ($) *</th>
                         <th>Unidad</th>
                         <th>
                             <button type="button" id="addRow" class="add-row-btn">+</button>

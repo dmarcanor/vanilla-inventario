@@ -47,7 +47,7 @@ header("Expires: 0");
                     <tr>
                         <th>Material</th>
                         <th>Cantidad</th>
-                        <th>Precio</th>
+                        <th>Precio de costo ($)</th>
                         <th>Unidad</th>
                     </tr>
                     </thead>

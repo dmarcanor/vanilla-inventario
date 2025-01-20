@@ -37,7 +37,7 @@ header("Expires: 0");
             <div class="form-group">
                 <label for="numero_identificacion">Número de identificación * <button type="button" style="background-color: inherit; font-size: 11pt" class="info-btn" id="numeroIdentificacionInfo">ℹ️</button></label>
                 <div class="numero-identificacion-container">
-                    <select name="numero_identificacion_letra" id="numero_identificacion_letra" style="width: 20%" hidden>
+                    <select name="numero_identificacion_letra" id="numero_identificacion_letra" style="width: 25%" hidden>
                         <option value="V" selected>V</option>
                         <option value="E">E</option>
                         <option value=J>J</option>

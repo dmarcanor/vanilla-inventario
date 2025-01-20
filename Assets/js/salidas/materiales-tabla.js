@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const estaEditando = ruta.includes('editar.php');
   const filtroMaterialesActivas = estaEditando ?  '' : '&estado=activo';
 
-  fetch(`/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=1000&start=0${filtroMaterialesActivas}`)
+  fetch(`/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=1000&start=0&stock_desde=0.01${filtroMaterialesActivas}`)
     .then(response => response.json())
     .then(json => {
       if (json.ok === false) {

@@ -36,7 +36,7 @@ header("Expires: 0");
                 </select>
             </div>
             <div class="big-form-group">
-                <label for="observacion">Observación *</label>
+                <label for="observacion">Observación</label>
                 <input type="text" id="observacion" placeholder="Observacion" maxlength="30">
             </div>
         </div>
