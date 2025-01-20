@@ -515,8 +515,8 @@ class Usuario
                 $usuario['cedula'],
                 $usuario['telefono'],
                 $usuario['direccion'],
-                null,
-                null,
+                '',
+                '',
                 $usuario['rol'],
                 $usuario['estado']
             );

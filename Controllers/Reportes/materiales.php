@@ -55,7 +55,8 @@ $filtros = [
     'stock_hasta' => !empty($_GET['stock_hasta']) ? $_GET['stock_hasta'] : 0,
     'fecha_desde' => $fechaDesde,
     'fecha_hasta' => $fechaHasta,
-    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
+    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : '',
+    'stock_minimo' => !empty($_GET['stock_minimo']) && $_GET['stock_minimo'] === 'true' ? $_GET['stock_minimo'] : ''
 ];
 
 $filtros = array_filter($filtros);

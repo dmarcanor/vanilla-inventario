@@ -256,6 +256,14 @@ const imprimir = (event) => {
 
   const busqueda = document.getElementsByTagName('form')[0];
 
+  let filtroStockMinimo = false;
+  let filtroEstado = busqueda.estado.value ? busqueda.estado.value : "activo";
+
+  if (filtroEstado === 'stock_minimo') {
+    filtroEstado = '';
+    filtroStockMinimo = true;
+  }
+
   const parametros = {
     "id": busqueda.id.value,
     "codigo": busqueda.codigo.value,
@@ -265,10 +273,11 @@ const imprimir = (event) => {
     "marca": busqueda.marca.value,
     "categoria_id": busqueda.categoria_id.value,
     "unidad": busqueda.unidad.value,
-    "estado": "activo",
+    "estado": filtroEstado,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
-    "precio": busqueda.precio.value
+    "precio": busqueda.precio.value,
+    "stock_minimo": filtroStockMinimo
   };
 
   const queryParams = new URLSearchParams(parametros).toString();

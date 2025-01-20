@@ -96,10 +96,8 @@ function renderTabla() {
     // Columna de precio
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
-    precioInput.type = "text";
+    precioInput.type = "number";
     precioInput.value = linea.precio;
-    // precioInput.value = precioPorMaterialId(linea.materialId); // Obtener precio del material
-    // lineas[index].precio = precioPorMaterialId(linea.materialId); // Actualizar precio en el arreglo
     precioInput.addEventListener("focus", (e) => vaciarContenidoSiEsCero(index, e.target));
     precioInput.addEventListener("blur", (e) => formatearPrecio(index, e.target.value));
     precioTd.appendChild(precioInput);
