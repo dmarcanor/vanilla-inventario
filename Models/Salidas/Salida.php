@@ -39,7 +39,16 @@ class Salida
     {
         date_default_timezone_set('America/Caracas');
 
-        self::validarCamposVacios($cliente_id, $observacion, $usuarioId);
+        self::validarCamposVacios($cliente_id, $usuarioId);
+
+        foreach ($lineas as $linea) {
+            $material = Material::getMaterial($linea['materialId']);
+            $stockDespuesDeSalida = $material->stock() - $linea['cantidad'];
+
+            if ($stockDespuesDeSalida < 0) {
+                throw new Exception("No hay suficiente stock de {$material->nombre()} - {$material->descripcion()} - {$material->marca()} para realizar la salida.");
+            }
+        }
 
         $conexionBD = (new ConexionBD())->getConexion();
         $salida = new Salida(
@@ -220,14 +229,10 @@ class Salida
         return $salidas;
     }
 
-    private static function validarCamposVacios($cliente_id, $observacion, $usuarioId)
+    private static function validarCamposVacios($cliente_id, $usuarioId)
     {
         if (empty($cliente_id)) {
             throw new Exception("La relación con cliente no puede estar vacía.");
-        }
-
-        if (empty($observacion)) {
-            throw new Exception("La descripción no puede estar vacía.");
         }
 
         if (empty($usuarioId)) {
