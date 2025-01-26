@@ -1,4 +1,12 @@
 <?php
+require_once '../../helpers.php';
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
@@ -55,7 +63,9 @@ header("Expires: 0");
         <div class="form-row">
             <div class="form-group">
                 <label for="marca">Marca</label>
-                <input type="text" id="marca" name="marca" placeholder="Marca del material">
+                <select name="marca" id="marca">
+                    <option value="">Seleccione</option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="categoria_id">Categoría</label>
@@ -103,7 +113,7 @@ header("Expires: 0");
                 <select id="estado" name="estado">
                     <option value="">Seleccionar estado</option>
                     <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
+                    <option value="desincorporado">Desincorporado</option>
                     <option value="stock_minimo">En stock mínimo</option>
                 </select>
             </div>

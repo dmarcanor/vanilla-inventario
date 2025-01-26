@@ -2,6 +2,14 @@
 
 require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
 require_once __DIR__ . '/../../libs/TCPDF/tcpdf.php';
+require_once '../../helpers.php';
+
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
 
 // Crear nueva instancia de TCPDF
 $pdf = new TCPDF();
@@ -51,8 +59,17 @@ $filtros = [
 $filtros = array_filter($filtros);
 $limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
-$ordenCampo = !empty($_GET['ordenCampo']) ? $_GET['ordenCampo'] : 'id';
+$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$ordenCampo = obtenerCampoOrdenEnTabla();
+
+
+if ($ordenCampo === 'tipoIdentificacion') {
+    $ordenCampo = 'tipo_identificacion';
+}
+
+if ($ordenCampo === 'numeroIdentificacion') {
+    $ordenCampo = 'numero_identificacion';
+}
 
 try {
     $clientes = Cliente::getClientes($filtros, $order, $ordenCampo);

@@ -6,8 +6,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
 
+  document.getElementById('fecha_desde').setAttribute('max', fechaActual());
+  document.getElementById('fecha_hasta').setAttribute('max', fechaActual());
+
   const campoUsuarioRegistrador = document.getElementById('usuarioId');
   const campoCliente = document.getElementById('clienteId');
+  const campoMaterial = document.getElementById('material');
+  const campoCategoria = document.getElementById('categoria');
 
   fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?estado=activo&length=1000&start=0', {
     method: 'GET',
@@ -59,24 +64,81 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(mensaje);
     });
 
+  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=activo&length=1000&start=0', {
+    method: 'GET', headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const materiales = json.data;
+
+      materiales.forEach(material => {
+        const option = document.createElement('option');
+        option.value = material.id;
+        option.text = `${material.nombre} - ${material.descripcion} - ${material.marca}`;
+
+        campoMaterial.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+
+  fetch('/vanilla-inventario/Controllers/Categorias/GetCategoriasController.php?estado=activo&length=1000&start=0', {
+    method: 'GET', headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const categorias = json.data;
+
+      categorias.forEach(categoria => {
+        const option = document.createElement('option');
+        option.value = categoria.id;
+        option.text = categoria.nombre;
+
+        campoCategoria.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+
   $('#usuarios-table').DataTable({
     processing: true, // Muestra un indicador de carga mientras se procesan los datos
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     scrollX: true,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Salidas/GetSalidasController.php", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Salidas/GetSalidasController.php?orden=DESC", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
+      error: function (xhr) {
+        // Si el servidor responde con un 401 o un error general
+        if (xhr.status === 401) {
+          alert('Sesión expirada.');
+          window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        } else {
+          alert('Ocurrió un error al cargar los datos. Por favor, inténtalo de nuevo.');
+        }
+      }
     },
     paging: true, // Activa la paginación
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id", orderable: false },
-      { data: "observacion", orderable: false },
-      { data: "clienteFullNombre", orderable: false },
-      { data: "usuarioFullNombre", orderable: false },
-      { data: "fechaCreacion", orderable: false },
+      { data: "id", orderable: true },
+      { data: "observacion", orderable: true },
+      { data: "clienteFullNombre", orderable: true },
+      { data: "usuarioFullNombre", orderable: true },
+      { data: "fechaCreacion", orderable: true },
       {
         data: "acciones",
         orderable: false,
@@ -88,7 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         }
       }
-    ]
+    ],
+    order: [[0, 'desc']]
   });
 
   cambiarNombreUsuarioSesion();
@@ -111,6 +174,8 @@ const buscar = (event) => {
     "clienteId": busqueda.clienteId.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
+    "material": busqueda.material.value,
+    "categoria": busqueda.categoria.value
   };
 
   table.settings()[0].ajax.data = (data) => ({...data, ...parametros})
@@ -138,6 +203,8 @@ const imprimir = (event) => {
     "clienteId": busqueda.clienteId.value,
     "fecha_desde": busqueda.fecha_desde.value,
     "fecha_hasta": busqueda.fecha_hasta.value,
+    "material": busqueda.material.value,
+    "categoria": busqueda.categoria.value
   };
 
   const queryParams = new URLSearchParams(parametros).toString();

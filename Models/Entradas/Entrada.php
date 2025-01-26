@@ -207,11 +207,12 @@ class Entrada
         );
     }
 
-    public static function getEntradas($filtros, $orden, $limit)
+    public static function getEntradas($filtros, $orden, $limit, $ordenCampo)
     {
         $consultaEntradas = "
-            SELECT entradas.id, numero_entrada, observacion, usuario_id, fecha_creacion FROM entradas
+            SELECT entradas.id, entradas.numero_entrada, entradas.observacion, entradas.usuario_id, entradas.fecha_creacion FROM entradas
             LEFT JOIN entrada_lineas ON entradas.id = entrada_lineas.entrada_id
+            LEFT JOIN materiales ON entrada_lineas.material_id = materiales.id
         ";
 
         if (!empty($filtros)) {
@@ -227,13 +228,16 @@ class Entrada
                     $key = 'entradas.id';
                     $operador = '=';
                 } elseif ($key === 'fecha_desde') {
-                    $key = 'fecha_creacion';
+                    $key = 'entradas.fecha_creacion';
                     $operador = '>=';
                 } elseif ($key === 'fecha_hasta') {
-                    $key = 'fecha_creacion';
+                    $key = 'entradas.fecha_creacion';
                     $operador = '<=';
                 } elseif ($key === 'material') {
                     $key = 'entrada_lineas.material_id';
+                    $operador = '=';
+                } elseif ($key === 'categoria') {
+                    $key = 'materiales.categoria_id';
                     $operador = '=';
                 } else {
                     $operador = '=';
@@ -249,7 +253,7 @@ class Entrada
             }
         }
 
-        $consultaEntradas .= " GROUP BY entradas.id ORDER BY entradas.id {$orden}";
+        $consultaEntradas .= " GROUP BY entradas.id ORDER BY {$ordenCampo} {$orden}";
 
         if ($limit > 0) {
             $consultaEntradas .= " LIMIT {$limit}";

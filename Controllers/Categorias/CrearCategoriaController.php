@@ -2,6 +2,15 @@
 
 declare(strict_types=1);
 
+require_once '../../helpers.php';
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('HTTP/1.1 401 Unauthorized');
+    echo json_encode(['mensaje' => 'Sesión expirada']);
+    exit();
+}
+
 require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
 
 $data = json_decode(file_get_contents('php://input'), true);

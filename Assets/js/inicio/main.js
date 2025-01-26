@@ -172,17 +172,11 @@ const cargarTablaMaterialesStockMinimo = () => {
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      {
-        data: "nombre",
-        className: 'text-center align-middle',
-        orderable: false,
-        render: (data, type, row) => {
-          return `<a href="/vanilla-inventario/Views/Materiales/editar.php?id=${row.id}">${row.nombre}</a>`
-        }
-      },
-      {data: "stock", className: 'text-center align-middle', orderable: false},
-      {data: "stockMinimo", className: 'text-center align-middle', orderable: false}
-    ]
+      {data: "nombre", className: 'text-center align-middle', orderable: true},
+      {data: "stock", className: 'text-center align-middle', orderable: true},
+      {data: "stockMinimo", className: 'text-center align-middle', orderable: true}
+    ],
+    order: [[0, 'asc']]
   });
 }
 

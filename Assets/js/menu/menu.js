@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!esAdmin()) {
     esconderModuloUsuarios();
   }
+
+  if (esAdmin()) {
+    esconderManualOperador();
+  }
 });
 
 const marcarSeleccionadoMenu = () => {
@@ -42,7 +46,15 @@ const cambiarNombreUsuarioSesion = () => {
 const esconderModuloUsuarios = () => {
   const menuUsuarios = document.getElementById('menu-usuarios');
   const menuHistorialUsuarios = document.getElementById('menu-historial');
+  const menuManualUsuario = document.getElementById('menu-manual-administrador');
 
   menuUsuarios.hidden = true;
   menuHistorialUsuarios.hidden = true;
+  menuManualUsuario.hidden = true;
+}
+
+const esconderManualOperador = () => {
+  const menuManualUsuario = document.getElementById('menu-manual-operador');
+
+  menuManualUsuario.hidden = true;
 }

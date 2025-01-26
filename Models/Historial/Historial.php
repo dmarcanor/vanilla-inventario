@@ -7,6 +7,7 @@ require_once __DIR__ . '/../../Models/Materiales/Material.php';
 require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
 require_once __DIR__ . '/../../Models/Entradas/Entrada.php';
 require_once __DIR__ . '/../../Models/Salidas/Salida.php';
+require_once __DIR__ . '/../../Models/Marcas/Marca.php';
 
 class Historial
 {
@@ -29,7 +30,7 @@ class Historial
         $this->fecha = $fecha;
     }
 
-    public static function getHistorialUsuarios($filtros, $orden)
+    public static function getHistorialUsuarios($filtros, $orden, $ordenCampo)
     {
         $consultaHistorial = "SELECT * FROM usuarios_historial";
 
@@ -59,8 +60,9 @@ class Historial
             }
         }
 
-        $consultaHistorial .= " ORDER BY id {$orden}";
-
+        $consultaHistorial .= " ORDER BY {$ordenCampo} {$orden}";
+//echo $consultaHistorial;
+//exit();
         $consulta = (new ConexionBD())->getConexion()->prepare($consultaHistorial);
         $consulta->execute();
 
@@ -113,6 +115,10 @@ class Historial
             return Salida::getSalida($this->entidadId);
         }
 
+        if ($this->tipoEntidad === 'Marca') {
+            return Marca::getMarca($this->entidadId);
+        }
+
         return null;
     }
 
@@ -142,6 +148,10 @@ class Historial
 
         if ($this->tipoEntidad === 'Salida') {
             return $entidad->id();
+        }
+
+        if ($this->tipoEntidad === 'Marca') {
+            return $entidad->nombre();
         }
 
         return '';

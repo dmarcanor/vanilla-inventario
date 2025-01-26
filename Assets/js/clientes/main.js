@@ -18,37 +18,46 @@ document.addEventListener('DOMContentLoaded', () => {
     searching: false,
     scrollX: true,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Clientes/GetClientesController.php?ordenCampo=estado", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Clientes/GetClientesController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
+      error: function (xhr) {
+        // Si el servidor responde con un 401 o un error general
+        if (xhr.status === 401) {
+          alert('Sesión expirada.');
+          window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        } else {
+          alert('Ocurrió un error al cargar los datos. Por favor, inténtalo de nuevo.');
+        }
+      }
     },
     paging: true, // Activa la paginación
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id", orderable: false },
-      { data: "nombre", orderable: false },
-      { data: "apellido", orderable: false },
-      { data: "tipoIdentificacion", orderable: false },
-      { data: "numeroIdentificacion", orderable: false },
+      { data: "id", orderable: true },
+      { data: "nombre", orderable: true },
+      { data: "apellido", orderable: true },
+      { data: "tipoIdentificacion", orderable: true },
+      { data: "numeroIdentificacion", orderable: true },
       {
         data: "telefono",
-        orderable: false,
+        orderable: true,
         render: (data) => {
           return `${formatearTelefono(data)}`;
         }
       },
-      { data: "direccion", orderable: false },
+      { data: "direccion", orderable: true },
       {
         data: "estado",
-        orderable: false,
+        orderable: true,
         render: (data) => estadoLabel(data)
       },
       {
         data: "acciones",
         orderable: false,
         render: (data, type, row) => {
-          const accionEstado = row.estado === 'activo' ? 'Inactivar' : 'Activar';
-          const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-danger' : 'btn btn-success';
+          const accionEstado = row.estado === 'activo' ? 'Desincorporar' : 'Activar';
+          const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-success' : 'btn btn-danger';
 
           return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
@@ -60,7 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
           `;
         }
       }
-    ]
+    ],
+    order: [[7, 'asc']]
   });
 });
 
@@ -69,8 +79,8 @@ const estadoLabel = (estado) => {
     return `<span>Activo</span>`;
   }
 
-  if (estado === 'inactivo') {
-    return `<span>Inactivo</span>`;
+  if (estado === 'desincorporado') {
+    return `<span>Desincorporado</span>`;
   }
 }
 
@@ -92,39 +102,21 @@ const cambiarEstado = (id) => {
       usuarioSesion: usuarioSesion.id
     }),
   })
-    .then(response => response.json())
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
 
       alert('Cliente editado satisfactoriamente.');
-
-      const table = $('#usuarios-table').DataTable();
-      table.ajax.reload();
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
-}
-
-const eliminar = (id) => {
-  fetch(`/vanilla-inventario/Controllers/Clientes/EliminarClienteController.php`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id
-    }),
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Cliente eliminado satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();

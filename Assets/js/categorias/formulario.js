@@ -4,6 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  const ruta = window.location.pathname;
+  const estaEditando = ruta.includes('editar.php');
+
+  if (!estaEditando) {
+    const formulario = document.getElementById('formulario-categorias');
+    cargarDatosFormulario(formulario, 'Categorias');
+  }
+
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('nombre').addEventListener('input', soloPermitirLetras);
 
@@ -42,11 +50,22 @@ const crear = (formulario) => {
       estado,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Categorias');
 
       alert('Categoría creada satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
@@ -80,11 +99,22 @@ const editar = (id, formulario) => {
       estado,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Categorias');
 
       alert('Categoría editada satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
@@ -96,6 +126,8 @@ const editar = (id, formulario) => {
 
 const cancelar = (event) => {
   event.preventDefault();
+
+  borrarDatosFormulario('Categorias');
 
   window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
 }

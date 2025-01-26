@@ -4,8 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  const campoCategoria = document.getElementById('categoria_id');
-
   document.getElementById('codigo').addEventListener('blur', primeraLetraMayuscula);
 
   document.getElementById('nombre').addEventListener('blur', primeraLetraMayuscula);
@@ -14,12 +12,21 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
 
-  document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
-  document.getElementById('marca').addEventListener('input', soloPermitirLetras);
-
   document.getElementById('presentacion').addEventListener('input', soloPermitirNumerosYCaracterDivision);
 
   document.getElementById('precio').addEventListener('blur', dosDecimales);
+
+  /* Eventos para la modal de crear marca */
+  document.getElementById('nombre-marca').addEventListener('blur', primeraLetraMayuscula);
+  document.getElementById('nombre-marca').addEventListener('input', soloPermitirLetras);
+
+  document.getElementById('agregar-marca').addEventListener('click', mostrarModalCreacionMarca);
+  document.getElementById('cerrar-modal').addEventListener('click', cerrarModalCreacionMarca);
+  document.getElementById('marca-form').addEventListener('submit', crearMarca);
+  /* Eventos para la modal de crear marca */
+
+  const campoCategoria = document.getElementById('categoria_id');
+  const campoMarca = document.getElementById('marca');
 
   // al editar se deben traer todas las categorias para que no desaparezcan las categorias inactivas
   const ruta = window.location.pathname;
@@ -50,6 +57,38 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch((mensaje) => {
       alert(mensaje);
     });
+
+  fetch(`/vanilla-inventario/Controllers/Marcas/GetMarcasController.php`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const marcas = json.data;
+
+      marcas.forEach(marca => {
+        const option = document.createElement('option');
+        option.value = marca.id;
+        option.text = marca.nombre;
+
+        campoMarca.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+
+  if (!estaEditando) {
+    const formulario = document.getElementById('formulario-materiales');
+    setTimeout(() => {
+      cargarDatosFormulario(formulario, 'Materiales');
+    }, 400);
+  }
 });
 
 const dosDecimales = (event) => {
@@ -104,11 +143,22 @@ const crear = (formulario) => {
       stockMinimo,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Materiales');
 
       alert('Material creado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
@@ -156,11 +206,22 @@ const editar = (id, formulario) => {
       stockMinimo,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Materiales');
 
       alert('Material editado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
@@ -173,5 +234,71 @@ const editar = (id, formulario) => {
 const cancelar = (event) => {
   event.preventDefault();
 
+  borrarDatosFormulario('Materiales');
+
   window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+}
+
+const mostrarModalCreacionMarca = (e) => {
+  e.preventDefault();
+
+  const modal = document.getElementById('modal')
+  modal.style.display = 'flex';
+}
+
+const cerrarModalCreacionMarca = (e) => {
+  e.preventDefault();
+
+  const modal = document.getElementById('modal')
+  modal.style.display = 'none';
+}
+
+const crearMarca = (e) => {
+  e.preventDefault();
+
+  const campoMarca = document.getElementById('marca');
+  const modal = document.getElementById('modal')
+  const nombre = document.getElementById('nombre-marca').value;
+  const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
+
+  fetch(`/vanilla-inventario/Controllers/Marcas/CrearMarcaController.php`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      nombre,
+      usuarioSesion: usuarioSesion.id
+    })
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      alert('Marca creada satisfactoriamente.');
+
+      const option = document.createElement('option');
+      option.value = json.marca.id;
+      option.text = json.marca.nombre;
+      option.selected = true;
+
+      campoMarca.appendChild(option);
+
+      // Limpiar el formulario y cerrar el modal
+      e.target.reset();
+      modal.style.display = 'none';
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
 }

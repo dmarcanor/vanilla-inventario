@@ -2,6 +2,14 @@
 
 require_once __DIR__ . '/../../Models/Materiales/Material.php';
 require_once __DIR__ . '/../../libs/TCPDF/tcpdf.php';
+require_once '../../helpers.php';
+
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
 
 // Crear nueva instancia de TCPDF
 $pdf = new TCPDF();
@@ -63,19 +71,30 @@ $filtros = array_filter($filtros);
 $limit = !empty($_GET['limit']) ? (int)$_GET['limit'] : 0;
 $length = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
-$ordenCampo = !empty($_GET['ordenCampo']) ? $_GET['ordenCampo'] : 'id';
+$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$ordenCampo = obtenerCampoOrdenEnTabla();
+
+
+if ($ordenCampo === 'categoriaNombre') {
+    $ordenCampo = 'categoria_id';
+}
+
+if ($ordenCampo === 'stockMinimo') {
+    $ordenCampo = 'stock_minimo';
+}
 
 try {
     $materiales = Material::getMateriales($filtros, $order, $ordenCampo, $limit);
 
     foreach ($materiales as $material) {
+        $marca = $material->marca() ? $material->marca()->nombre() : "";
+
         $html .= '
             <tr>
                 <td>' . $material->codigo() . '</td>
                 <td>' . $material->nombre() . '</td>
                 <td>' . $material->descripcion() . '</td>
-                <td>' . $material->marca() . '</td>
+                <td>' . $marca . '</td>
                 <td>' . $material->categoria()->nombre() . '</td>
                 <td>' . $material->precio() . '</td>
                 <td>' . $material->stock() . '</td>

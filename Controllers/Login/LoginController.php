@@ -26,6 +26,16 @@ if ($data['contrasenia'] !== $usuario->contraseniaDesencriptada()) {
     exit();
 }
 
+session_start();
+
+// Regenerar el ID de sesión para evitar fijación de sesión
+session_regenerate_id(true);
+
+// Guardar datos en la sesión
+$_SESSION['usuario_id'] = $usuario->id();
+$_SESSION['nombre_usuario'] = $usuario->nombreUsuario();
+$_SESSION['last_activity'] = time();
+
 http_response_code(200);
 echo json_encode([
     'ok' => true,

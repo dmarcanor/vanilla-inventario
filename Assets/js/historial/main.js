@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
+  document.getElementById('fecha_desde').setAttribute('max', fechaActual());
+  document.getElementById('fecha_hasta').setAttribute('max', fechaActual());
+
   const campoUsuarios = document.getElementById('usuarios');
 
   fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?length=1000&start=0', {
@@ -39,19 +42,29 @@ document.addEventListener('DOMContentLoaded', () => {
     ajax: {
       url: "/vanilla-inventario/Controllers/Historial/GetHistorialController.php", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
+      error: function (xhr) {
+        // Si el servidor responde con un 401 o un error general
+        if (xhr.status === 401) {
+          alert('Sesión expirada.');
+          window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        } else {
+          alert('Ocurrió un error al cargar los datos. Por favor, inténtalo de nuevo.');
+        }
+      }
     },
     paging: true, // Activa la paginación
     pageLength: 10, // Número de filas por página
     lengthChange: false,
     columns: [
-      { data: "id", orderable: false },
-      { data: "usuario", orderable: false },
-      { data: "tipoAccion", orderable: false },
-      { data: "tipoEntidad", orderable: false },
+      { data: "id", orderable: true },
+      { data: "usuario", orderable: true },
+      { data: "tipoAccion", orderable: true },
+      { data: "tipoEntidad", orderable: true },
       { data: "entidad", orderable: false },
-      { data: "cambio", orderable: false },
-      { data: "fecha", orderable: false }
-    ]
+      { data: "cambio", orderable: true },
+      { data: "fecha", orderable: true }
+    ],
+    order: [[0, 'asc']]
   });
 
   cambiarNombreUsuarioSesion();

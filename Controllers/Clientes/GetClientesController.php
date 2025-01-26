@@ -1,6 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
+require_once '../../helpers.php';
+
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('HTTP/1.1 401 Unauthorized');
+    echo json_encode(['mensaje' => 'Sesión expirada']);
+    exit();
+}
 
 $filtros = [
     'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
@@ -17,8 +26,17 @@ $filtros = [
 $filtros = array_filter($filtros);
 $limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
 $skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['orden']) ? $_GET['orden'] : 'ASC';
-$ordenCampo = !empty($_GET['ordenCampo']) ? $_GET['ordenCampo'] : 'id';
+$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$ordenCampo = obtenerCampoOrdenEnTabla();
+
+
+if ($ordenCampo === 'tipoIdentificacion') {
+    $ordenCampo = 'tipo_identificacion';
+}
+
+if ($ordenCampo === 'numeroIdentificacion') {
+    $ordenCampo = 'numero_identificacion';
+}
 
 try {
     $clientes = Cliente::getClientes($filtros, $order, $ordenCampo);

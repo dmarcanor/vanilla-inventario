@@ -415,7 +415,7 @@ class Usuario
         }
 
         if ($usuarioOriginal->estado === 'activo') {
-            $nuevoEstado = 'inactivo';
+            $nuevoEstado = 'desincorporado';
         } else {
             $nuevoEstado = 'activo';
         }

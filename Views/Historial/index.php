@@ -1,4 +1,12 @@
 <?php
+require_once '../../helpers.php';
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");

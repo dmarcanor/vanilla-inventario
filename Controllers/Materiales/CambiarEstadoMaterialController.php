@@ -1,6 +1,15 @@
 <?php
 
 require_once __DIR__ . '/../../Models/Materiales/Material.php';
+require_once '../../helpers.php';
+
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('HTTP/1.1 401 Unauthorized');
+    echo json_encode(['mensaje' => 'Sesión expirada']);
+    exit();
+}
 
 $data = json_decode(file_get_contents('php://input'), true);
 
@@ -10,7 +19,7 @@ try {
 
     echo json_encode([
         'ok' => true,
-        'mensaje' => 'Cliente actualizado correctamente.'
+        'mensaje' => 'Material actualizado correctamente.'
     ]);
     exit();
 } catch (\Exception $exception) {

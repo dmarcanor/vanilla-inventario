@@ -275,7 +275,7 @@ class Cliente
         }
 
         if ($clienteOriginal->estado === 'activo') {
-            $nuevoEstado = 'inactivo';
+            $nuevoEstado = 'desincorporado';
         } else {
             $nuevoEstado = 'activo';
         }

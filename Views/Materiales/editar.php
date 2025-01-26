@@ -1,4 +1,12 @@
 <?php
+require_once '../../helpers.php';
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
@@ -38,8 +46,10 @@ header("Expires: 0");
                 <input type="text" id="descripcion" placeholder="Descripción" maxlength="30">
             </div>
             <div class="form-group">
-                <label for="marca">Marca</label>
-                <input type="text" id="marca" placeholder="Marca" maxlength="15">
+                <label for="marca">Marca <img id="agregar-marca" src="/vanilla-inventario/Assets/iconos/crear-oscuro.svg" alt="crear.svg"></label>
+                <select name="marca" id="marca">
+                    <option value="">Seleccione</option>
+                </select>
             </div>
         </div>
         <div class="form-row">
@@ -73,7 +83,7 @@ header("Expires: 0");
                 <select name="estado" id="estado" required>
                     <option value="">Seleccione</option>
                     <option value="activo">Activo</option>
-                    <option value="inactivo">Inactivo</option>
+                    <option value="desincorporado">Desincorporado</option>
                 </select>
             </div>
         </div>
@@ -112,6 +122,29 @@ header("Expires: 0");
         <input type="hidden" id="id" name="id" value="">
     </form>
 </div>
+
+
+<!-- Modal -->
+<div class="modal" id="modal">
+    <div class="modal-content">
+        <div class="modal-header">Crear nueva marca</div>
+        <form id="marca-form">
+            <div>
+                <label for="nombre-marca">Nombre *</label>
+                <input type="text" id="nombre-marca" name="nombre-marca" required style="width: 100%; padding: 5px; margin-top: 5px;" maxlength="15">
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-success">
+                    <img src="/vanilla-inventario/Assets/iconos/guardar.svg" alt="guardar.svg"> Guardar
+                </button>
+                <button type="button" class="btn btn-secondary" id="cerrar-modal">
+                    <img src="/vanilla-inventario/Assets/iconos/cancelar.svg" alt="cancelar.svg"> Cancelar
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<!-- Modal -->
 
 <script src="/vanilla-inventario/Assets/js/materiales/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/materiales/editar.js"></script>

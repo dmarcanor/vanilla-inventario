@@ -1,4 +1,12 @@
 <?php
+require_once '../../helpers.php';
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
@@ -66,8 +74,22 @@ header("Expires: 0");
                 <label for="fecha_hasta">Fecha creación hasta</label>
                 <input type="date" id="fecha_hasta">
             </div>
-            <div class="form-group"></div>
-            <div class="form-group"></div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="material">Material</label>
+                    <select name="material" id="material">
+                        <option value="">Seleccione un material</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="categoria">Categoría</label>
+                    <select name="categoria" id="categoria">
+                        <option value="">Seleccione una categoría</option>
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="form-row">

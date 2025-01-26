@@ -13,7 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     headers: {
       'Content-Type': 'application/json'
     },
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
@@ -33,6 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(mensaje);
     });
 
+  const formulario = document.getElementById('formulario-salidas');
+  setTimeout(() => {
+    cargarDatosFormulario(formulario, 'Salidas');
+  }, 500);
+
   vista = 'crear';
 });
 
@@ -42,6 +56,10 @@ const guardar = (event) => {
   const formulario = event.target;
   const id = formulario.id ? formulario.id.value : '';
 
+  if (lineas.some(linea => linea.stockPosterior < 0)) {
+    alert('La cantidad de salida no puede ser mayor al stock actual.');
+    return
+  }
 
   if (!id) {
     crear(formulario);
@@ -67,11 +85,22 @@ const crear = (formulario) => {
       lineas,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Salidas');
 
       if (json.mensaje) {
         alert(json.mensaje);
@@ -89,6 +118,8 @@ const crear = (formulario) => {
 
 const cancelar = (event) => {
   event.preventDefault();
+
+  borrarDatosFormulario('Salidas');
 
   window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
 }

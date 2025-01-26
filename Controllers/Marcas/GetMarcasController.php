@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
+require_once __DIR__ . '/../../Models/Marcas/Marca.php';
 require_once '../../helpers.php';
 
 try {
@@ -12,18 +12,20 @@ try {
 }
 
 try {
-    $cliente = Cliente::getCliente($_GET['id']);
+    $marcas = Marca::getMarcas();
+    $marcasArray = [];
+
+    foreach ($marcas as $marca) {
+        $marcasArray[] = $marca->toArray();
+    }
 
     echo json_encode([
         'ok' => true,
-        'cliente' => $cliente->toArray()
+        'data' => $marcasArray
     ]);
-    exit();
 } catch (\Exception $exception) {
     echo json_encode([
         'ok' => false,
-        'mensaje' => $exception->getMessage(),
-        'cliente' => []
+        'data' => []
     ]);
-    exit();
 }

@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   document.getElementById('observacion').addEventListener('blur', primeraLetraMayuscula);
+
+  const formulario = document.getElementById('formulario-entradas');
+  cargarDatosFormulario(formulario, 'Entradas');
 });
 
 const guardar = (event) => {
@@ -38,11 +41,22 @@ const crear = (formulario) => {
       lineas,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Entradas');
 
       alert('Entrada creada satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
@@ -54,6 +68,8 @@ const crear = (formulario) => {
 
 const cancelar = (event) => {
   event.preventDefault();
+
+  borrarDatosFormulario('Entradas');
 
   window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
 }

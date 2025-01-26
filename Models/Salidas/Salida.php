@@ -46,7 +46,7 @@ class Salida
             $stockDespuesDeSalida = $material->stock() - $linea['cantidad'];
 
             if ($stockDespuesDeSalida < 0) {
-                throw new Exception("No hay suficiente stock de {$material->nombre()} - {$material->descripcion()} - {$material->marca()} para realizar la salida.");
+                throw new Exception("No hay suficiente stock de {$material->nombre()} - {$material->descripcion()} - {$material->marca()->nombre()} para realizar la salida.");
             }
         }
 
@@ -170,9 +170,12 @@ class Salida
         );
     }
 
-    public static function getSalidas($filtros, $orden, $limit)
+    public static function getSalidas($filtros, $orden, $limit, $ordenCampo)
     {
-        $consultaSalidas = "SELECT id, observacion, cliente_id, usuario_id, fecha_creacion FROM salidas";
+        $consultaSalidas = "SELECT salidas.id, salidas.observacion, salidas.cliente_id, salidas.usuario_id, salidas.fecha_creacion FROM salidas
+            LEFT JOIN salida_lineas ON salidas.id = salida_lineas.salida_id
+            LEFT JOIN materiales ON salida_lineas.material_id = materiales.id
+        ";
 
         if (!empty($filtros)) {
             $consultaSalidas .= " WHERE ";
@@ -183,12 +186,21 @@ class Salida
 
                 if (in_array($key, $campos)) {
                     $operador = 'LIKE';
+                } elseif ($key === 'id') {
+                    $key = 'salidas.id';
+                    $operador = '=';
                 } elseif ($key === 'fecha_desde') {
-                    $key = 'fecha_creacion';
+                    $key = 'salidas.fecha_creacion';
                     $operador = '>=';
                 } elseif ($key === 'fecha_hasta') {
-                    $key = 'fecha_creacion';
+                    $key = 'salidas.fecha_creacion';
                     $operador = '<=';
+                } elseif ($key === 'material') {
+                    $key = 'salidas.salida_lineas.material_id';
+                    $operador = '=';
+                } elseif ($key === 'categoria') {
+                    $key = 'materiales.categoria_id';
+                    $operador = '=';
                 } else {
                     $operador = '=';
                 }
@@ -203,7 +215,7 @@ class Salida
             }
         }
 
-        $consultaSalidas .= " ORDER BY id {$orden}";
+        $consultaSalidas .= " GROUP BY salidas.id ORDER BY {$ordenCampo} {$orden}";
 
         if ($limit > 0) {
             $consultaSalidas .= " LIMIT {$limit}";

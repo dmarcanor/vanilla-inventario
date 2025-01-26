@@ -13,6 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('apellido').addEventListener('input', soloPermitirLetras);
 
   document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
+
+  const ruta = window.location.pathname;
+  const estaEditando = ruta.includes('editar.php');
+
+  if (!estaEditando) {
+    const formulario = document.getElementById('formulario-usuarios');
+    cargarDatosFormulario(formulario, 'Usuarios');
+  }
 });
 
 const passwordInfo = document.getElementById('contraseniaInfo');
@@ -165,11 +173,22 @@ const crear = (formulario) => {
       estado,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Usuarios');
 
       alert('Usuario creado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
@@ -215,11 +234,22 @@ const editar = (id, formulario) => {
       estado,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Usuarios');
 
       alert('Usuario editado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
@@ -231,6 +261,8 @@ const editar = (id, formulario) => {
 
 const cancelar = (event) => {
   event.preventDefault();
+
+  borrarDatosFormulario('Usuarios');
 
   window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
 }

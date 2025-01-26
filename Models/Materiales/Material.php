@@ -2,6 +2,7 @@
 
 require_once __DIR__ . '/../../BD/ConexionBD.php';
 require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
+require_once __DIR__ . '/../../Models/Marcas/Marca.php';
 
 class Material
 {
@@ -75,7 +76,7 @@ class Material
             $material->codigo,
             $material->nombre,
             $material->descripcion,
-            $material->marca,
+            !empty($material->marca) ? $material->marca : null,
             $material->categoriaId,
             $material->unidad,
             $material->presentacion,
@@ -158,7 +159,7 @@ class Material
             $materialModificado->codigo,
             $materialModificado->nombre,
             $materialModificado->descripcion,
-            $materialModificado->marca,
+            !empty($materialModificado->marca) ? $materialModificado->marca : null,
             $materialModificado->categoriaId,
             $materialModificado->unidad,
             $materialModificado->presentacion,
@@ -266,7 +267,7 @@ class Material
         }
 
         if ($materialOriginal->estado === 'activo') {
-            $nuevoEstado = 'inactivo';
+            $nuevoEstado = 'desincorporado';
         } else {
             $nuevoEstado = 'activo';
         }
@@ -606,7 +607,11 @@ class Material
 
     public function marca()
     {
-        return $this->marca;
+        try {
+            return Marca::getMarca($this->marca);
+        } catch (Exception $e) {
+            return null;
+        }
     }
 
     public function categoriaId()
@@ -656,7 +661,8 @@ class Material
             'codigo' => $this->codigo,
             'nombre' => $this->nombre,
             'descripcion' => $this->descripcion,
-            'marca' => $this->marca,
+            'marcaId' => $this->marca() ? $this->marca()->id() : '',
+            'marca' => $this->marca() ? $this->marca()->nombre() : '',
             'categoriaId' => $this->categoriaId,
             'categoriaNombre' => $this->categoria()->nombre(),
             'unidad' => $this->unidad,

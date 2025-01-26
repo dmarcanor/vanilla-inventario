@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   const campoCategoria = document.getElementById('categoria_id');
+  const campoMarca = document.getElementById('marca');
 
   document.getElementById('codigo').addEventListener('blur', primeraLetraMayuscula);
 
@@ -14,11 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
 
-  document.getElementById('marca').addEventListener('blur', primeraLetraMayuscula);
-  document.getElementById('marca').addEventListener('input', soloPermitirLetras);
-
   document.getElementById('presentacion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('presentacion').addEventListener('input', soloPermitirLetras);
+
+  document.getElementById('fecha_desde').setAttribute('max', fechaActual());
+  document.getElementById('fecha_hasta').setAttribute('max', fechaActual());
 
   fetch(`/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=activo`, {
     method: 'GET',
@@ -45,6 +46,31 @@ document.addEventListener('DOMContentLoaded', () => {
       alert(mensaje);
     });
 
+  fetch(`/vanilla-inventario/Controllers/Marcas/GetMarcasController.php`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+  }).then(response => response.json())
+    .then(json => {
+      if (json.ok === false) {
+        throw new Error(json.mensaje);
+      }
+
+      const marcas = json.data;
+
+      marcas.forEach(marca => {
+        const option = document.createElement('option');
+        option.value = marca.id;
+        option.text = marca.nombre;
+
+        campoMarca.appendChild(option);
+      });
+    })
+    .catch((mensaje) => {
+      alert(mensaje);
+    });
+
   actualizarTabla();
 
   cambiarNombreUsuarioSesion();
@@ -55,17 +81,17 @@ const actualizarTabla = () => {
 
   // Genera las columnas dependiendo de la condición
   let columnas = [
-    { title: "ID", data: "id", orderable: false },
-    { title: "Código", data: "codigo", orderable: false },
-    { title: "Nombre", data: "nombre", orderable: false },
-    { title: "Descripción", data: "descripcion", orderable: false },
-    { title: "Presentación", data: "presentacion", orderable: false },
-    { title: "Marca", data: "marca", orderable: false },
-    { title: "Categoría", data: "categoriaNombre", orderable: false },
+    { title: "ID", data: "id", orderable: true },
+    { title: "Código", data: "codigo", orderable: true },
+    { title: "Nombre", data: "nombre", orderable: true },
+    { title: "Descripción", data: "descripcion", orderable: true },
+    { title: "Presentación", data: "presentacion", orderable: true },
+    { title: "Marca", data: "marca", orderable: true },
+    { title: "Categoría", data: "categoriaNombre", orderable: true },
     {
       title: "Precio",
       data: "precio",
-      orderable: false,
+      orderable: true,
       render: (data) => {
         return `$${data}`;
       }
@@ -76,7 +102,7 @@ const actualizarTabla = () => {
     columnas.push({
       title: 'Precio (Bs)',
       data: null,
-      orderable: false,
+      orderable: true,
       render: function(data, type, row) {
         return `Bs ${(row.precio * precioDolar).toFixed(2)}`;
       }
@@ -84,11 +110,12 @@ const actualizarTabla = () => {
   }
 
   columnas.push(
-    { title: "Stock", data: "stock", orderable: false },
+    { title: "Stock", data: "stock", orderable: true },
+    { title: "Stock mínimo", data: "stockMinimo", orderable: true },
     {
       title: "Estado",
       data: "estado",
-      orderable: false,
+      orderable: true,
       render: (data) => estadoLabel(data)
     },
     {
@@ -96,8 +123,8 @@ const actualizarTabla = () => {
       data: "acciones",
       orderable: false,
       render: (data, type, row) => {
-        const accionEstado = row.estado === 'activo' ? 'Inactivar' : 'Activar';
-        const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-danger' : 'btn btn-success';
+        const accionEstado = row.estado === 'activo' ? 'Desincorporar' : 'Activar';
+        const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-success' : 'btn btn-danger';
 
         return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
@@ -123,7 +150,7 @@ const actualizarTabla = () => {
     searching: false,
     scrollX: true,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?ordenCampo=estado", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php", // URL de endpoint
       type: "GET", // Método para la petición (GET o POST)
       data: (parametros) => {
         const form = document.getElementById('form');
@@ -148,12 +175,22 @@ const actualizarTabla = () => {
         parametros.fecha_hasta = form.fecha_hasta.value;
         parametros.precio = form.precio.value;
         parametros.stock_minimo = filtroStockMinimo;
+      },
+      error: function (xhr) {
+        // Si el servidor responde con un 401 o un error general
+        if (xhr.status === 401) {
+          alert('Sesión expirada.');
+          window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        } else {
+          alert('Ocurrió un error al cargar los datos. Por favor, inténtalo de nuevo.');
+        }
       }
     },
     paging: true, // Activa la paginación
     pageLength: 10, // Número de filas por página
     lengthChange: false,
-    columns: columnas
+    columns: columnas,
+    order: [[precioDolar !== '' && precioDolar !== '0' ? 11 : 10, 'asc']]
   });
 }
 
@@ -162,8 +199,8 @@ const estadoLabel = (estado) => {
     return `<span>Activo</span>`;
   }
 
-  if (estado === 'inactivo') {
-    return `<span>Inactivo</span>`;
+  if (estado === 'desincorporado') {
+    return `<span>Desincorporado</span>`;
   }
 }
 
@@ -185,39 +222,21 @@ const cambiarEstado = (id) => {
       usuarioSesion: usuarioSesion.id
     }),
   })
-    .then(response => response.json())
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
 
       alert('Material editado satisfactoriamente.');
-
-      const table = $('#usuarios-table').DataTable();
-      table.ajax.reload();
-    })
-    .catch((mensaje) => {
-      alert(mensaje);
-    });
-}
-
-const eliminar = (id) => {
-  fetch(`/vanilla-inventario/Controllers/Materiales/EliminarMaterialController.php`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      id
-    }),
-  })
-    .then(response => response.json())
-    .then(json => {
-      if (json.ok === false) {
-        throw new Error(json.mensaje);
-      }
-
-      alert('Material eliminado satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();

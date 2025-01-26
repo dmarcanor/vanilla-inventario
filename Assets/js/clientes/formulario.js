@@ -10,6 +10,17 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('apellido').addEventListener('input', soloPermitirLetras);
 
   document.getElementById('direccion').addEventListener('blur', primeraLetraMayuscula);
+
+  document.getElementById('numero_identificacion').addEventListener('input', soloPermitirNumerosParaNumeroIdentificacion);
+
+  const ruta = window.location.pathname;
+  const estaEditando = ruta.includes('editar.php');
+
+  if (!estaEditando) {
+    const formulario = document.getElementById('formulario-clientes');
+    cargarDatosFormulario(formulario, 'Clientes');
+    mostrarNumeroIdentificacionLetra(JSON.parse(localStorage.getItem('datosFormularioClientes')).tipo_identificacion);
+  }
 });
 
 const numeroIdentificacionInfo = document.getElementById('numeroIdentificacionInfo');
@@ -33,14 +44,18 @@ document.addEventListener('click', function(e) {
 });
 
 tipoIdentificacion.addEventListener('change', function (e) {
-  if (e.target.value == 'rif' || e.target.value == 'cedula') {
+  mostrarNumeroIdentificacionLetra(e.target.value);
+});
+
+const mostrarNumeroIdentificacionLetra = (tipoIdentificacion) => {
+  if (tipoIdentificacion == 'rif' || tipoIdentificacion == 'cedula') {
     document.getElementById('numero_identificacion_letra').hidden = false;
   }
 
-  if (e.target.value === 'pasaporte') {
+  if (tipoIdentificacion === 'pasaporte') {
     document.getElementById('numero_identificacion_letra').hidden = true;
   }
-});
+}
 
 const validarTelefono = (telefono) => {
   const regex = /^(0412|0414|0416|0424|0426)\d{7}$/;
@@ -106,11 +121,22 @@ const crear = (formulario) => {
       estado,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Clientes');
 
       alert('Cliente creado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
@@ -156,11 +182,22 @@ const editar = (id, formulario) => {
       estado,
       usuarioSesion: usuarioSesion.id
     })
-  }).then(response => response.json())
+  })
+    .then((response) => {
+      if (response.status === 401) {
+        // Manejar sesión expirada
+        window.location.href = '/vanilla-inventario/Views/Login/index.php';
+        return Promise.reject('Sesión expirada');
+      }
+
+      return response.json()
+    })
     .then(json => {
       if (json.ok === false) {
         throw new Error(json.mensaje);
       }
+
+      borrarDatosFormulario('Clientes');
 
       alert('Cliente editado satisfactoriamente.');
       window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
@@ -173,5 +210,19 @@ const editar = (id, formulario) => {
 const cancelar = (event) => {
   event.preventDefault();
 
+  borrarDatosFormulario('Clientes');
+
   window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
+}
+
+const soloPermitirNumerosParaNumeroIdentificacion = (event) => {
+  const campo = event.target;
+
+  const tipoIdentificacion = document.getElementById('tipo_identificacion').value;
+
+  if (tipoIdentificacion === 'pasaporte') {
+    return;
+  }
+
+  campo.value = campo.value.replace(/[^0-9-]/g, '');
 }

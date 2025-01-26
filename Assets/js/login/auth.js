@@ -20,6 +20,7 @@ const login = (event) => {
     headers: {
       'Content-Type': 'application/json'
     },
+    credentials: 'include',
     body: JSON.stringify({
       usuario,
       contrasenia

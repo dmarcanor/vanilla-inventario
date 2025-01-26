@@ -1,4 +1,12 @@
 <?php
+require_once '../../helpers.php';
+try {
+    verificarSesion();
+} catch (\Exception $exception) {
+    header('Location: /vanilla-inventario/Views/Login/index.php');
+    exit();
+}
+
 header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 header("Pragma: no-cache");
 header("Expires: 0");
@@ -27,7 +35,7 @@ header("Expires: 0");
     <div class="module-header">
         <h1 class="module-title">Salidas - Crear</h1>
     </div>
-    <form class="form" onsubmit="guardar(event)">
+    <form id="formulario-salidas" class="form" onsubmit="guardar(event)" oninput="guardarDatosFormulario(this, 'Salidas')" onchange="guardarDatosFormulario(this, 'Salidas')">
         <div class="form-row">
             <div class="form-group">
                 <label for="clienteId">Cliente *</label>

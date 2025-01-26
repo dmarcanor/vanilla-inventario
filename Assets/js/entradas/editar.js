@@ -93,3 +93,11 @@ const cargarTablaItems = (lineas) => {
     tbody.appendChild(tr);
   });
 }
+
+const cancelar = (event) => {
+  event.preventDefault();
+
+  borrarDatosFormulario('Entradas');
+
+  window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
+}

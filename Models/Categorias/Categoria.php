@@ -189,7 +189,7 @@ final class Categoria
         }
 
         if ($categoriaOriginal->estado === 'activo') {
-            $nuevoEstado = 'inactivo';
+            $nuevoEstado = 'desincorporado';
         } else {
             $nuevoEstado = 'activo';
         }

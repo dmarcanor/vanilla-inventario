@@ -97,8 +97,11 @@ function renderTabla() {
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
     precioInput.type = "number";
+    precioInput.min = '0.01';
+    precioInput.step = '0.01';
     precioInput.value = linea.precio;
     precioInput.addEventListener("focus", (e) => vaciarContenidoSiEsCero(index, e.target));
+    precioInput.addEventListener("input", (e) => actualizarPrecio(index, e.target.value));
     precioInput.addEventListener("blur", (e) => formatearPrecio(index, e.target.value));
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);

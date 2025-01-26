@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/../../Models/Usuarios/Usuario.php';
+
+require_once __DIR__ . '/../../Models/Marcas/Marca.php';
 require_once '../../helpers.php';
 
 try {
@@ -18,21 +19,14 @@ $data = json_decode(file_get_contents('php://input'), true);
 try {
     http_response_code(201);
 
-    Usuario::crear(
-        $data['nombreUsuario'],
+    $marca = Marca::crear(
         $data['nombre'],
-        $data['apellido'],
-        $data['cedula'],
-        $data['telefono'],
-        $data['direccion'],
-        $data['contrasenia'],
-        $data['rol'],
-        $data['estado'],
         $data['usuarioSesion']
     );
 
     echo json_encode([
-        'ok' => true
+        'ok' => true,
+        'marca' => $marca->toArray()
     ]);
     exit();
 } catch (\Exception $exception) {
