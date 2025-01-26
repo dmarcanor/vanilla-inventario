@@ -72,7 +72,7 @@ const guardarDatosFormulario = (formulario, modulo) => {
       datosFormulario[campo.id] = campo.value; // Guardar el nombre y el valor del campo
     }
 
-    if (lineas) {
+    if (typeof lineas !== 'undefined') {
       datosFormulario.lineas = lineas;
     }
   }

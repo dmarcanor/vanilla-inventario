@@ -29,7 +29,18 @@ const marcarSeleccionadoMenu = () => {
 
 const logout = () => {
   window.localStorage.removeItem('usuario');
-  window.location.href = '/vanilla-inventario/Views/Login/index.php';
+
+  fetch('/vanilla-inventario/Controllers/Login/LogoutController.php', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    credentials: 'include'
+  })
+    .then(response => response.json())
+    .then(() => {
+      window.location.href = '/vanilla-inventario/Views/Inicio/index.php';
+    });
 }
 
 const cambiarNombreUsuarioSesion = () => {

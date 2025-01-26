@@ -196,7 +196,7 @@ class Salida
                     $key = 'salidas.fecha_creacion';
                     $operador = '<=';
                 } elseif ($key === 'material') {
-                    $key = 'salidas.salida_lineas.material_id';
+                    $key = 'salida_lineas.material_id';
                     $operador = '=';
                 } elseif ($key === 'categoria') {
                     $key = 'materiales.categoria_id';

@@ -75,10 +75,14 @@ function renderTabla() {
     const cantidadInput = document.createElement("input");
     cantidadInput.type = "number";
     cantidadInput.value = linea.cantidad;
+    cantidadInput.max = linea.stockActual;
     cantidadInput.min = '0.01';
     cantidadInput.step = '0.01';
     cantidadInput.addEventListener("focus", (e) => vaciarContenidoSiEsCero(index, e.target));
-    cantidadInput.addEventListener("keyup", (e) => actualizarCantidad(index, e.target.value));
+    cantidadInput.addEventListener("keyup", (e) => {
+      actualizarCantidad(index, e.target.value);
+      validarCantidad(index, e.target, linea.stockActual);
+    });
     cantidadTd.appendChild(cantidadInput);
     tr.appendChild(cantidadTd);
 
@@ -219,6 +223,15 @@ const stockPorMaterialId = (materialId) => {
 const precioPorMaterialId = (materialId) => {
   const item = materialesEnBaseDeDatos.find(item => item.id == parseInt(materialId));
   return item ? item.precio : "";
+}
+
+const validarCantidad = (index, campo, stockActual) => {
+  if (parseFloat(campo.value) > parseFloat(stockActual)) {
+    const materialIdEnLinea = lineas[index].materialId;
+    const material = materialesEnBaseDeDatos.find(material => material.id == materialIdEnLinea);
+
+    alert(`El material "${material.nombre} - ${material.descripcion} - ${material.marca}" no tiene suficiente stock.`);
+  }
 }
 
 // Eventos
