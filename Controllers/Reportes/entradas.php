@@ -53,6 +53,12 @@ try {
     $esSoloUnaEntrada = count($entradas) === 1;
     $buscandoPorId = !empty($filtros['id']);
 
+    var_dump(
+        $_GET['material'],
+        $_GET['categoria']
+    );
+    exit();
+
     $titulo = $buscandoPorId ? "Reporte de la entrada número {$entradas[0]->numeroEntrada()}" : "Reporte de entradas";
 
     $html = '
@@ -87,8 +93,8 @@ try {
     foreach ($entradas as $entrada) {
         foreach ($entrada->lineas() as $indice => $entradaLinea) {
             if (
-                !empty($_GET['material']) && $entradaLinea->material()->id() !== $_GET['material']
-                || !empty($_GET['categoria']) && $entradaLinea->material()->categoria()->id() !== $_GET['categoria']
+                (!empty($_GET['material']) && $entradaLinea->material()->id() !== $_GET['material'])
+                || (!empty($_GET['categoria']) && $entradaLinea->material()->categoria()->id() !== $_GET['categoria'])
             ) {
                 continue;
             }
