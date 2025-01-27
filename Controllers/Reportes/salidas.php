@@ -96,7 +96,7 @@ try {
             $html .= '
                 <tr>
                     <td>' . $salida->cliente()->nombre() . " " . $salida->cliente()->apellido() . '</td>
-                    <td>' . $salidaLinea->material()->codigo() . " - " . $salidaLinea->material()->nombre() . " - " . $salidaLinea->material()->descripcion() . "-" . $salidaLinea->material()->presentacion() . '</td>
+                    <td>' . $salidaLinea->material()->codigo() . " - " . $salidaLinea->material()->nombre() . " - " . $salidaLinea->material()->descripcion() . " - " . $salidaLinea->material()->presentacion() . '</td>
                     <td>' . $salidaLinea->material()->categoria()->nombre() . '</td>
                     <td>' . $marca . '</td>
                     <td>' . $salida->observacion() . '</td>
