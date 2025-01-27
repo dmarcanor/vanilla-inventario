@@ -98,7 +98,7 @@ try {
             $html .= '
                 <tr>
                     <td>' . $entrada->numeroEntrada() . '</td>
-                    <td>' . $entradaLinea->material()->codigo() . " - " . $entradaLinea->material()->nombre() . " - " . $entradaLinea->material()->presentacion() . '</td>
+                    <td>' . $entradaLinea->material()->codigo() . " - " . $entradaLinea->material()->nombre() . " - " . $entradaLinea->material()->descripcion() . " - " . $entradaLinea->material()->presentacion() . '</td>
                     <td>' . $entradaLinea->material()->categoria()->nombre() . '</td>
                     <td>' . $marca . '</td>
                     <td>' . $entrada->observacion() . '</td>
