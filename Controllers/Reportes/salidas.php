@@ -85,8 +85,8 @@ try {
     foreach ($salidas as $salida) {
         foreach ($salida->lineas() as $indice => $salidaLinea) {
             if (
-                !empty($_GET['material']) && $salidaLinea->material()->id() !== $_GET['material']
-                || !empty($_GET['categoria']) && $salidaLinea->material()->categoria()->id() !== $_GET['categoria']
+                (!empty($_GET['material']) && $salidaLinea->material()->id() !== $_GET['material'])
+                || (!empty($_GET['categoria']) && $salidaLinea->material()->categoria()->id() !== $_GET['categoria'])
             ) {
                 continue;
             }
