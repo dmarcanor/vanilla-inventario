@@ -67,11 +67,13 @@ const crear = (formulario) => {
 
       borrarDatosFormulario('Categorias');
 
-      alert('Categoría creada satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
+      toastr.success('Categoría creada satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 
@@ -116,11 +118,13 @@ const editar = (id, formulario) => {
 
       borrarDatosFormulario('Categorias');
 
-      alert('Categoría editada satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
+      toastr.success('Categoría editada satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Categorias/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

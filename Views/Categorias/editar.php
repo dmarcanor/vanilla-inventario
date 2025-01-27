@@ -25,6 +25,7 @@ header("Expires: 0");
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/categorias/editar.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/js/toastr/build/toastr.min.css">
 </head>
 <body>
 
@@ -76,5 +77,7 @@ header("Expires: 0");
 <script src="/vanilla-inventario/Assets/js/categorias/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 <script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
+<script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>
+<script src="/vanilla-inventario/Assets/js/toastr/build/toastr.min.js"></script>
 </body>
 </html>

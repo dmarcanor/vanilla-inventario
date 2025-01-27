@@ -18,13 +18,11 @@ header("Expires: 0");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Información</title>
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/datatables.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/menu/menu.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/categorias/crear.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/js/toastr/build/toastr.min.css">
 </head>
 <body>
 
@@ -69,5 +67,7 @@ header("Expires: 0");
 <script src="/vanilla-inventario/Assets/js/categorias/formulario.js"></script>
 <script src="/vanilla-inventario/Assets/js/menu/menu.js"></script>
 <script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
+<script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>
+<script src="/vanilla-inventario/Assets/js/toastr/build/toastr.min.js"></script>
 </body>
 </html>

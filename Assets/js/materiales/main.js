@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   fetch(`/vanilla-inventario/Controllers/Marcas/GetMarcasController.php`, {
@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   actualizarTabla();
@@ -235,13 +235,13 @@ const cambiarEstado = (id) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Material editado satisfactoriamente.');
+      toastr.success('Material editado satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

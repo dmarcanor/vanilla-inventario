@@ -58,11 +58,13 @@ const crear = (formulario) => {
 
       borrarDatosFormulario('Entradas');
 
-      alert('Entrada creada satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
+      toastr.success('Entrada creada satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Entradas/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

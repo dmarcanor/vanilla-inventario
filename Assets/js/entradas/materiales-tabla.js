@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
       materialesEnBaseDeDatos = json.data;
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   setTimeout(() => {

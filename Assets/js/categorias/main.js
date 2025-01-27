@@ -104,13 +104,13 @@ const cambiarEstado = (id) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Categoría editado satisfactoriamente.');
+      toastr.success('Categoría editada satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

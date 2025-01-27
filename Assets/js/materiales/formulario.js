@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   fetch(`/vanilla-inventario/Controllers/Marcas/GetMarcasController.php`, {
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   if (!estaEditando) {
@@ -160,11 +160,13 @@ const crear = (formulario) => {
 
       borrarDatosFormulario('Materiales');
 
-      alert('Material creado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      toastr.success('Material creado satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 
@@ -223,11 +225,13 @@ const editar = (id, formulario) => {
 
       borrarDatosFormulario('Materiales');
 
-      alert('Material editado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      toastr.success('Material editado satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Materiales/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 
@@ -285,7 +289,7 @@ const crearMarca = (e) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Marca creada satisfactoriamente.');
+      toastr.success('Marca creada satisfactoriamente.');
 
       const option = document.createElement('option');
       option.value = json.marca.id;
@@ -299,6 +303,6 @@ const crearMarca = (e) => {
       modal.style.display = 'none';
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }

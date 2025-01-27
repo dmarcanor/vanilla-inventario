@@ -92,28 +92,28 @@ const validarContrasenia = (contrasenia, repetirContrasenia, esEditar) => {
   }
 
   if (contrasenia.length < minLength) {
-    alert('La contraseña debe tener al menos 8 caracteres.');
+    toastr.error('La contraseña debe tener al menos 8 caracteres.');
     return false;
   }
   if (!tieneMayuscula) {
-    alert('La contraseña debe contener al menos una letra mayúscula.');
+    toastr.error('La contraseña debe contener al menos una letra mayúscula.');
     return false;
   }
   if (!tieneMinuscula) {
-    alert('La contraseña debe contener al menos una letra minúscula.');
+    toastr.error('La contraseña debe contener al menos una letra minúscula.');
     return false;
   }
   if (!tieneNumero) {
-    alert('La contraseña debe contener al menos un número.');
+    toastr.error('La contraseña debe contener al menos un número.');
     return false;
   }
   if (!tieneCaracterEspecial) {
-    alert('La contraseña debe contener al menos un carácter especial (!@#$%^&*).');
+    toastr.error('La contraseña debe contener al menos un carácter especial (!@#$%^&*).');
     return false;
   }
 
   if (contrasenia !== repetirContrasenia) {
-    alert('Las contraseñas no coinciden');
+    toastr.error('Las contraseñas no coinciden');
     return false;
   }
 
@@ -190,11 +190,13 @@ const crear = (formulario) => {
 
       borrarDatosFormulario('Usuarios');
 
-      alert('Usuario creado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
+      toastr.success('Usuario creado satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 
@@ -251,11 +253,13 @@ const editar = (id, formulario) => {
 
       borrarDatosFormulario('Usuarios');
 
-      alert('Usuario editado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
+      toastr.success('Usuario editado satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Usuarios/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

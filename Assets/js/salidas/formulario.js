@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   const formulario = document.getElementById('formulario-salidas');
@@ -57,7 +57,7 @@ const guardar = (event) => {
   const id = formulario.id ? formulario.id.value : '';
 
   if (lineas.some(linea => linea.stockPosterior < 0)) {
-    alert('La cantidad de salida no puede ser mayor al stock actual.');
+    toastr.error('La cantidad de salida no puede ser mayor al stock actual.');
     return
   }
 
@@ -103,15 +103,16 @@ const crear = (formulario) => {
       borrarDatosFormulario('Salidas');
 
       if (json.mensaje) {
-        alert(json.mensaje);
-        window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
+        toastr.warning(json.mensaje);
       }
 
-      alert('Salida creada satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
+      toastr.success('Salida creada satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
+      }, 2000);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

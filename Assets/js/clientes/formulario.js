@@ -138,11 +138,13 @@ const crear = (formulario) => {
 
       borrarDatosFormulario('Clientes');
 
-      alert('Cliente creado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
+      toastr.success('Cliente creado satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 
@@ -199,11 +201,13 @@ const editar = (id, formulario) => {
 
       borrarDatosFormulario('Clientes');
 
-      alert('Cliente editado satisfactoriamente.');
-      window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
+      toastr.success('Cliente editado satisfactoriamente.');
+      setTimeout(() => {
+        window.location.href = '/vanilla-inventario/Views/Clientes/index.php';
+      }, 1500);
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       materialesEnBaseDeDatos = json.data;
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   setTimeout(() => {
@@ -230,7 +230,7 @@ const validarCantidad = (index, campo, stockActual) => {
     const materialIdEnLinea = lineas[index].materialId;
     const material = materialesEnBaseDeDatos.find(material => material.id == materialIdEnLinea);
 
-    alert(`El material "${material.nombre} - ${material.descripcion} - ${material.marca}" no tiene suficiente stock.`);
+    toastr.error(`El material "${material.nombre} - ${material.descripcion} - ${material.marca}" no tiene suficiente stock.`);
   }
 }
 

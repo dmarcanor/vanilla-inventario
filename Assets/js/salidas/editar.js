@@ -88,11 +88,3 @@ const cargarTablaItems = (lineas) => {
     tbody.appendChild(tr);
   });
 }
-
-const cancelar = (event) => {
-  event.preventDefault();
-
-  borrarDatosFormulario('Salidas');
-
-  window.location.href = '/vanilla-inventario/Views/Salidas/index.php';
-}

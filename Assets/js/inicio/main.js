@@ -113,7 +113,7 @@ const cargarTablaEntradas = () => {
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Entradas/GetEntradasController.php?length=5&orden=DESC&limit=5", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Entradas/GetEntradasController.php?length=5&limit=5", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
@@ -129,7 +129,8 @@ const cargarTablaEntradas = () => {
         }
       },
       {data: "fechaCreacionSinHora", className: 'text-center align-middle', orderable: false}
-    ]
+    ],
+    order: [[0, 'desc']]
   });
 }
 
@@ -139,7 +140,7 @@ const cargarTablaSalidas = () => {
     serverSide: true, // Permite el procesamiento en el servidor
     searching: false,
     ajax: {
-      url: "/vanilla-inventario/Controllers/Salidas/GetSalidasController.php?length=5&orden=DESC&limit=5", // URL de tu endpoint
+      url: "/vanilla-inventario/Controllers/Salidas/GetSalidasController.php?length=5&limit=5", // URL de tu endpoint
       type: "GET", // Método para la petición (GET o POST)
     },
     paging: true, // Activa la paginación
@@ -155,7 +156,8 @@ const cargarTablaSalidas = () => {
         }
       },
       {data: "fechaCreacionSinHora", className: 'text-center align-middle', orderable: false}
-    ]
+    ],
+    order: [[0, 'desc']]
   });
 }
 

@@ -116,13 +116,13 @@ const cambiarEstado = (id) => {
         throw new Error(json.mensaje);
       }
 
-      alert('Cliente editado satisfactoriamente.');
+      toastr.success('Cliente editado satisfactoriamente.');
 
       const table = $('#usuarios-table').DataTable();
       table.ajax.reload();
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 }
 

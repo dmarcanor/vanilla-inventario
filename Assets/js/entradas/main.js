@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   fetch('/vanilla-inventario/Controllers/Categorias/GetCategoriasController.php?estado=activo&length=1000&start=0', {
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     })
     .catch((mensaje) => {
-      alert(mensaje);
+      toastr.error(mensaje);
     });
 
   $('#usuarios-table').DataTable({

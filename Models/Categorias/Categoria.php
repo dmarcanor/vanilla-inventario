@@ -194,7 +194,7 @@ final class Categoria
             $nuevoEstado = 'activo';
         }
 
-        if ($nuevoEstado === 'inactivo') {
+        if ($nuevoEstado === 'desincorporado') {
             $filtros = ['categoria_id' => $id, 'estado' => 'activo'];
             $orden = 'ASC';
             $ordenCampo = 'id';
@@ -202,7 +202,7 @@ final class Categoria
             $tieneMaterialesActivos = Material::getMateriales($filtros, $orden, $ordenCampo, $limit);
 
             if (!empty($tieneMaterialesActivos)) {
-                throw new Exception("No se puede desactivar la categoría porque tiene materiales activos.");
+                throw new Exception("No se puede desincorporar la categoría porque tiene materiales activos.");
             }
         }
 
