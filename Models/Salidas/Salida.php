@@ -172,7 +172,7 @@ class Salida
 
     public static function getSalidas($filtros, $orden, $limit, $ordenCampo)
     {
-        $consultaSalidas = "SELECT salidas.id, salidas.observacion, salidas.cliente_id, salidas.usuario_id, salidas.fecha_creacion FROM salidas
+        $consultaSalidas = "SELECT salidas.id, salidas.observacion, salidas.cliente_id, salidas.usuario_id, salidas.fecha_creacion, count(salida_lineas.id) AS count FROM salidas
             LEFT JOIN salida_lineas ON salidas.id = salida_lineas.salida_id
             LEFT JOIN materiales ON salida_lineas.material_id = materiales.id
         ";
@@ -213,6 +213,10 @@ class Salida
                     $consultaSalidas .= " AND ";
                 }
             }
+        }
+
+        if ($ordenCampo == 'cantidadMateriales') {
+            $ordenCampo = 'count';
         }
 
         $consultaSalidas .= " GROUP BY salidas.id ORDER BY {$ordenCampo} {$orden}";

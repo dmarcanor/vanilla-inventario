@@ -113,7 +113,7 @@ header("Expires: 0");
                 <label for="estado">Estado</label>
                 <select id="estado" name="estado">
                     <option value="">Seleccionar estado</option>
-                    <option value="activo">Activo</option>
+                    <option value="incorporado">Incorporado</option>
                     <option value="desincorporado">Desincorporado</option>
                     <option value="stock_minimo">En stock mínimo</option>
                 </select>

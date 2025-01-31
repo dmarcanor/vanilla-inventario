@@ -45,7 +45,7 @@ header("Expires: 0");
             <div class="form-group">
                 <label for="estado">Estado *</label>
                 <select name="estado" id="estado" disabled required>
-                    <option selected value="activo">Activo</option>
+                    <option selected value="incorporado">Incorporado</option>
                 </select>
             </div>
         </div>

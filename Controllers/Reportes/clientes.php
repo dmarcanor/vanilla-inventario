@@ -16,33 +16,6 @@ $pdf = new TCPDF();
 $pdf->AddPage();
 $pdf->SetFont('times', '', 11); // Establecer fuente
 
-// Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
-$html = '
-<table width="100%">
-<tbody>
-    <tr>
-        <td><h1>Comercializadora G&S C.A.</h1></td>
-        <td>Fecha de reporte: ' . (new DateTimeImmutable("now", new DateTimeZone("America/Caracas")))->format('d/m/Y h:i:sA') . '</td>
-    </tr>
-    <tr>
-        <td>Rif:50105235-2</td>
-    </tr>
-    <tr>
-        <td>Teléfono: 0412-1848791</td>
-    </tr>
-</tbody>
-</table>
-<h2>Reporte de clientes</h2>
-<table border="1" cellspacing="0" cellpadding="5" style="text-align: center;">
-    <tr>
-        <th width="22%">Nombre</th>
-        <th width="18%">Tipo de identificación</th>
-        <th width="18%">Número de identificación</th>
-        <th width="18%">Teléfono</th>
-        <th width="24%">Dirección</th>
-    </tr>
-';
-
 // buscando los registros
 $filtros = [
     'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
@@ -51,8 +24,6 @@ $filtros = [
     'numero_identificacion' => !empty($_GET['numero_identificacion']) ? "%{$_GET['numero_identificacion']}%" : '',
     'telefono' => !empty($_GET['telefono']) ? "%{$_GET['telefono']}%" : '',
     'direccion' => !empty($_GET['direccion']) ? "%{$_GET['direccion']}%" : '',
-    'fecha_desde' => !empty($_GET['fecha_desde']) ? $_GET['fecha_desde'] : '',
-    'fecha_hasta' => !empty($_GET['fecha_hasta']) ? $_GET['fecha_hasta'] : '',
     'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
 ];
 
@@ -70,6 +41,80 @@ if ($ordenCampo === 'tipoIdentificacion') {
 if ($ordenCampo === 'numeroIdentificacion') {
     $ordenCampo = 'numero_identificacion';
 }
+
+// Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
+$tipoIdentificacion = str_replace('%', '', $filtros['tipo_identificacion'] ?? '');
+$numeroIdentificacion = str_replace('%', '', $filtros['numero_identificacion'] ?? '');
+$nombre = str_replace('%', '', $filtros['nombre'] ?? '');
+$apellido = str_replace('%', '', $filtros['apellido'] ?? '');
+$telefono = str_replace('%', '', $filtros['telefono'] ?? '');
+$estado = str_replace('%', '', $filtros['estado'] ?? '');
+$direccion = str_replace('%', '', $filtros['direccion'] ?? '');
+
+if ($tipoIdentificacion === 'cedula') {
+    $tipoIdentificacion = 'cédula';
+}
+
+$filtrosHtml = "
+    <tr>
+        <td>Tipo de identificación</td>
+        <td>{$tipoIdentificacion}</td>
+    </tr>
+    <tr>
+        <td>Número de identificación</td>
+        <td>{$numeroIdentificacion}</td>
+    </tr>
+    <tr>
+        <td>Nombre</td>
+        <td>{$nombre}</td>
+    </tr>
+    <tr>
+        <td>Apellido</td>
+        <td>{$apellido}</td>
+    </tr>
+    <tr>
+        <td>Teléfono</td>
+        <td>{$telefono}</td>
+    </tr>
+    <tr>
+        <td>Estado</td>
+        <td>{$estado}</td>
+    </tr>
+    <tr>
+        <td>Dirección</td>
+        <td>{$direccion}</td>
+    </tr>
+";
+
+$html = '
+<table width="100%">
+<tbody>
+    <tr>
+        <td><h1>Comercializadora G&S C.A.</h1></td>
+        <td>Fecha de reporte: ' . (new DateTimeImmutable("now", new DateTimeZone("America/Caracas")))->format('d/m/Y h:i:sA') . '</td>
+    </tr>
+    <tr>
+        <td>Rif:50105235-2</td>
+    </tr>
+    <tr>
+        <td>Teléfono: 0412-1848791</td>
+    </tr>
+</tbody>
+</table>
+<h4>Filtros:</h4>
+<table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
+    ' . $filtrosHtml . '
+</table>
+<h2>Reporte de clientes</h2>
+<table border="1" cellspacing="0" cellpadding="5" style="text-align: center;">
+    <tr>
+        <th width="22%">Nombre</th>
+        <th width="18%">Tipo de identificación</th>
+        <th width="18%">Número de identificación</th>
+        <th width="18%">Teléfono</th>
+        <th width="24%">Dirección</th>
+    </tr>
+';
 
 try {
     $clientes = Cliente::getClientes($filtros, $order, $ordenCampo);

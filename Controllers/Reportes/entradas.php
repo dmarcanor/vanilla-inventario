@@ -1,6 +1,8 @@
 <?php
 
 require_once __DIR__ . '/../../Models/Entradas/Entrada.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
+require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
 require_once __DIR__ . '/../../libs/TCPDF/tcpdf.php';
 require_once '../../helpers.php';
 
@@ -53,7 +55,55 @@ try {
     $esSoloUnaEntrada = count($entradas) === 1;
     $buscandoPorId = !empty($filtros['id']);
 
-    $titulo = $buscandoPorId ? "Reporte de la entrada número {$entradas[0]->numeroEntrada()}" : "Reporte de entradas";
+    $titulo = $buscandoPorId && !empty($entradas[0]) ? "Reporte de la entrada número {$entradas[0]->numeroEntrada()}" : "Reporte de entradas";
+
+    $id = str_replace('%', '', $filtros['id'] ?? '');
+    $numeroEntrada = str_replace('%', '', $filtros['numero_entrada'] ?? '');
+    $fechaDesdeFiltro = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('d/m/Y') : '';
+    $fechaHastaFiltro = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('d/m/Y') : '';
+    $material = str_replace('%', '', $filtros['material'] ?? '');
+    $categoria = str_replace('%', '', $filtros['categoria'] ?? '');
+
+    try {
+        $objetoMaterial = Material::getMaterial($material);
+        $materialMarca = !empty($objetoMaterial->marca()) ? $objetoMaterial->marca()->nombre() : '';
+        $material = "{$objetoMaterial->nombre()} - {$objetoMaterial->descripcion()} - {$materialMarca}";
+    } catch (Exception $exception) {
+        $material = "";
+    }
+
+    try {
+        $categoria = Categoria::getCategoria($categoria)->nombre();
+    } catch (Exception $exception) {
+        $categoria = "";
+    }
+
+    $filtrosHtml = "
+    <tr>
+        <td>ID</td>
+        <td>{$id}</td>
+    </tr>
+    <tr>
+        <td>Número de entrada</td>
+        <td>{$numeroEntrada}</td>
+    </tr>
+    <tr>
+        <td>Fecha creación desde</td>
+        <td>{$fechaDesdeFiltro}</td>
+    </tr>
+    <tr>
+        <td>Fecha creación hasta</td>
+        <td>{$fechaHastaFiltro}</td>
+    </tr>
+    <tr>
+        <td>Material</td>
+        <td>{$material}</td>
+    </tr>
+    <tr>
+        <td>Categoría</td>
+        <td>{$categoria}</td>
+    </tr>
+";
 
     $html = '
         <table width="100%">
@@ -69,6 +119,10 @@ try {
                 <td>Teléfono: 0412-1848791</td>
             </tr>
         </tbody>
+        </table>
+        <h4>Filtros:</h4>
+        <table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
+            ' . $filtrosHtml . '
         </table>
         <h2> ' . $titulo . '</h2>
         <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">

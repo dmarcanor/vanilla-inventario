@@ -14,12 +14,12 @@ CREATE TABLE IF NOT EXISTS usuarios
     telefono    VARCHAR(11)                NOT NULL,
     direccion   VARCHAR(30)                NOT NULL,
     rol         VARCHAR(10)                 NOT NULL,
-    estado      ENUM ('activo', 'desincorporado') NOT NULL
+    estado      ENUM ('incorporado', 'desincorporado') NOT NULL
 );
 
 INSERT INTO usuarios (nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
 VALUES ('admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==', '6de83e1d37e577d83e7be9fb96f90d7b', '04161234567',
-        'calle juncal', 'admin', 'activo');
+        'calle juncal', 'admin', 'incorporado');
 
 DROP TABLE IF EXISTS clientes;
 CREATE TABLE IF NOT EXISTS clientes
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS clientes
     telefono              VARCHAR(11)                NOT NULL,
     direccion             VARCHAR(20)                NOT NULL,
     fecha_creacion        DATETIME                    NOT NULL,
-    estado                ENUM ('activo', 'desincorporado') NOT NULL
+    estado                ENUM ('incorporado', 'desincorporado') NOT NULL
 );
 
 DROP TABLE IF EXISTS categorias;
@@ -42,11 +42,11 @@ CREATE TABLE IF NOT EXISTS categorias
     nombre         VARCHAR(20)                NOT NULL,
     descripcion    VARCHAR(30)                NOT NULL,
     fecha_creacion DATETIME                    NOT NULL,
-    estado         ENUM ('activo', 'desincorporado') NOT NULL
+    estado         ENUM ('incorporado', 'desincorporado') NOT NULL
 );
 
 INSERT INTO categorias (nombre, descripcion, fecha_creacion, estado)
-VALUES ('categoria de purbea', 'probando', NOW(), 'activo');
+VALUES ('categoria de purbea', 'probando', NOW(), 'incorporado');
 
 DROP TABLE IF EXISTS materiales;
 CREATE TABLE IF NOT EXISTS materiales
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS materiales
     precio         DECIMAL(11, 2)              NOT NULL,
     stock          DECIMAL(11, 2)              NOT NULL,
     fecha_creacion DATETIME                    NOT NULL,
-    estado         ENUM ('activo', 'desincorporado') NOT NULL
+    estado         ENUM ('incorporado', 'desincorporado') NOT NULL
 );
 
 ALTER TABLE materiales
@@ -231,7 +231,7 @@ ALTER TABLE usuarios
 INSERT INTO usuarios (nombre_usuario, nombre, apellido, cedula, contrasenia, iv, telefono, direccion, rol, estado)
 VALUES ('admin2025', 'admin', 'apellido', '12345670', 'ygWKiGBhItwTBk0zutIQwQ==', '6de83e1d37e577d83e7be9fb96f90d7b',
         '04161234567',
-        'calle juncal', 'admin', 'activo');
+        'calle juncal', 'admin', 'incorporado');
 
 DELETE
 FROM usuarios_historial

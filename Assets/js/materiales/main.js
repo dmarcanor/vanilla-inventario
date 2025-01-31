@@ -20,7 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('fecha_desde').setAttribute('max', fechaActual());
   document.getElementById('fecha_hasta').setAttribute('max', fechaActual());
 
-  fetch(`/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=activo`, {
+  fetch(`/vanilla-inventario/Controllers/categorias/GetCategoriasController.php?length=1000&start=0&estado=incorporado`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -122,8 +122,8 @@ const actualizarTabla = () => {
       data: "acciones",
       orderable: false,
       render: (data, type, row) => {
-        const accionEstado = row.estado === 'activo' ? 'Desincorporar' : 'Activar';
-        const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-success' : 'btn btn-danger';
+        const accionEstado = row.estado === 'incorporado' ? 'Desincorporar' : 'Incorporar';
+        const accionEstadoEstilo = row.estado === 'incorporado' ? 'btn btn-success' : 'btn btn-danger';
 
         return `
             <button class="btn btn-primary" onclick="redireccionarEditar(${row.id})">
@@ -194,8 +194,8 @@ const actualizarTabla = () => {
 }
 
 const estadoLabel = (estado) => {
-  if (estado === 'activo') {
-    return `<span>Activo</span>`;
+  if (estado === 'incorporado') {
+    return `<span>Incorporado</span>`;
   }
 
   if (estado === 'desincorporado') {
@@ -275,7 +275,7 @@ const imprimir = (event) => {
   const busqueda = document.getElementsByTagName('form')[0];
 
   let filtroStockMinimo = false;
-  let filtroEstado = busqueda.estado.value ? busqueda.estado.value : "activo";
+  let filtroEstado = busqueda.estado.value ? busqueda.estado.value : "incorporado";
 
   if (filtroEstado === 'stock_minimo') {
     filtroEstado = '';

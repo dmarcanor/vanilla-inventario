@@ -266,10 +266,10 @@ class Material
             throw new Exception("Material no encontrado.");
         }
 
-        if ($materialOriginal->estado === 'activo') {
+        if ($materialOriginal->estado === 'incorporado') {
             $nuevoEstado = 'desincorporado';
         } else {
-            $nuevoEstado = 'activo';
+            $nuevoEstado = 'incorporado';
         }
 
         if ($nuevoEstado == 'desincorporado' && $a=$materialOriginal->stock > 0) {

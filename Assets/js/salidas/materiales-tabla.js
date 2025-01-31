@@ -14,7 +14,7 @@ let materialesEnBaseDeDatos = [];
 document.addEventListener('DOMContentLoaded', () => {
   const ruta = window.location.pathname;
   const estaEditando = ruta.includes('editar.php');
-  const filtroMaterialesActivas = estaEditando ?  '' : '&estado=activo';
+  const filtroMaterialesActivas = estaEditando ?  '' : '&estado=incorporado';
 
   fetch(`/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?length=1000&start=0&stock_desde=0.01${filtroMaterialesActivas}`)
     .then(response => response.json())

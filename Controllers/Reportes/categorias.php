@@ -16,7 +16,39 @@ $pdf = new TCPDF();
 $pdf->AddPage();
 $pdf->SetFont('times', '', 11); // Establecer fuente
 
+// buscando los registros
+$filtros = [
+    'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
+    'descripcion' => !empty($_GET['descripcion']) ? "%{$_GET['descripcion']}%" : '',
+    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
+];
+
+$filtros = array_filter($filtros);
+$limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
+$skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
+$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
+$ordenCampo = obtenerCampoOrdenEnTabla();
+
 // Cuerpo del reporte en HTML, incompleto porque mas abajo se completa con los datos de la base de datos
+$nombre = str_replace('%', '', $filtros['nombre'] ?? '');
+$descripcion = str_replace('%', '', $filtros['descripcion'] ?? '');
+$estado = str_replace('%', '', $filtros['estado'] ?? '');
+
+$filtrosHtml = "
+    <tr>
+        <td>Nombre</td>
+        <td>{$nombre}</td>
+    </tr>
+    <tr>
+        <td>Descripción</td>
+        <td>{$descripcion}</td>
+    </tr>
+    <tr>
+        <td>Estado</td>
+        <td>{$estado}</td>
+    </tr>
+";
+
 $html = '
 <table width="100%">
 <tbody>
@@ -32,6 +64,10 @@ $html = '
     </tr>
 </tbody>
 </table>
+<h4>Filtros:</h4>
+<table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
+    ' . $filtrosHtml . '
+</table>
 <h2>Reporte de categorías</h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
@@ -40,19 +76,6 @@ $html = '
         <th width="30%">Estado</th>
     </tr>
 ';
-
-// buscando los registros
-$filtros = [
-    'nombre' => !empty($_GET['nombre']) ? "%{$_GET['nombre']}%" : '',
-    'descripcion' => !empty($_GET['descripcion']) ? "%{$_GET['descripcion']}%" : '',
-    'estado' => !empty($_GET['estado']) ? $_GET['estado'] : ''
-];
-
-$filtros = array_filter($filtros);
-$limit = !empty($_GET['length']) ? (int)$_GET['length'] : 10;
-$skip = !empty($_GET['start']) ? (int)$_GET['start'] : 0;
-$order = !empty($_GET['order'][0]['dir']) ? $_GET['order'][0]['dir'] : 'ASC';
-$ordenCampo = obtenerCampoOrdenEnTabla();
 
 try {
     $categorias = Categoria::getCategorias($filtros, $order, $ordenCampo);

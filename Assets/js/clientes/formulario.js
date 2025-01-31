@@ -58,13 +58,13 @@ const mostrarNumeroIdentificacionLetra = (tipoIdentificacion) => {
 }
 
 const validarTelefono = (telefono) => {
-  const regex = /^(0412|0414|0416|0424|0426)\d{7}$/;
+  const regex = /^(0294|0212|0293|0281|0412|0414|0416|0424|0426)\d{7}$/;
 
   if (!regex.test(telefono)) {
     const campoTelefono = document.getElementById("telefono");
 
     campoTelefono.setCustomValidity(
-      "El número ingresado no es válido. Debe iniciar con 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos."
+      "El número ingresado no es válido. Debe iniciar con 0294, 0212, 0293, 0281, 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos."
     );
     campoTelefono.reportValidity();
 

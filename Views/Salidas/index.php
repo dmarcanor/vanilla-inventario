@@ -111,11 +111,12 @@ header("Expires: 0");
             <thead>
             <tr>
                 <th class="dt-center">ID</th>
-                <th class="dt-center">Observación</th>
                 <th class="dt-center">Cliente</th>
+                <th class="dt-center">Cantidad de materiales</th>
+                <th class="dt-center">Observación</th>
                 <th class="dt-center">Usuario registrador</th>
                 <th class="dt-center">Fecha de salida</th>
-                <th class="dt-center">Acciones</th>
+                <th class="dt-center">Acción</th>
             </tr>
             </thead>
             <tbody>

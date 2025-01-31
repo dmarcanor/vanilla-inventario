@@ -47,7 +47,10 @@ header("Expires: 0");
                 <input type="text" id="descripcion" placeholder="Descripción" maxlength="30">
             </div>
             <div class="form-group">
-                <label for="marca">Marca <img id="agregar-marca" src="/vanilla-inventario/Assets/iconos/crear-oscuro.svg" alt="crear.svg"></label>
+                <div style="display: flex">
+                    <label for="marca">Marca</label>
+                    <img id="agregar-marca" style="margin-left: 7px; margin-bottom: 5px" src="/vanilla-inventario/Assets/iconos/crear-verde.svg" alt="crear-verde.svg">
+                </div>
                 <select name="marca" id="marca">
                     <option value="">Seleccione</option>
                 </select>
@@ -82,7 +85,7 @@ header("Expires: 0");
             <div class="form-group">
                 <label for="estado">Estado *</label>
                 <select name="estado" id="estado" disabled required>
-                    <option value="activo" selected>Activo</option>
+                    <option value="incorporado" selected>Incorporado</option>
                 </select>
             </div>
         </div>

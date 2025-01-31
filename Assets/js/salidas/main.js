@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const campoMaterial = document.getElementById('material');
   const campoCategoria = document.getElementById('categoria');
 
-  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?estado=activo&length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Usuarios/GetUsuariosController.php?estado=incorporado&length=1000&start=0', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toastr.error(mensaje);
     });
 
-  fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?activo&length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Clientes/GetClientesController.php?incorporado&length=1000&start=0', {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toastr.error(mensaje);
     });
 
-  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=activo&length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Materiales/GetMaterialesController.php?estado=incorporado&length=1000&start=0', {
     method: 'GET', headers: {
       'Content-Type': 'application/json'
     },
@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
       toastr.error(mensaje);
     });
 
-  fetch('/vanilla-inventario/Controllers/Categorias/GetCategoriasController.php?estado=activo&length=1000&start=0', {
+  fetch('/vanilla-inventario/Controllers/Categorias/GetCategoriasController.php?estado=incorporado&length=1000&start=0', {
     method: 'GET', headers: {
       'Content-Type': 'application/json'
     },
@@ -135,8 +135,15 @@ document.addEventListener('DOMContentLoaded', () => {
     lengthChange: false,
     columns: [
       { data: "id", orderable: true },
-      { data: "observacion", orderable: true },
       { data: "clienteFullNombre", orderable: true },
+      {
+        data: "cantidadMateriales",
+        orderable: true,
+        render: (data, type, row) => {
+          return row.lineas.length;
+        }
+      },
+      { data: "observacion", orderable: true },
       { data: "usuarioFullNombre", orderable: true },
       { data: "fechaCreacion", orderable: true },
       {

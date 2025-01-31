@@ -414,10 +414,10 @@ class Usuario
             throw new Exception("Usuario no encontrado.");
         }
 
-        if ($usuarioOriginal->estado === 'activo') {
+        if ($usuarioOriginal->estado === 'incorporado') {
             $nuevoEstado = 'desincorporado';
         } else {
-            $nuevoEstado = 'activo';
+            $nuevoEstado = 'incorporado';
         }
 
         $usuarioModificado = new Usuario(

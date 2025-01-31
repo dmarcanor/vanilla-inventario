@@ -188,21 +188,21 @@ final class Categoria
             throw new Exception("Categoría no encontrado.");
         }
 
-        if ($categoriaOriginal->estado === 'activo') {
+        if ($categoriaOriginal->estado === 'incorporado') {
             $nuevoEstado = 'desincorporado';
         } else {
-            $nuevoEstado = 'activo';
+            $nuevoEstado = 'incorporado';
         }
 
         if ($nuevoEstado === 'desincorporado') {
-            $filtros = ['categoria_id' => $id, 'estado' => 'activo'];
+            $filtros = ['categoria_id' => $id, 'estado' => 'incorporado'];
             $orden = 'ASC';
             $ordenCampo = 'id';
             $limit = 0;
             $tieneMaterialesActivos = Material::getMateriales($filtros, $orden, $ordenCampo, $limit);
 
             if (!empty($tieneMaterialesActivos)) {
-                throw new Exception("No se puede desincorporar la categoría porque tiene materiales activos.");
+                throw new Exception("No se puede desincorporar la categoría porque tiene materiales incorporados.");
             }
         }
 

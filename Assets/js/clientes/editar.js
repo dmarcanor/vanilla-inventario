@@ -4,16 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return;
   }
 
-  // tipoIdentificacion.addEventListener('change', function (e) {
-  //   if (e.target.value == 'rif' || e.target.value == 'cedula') {
-  //     document.getElementById('numero_identificacion_letra').hidden = false;
-  //   }
-  //
-  //   if (e.target.value !== 'pasaporte') {
-  //     document.getElementById('numero_identificacion_letra').hidden = true;
-  //   }
-  // });
-
   const queryParams = new URLSearchParams(window.location.search);
   const id = queryParams.get('id');
 

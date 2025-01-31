@@ -69,8 +69,8 @@ document.addEventListener('DOMContentLoaded', () => {
         data: "acciones",
         orderable: false,
         render: (data, type, row) => {
-          const accionEstado = row.estado === 'activo' ? 'Desincorporar' : 'Activar';
-          const accionEstadoEstilo = row.estado === 'activo' ? 'btn btn-success' : 'btn btn-danger';
+          const accionEstado = row.estado === 'incorporado' ? 'Desincorporar' : 'Incorporar';
+          const accionEstadoEstilo = row.estado === 'incorporado' ? 'btn btn-success' : 'btn btn-danger';
 
           if (row.id == 1) {
             return 'N/A';
@@ -92,8 +92,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 const estadoLabel = (estado) => {
-  if (estado === 'activo') {
-    return `<span>Activo</span>`;
+  if (estado === 'incorporado') {
+    return `<span>Incorporado</span>`;
   }
 
   if (estado === 'desincorporado') {

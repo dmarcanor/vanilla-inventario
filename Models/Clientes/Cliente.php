@@ -274,10 +274,10 @@ class Cliente
             throw new Exception("Cliente no encontrado.");
         }
 
-        if ($clienteOriginal->estado === 'activo') {
+        if ($clienteOriginal->estado === 'incorporado') {
             $nuevoEstado = 'desincorporado';
         } else {
-            $nuevoEstado = 'activo';
+            $nuevoEstado = 'incorporado';
         }
 
         $clienteModificado = new Cliente(

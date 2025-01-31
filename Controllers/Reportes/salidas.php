@@ -1,6 +1,10 @@
 <?php
 
 require_once __DIR__ . '/../../Models/Salidas/Salida.php';
+require_once __DIR__ . '/../../Models/Usuarios/Usuario.php';
+require_once __DIR__ . '/../../Models/Clientes/Cliente.php';
+require_once __DIR__ . '/../../Models/Materiales/Material.php';
+require_once __DIR__ . '/../../Models/Categorias/Categoria.php';
 require_once __DIR__ . '/../../libs/TCPDF/tcpdf.php';
 require_once '../../helpers.php';
 
@@ -53,7 +57,80 @@ try {
     $esSoloUnaSalida = count($salidas) === 1;
     $buscandoPorId = !empty($filtros['id']);
 
-    $titulo = $buscandoPorId ? "Reporte de la salida número {$salidas[0]->id()}" : "Reporte de salidas";
+    $titulo = $buscandoPorId && !empty($salidas[0]) ? "Reporte de la salida número {$salidas[0]->id()}" : "Reporte de salidas";
+
+    $id = str_replace('%', '', $filtros['id'] ?? '');
+    $observacion = str_replace('%', '', $filtros['observacion'] ?? '');
+    $usuario = str_replace('%', '', $filtros['usuario_id'] ?? '');
+    $cliente = str_replace('%', '', $filtros['cliente_id'] ?? '');
+    $fechaDesdeFiltro = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('d/m/Y') : '';
+    $fechaHastaFiltro = !empty($_GET['fecha_hasta']) ? (new DateTimeImmutable($_GET['fecha_hasta']))->format('d/m/Y') : '';
+    $material = str_replace('%', '', $filtros['material'] ?? '');
+    $categoria = str_replace('%', '', $filtros['categoria'] ?? '');
+
+    try {
+        $modeloUsuario = Usuario::getUsuario($usuario);
+        $usuario = "{$modeloUsuario->nombre()} {$modeloUsuario->apellido()}";
+    } catch (Exception $exception) {
+        $usuario = "";
+    }
+
+    try {
+        $modeloCliente = Cliente::getCliente($cliente);
+        $cliente = "{$modeloCliente->nombre()} {$modeloCliente->apellido()}";
+    } catch (Exception $exception) {
+        $cliente = "";
+    }
+
+    try {
+        $objetoMaterial = Material::getMaterial($material);
+        $materialMarca = !empty($objetoMaterial->marca()) ? $objetoMaterial->marca()->nombre() : '';
+        $material = "{$objetoMaterial->nombre()} - {$objetoMaterial->descripcion()} - {$materialMarca}";
+    } catch (Exception $exception) {
+        $material = "";
+    }
+
+    try {
+        $categoria = Categoria::getCategoria($categoria)->nombre();
+    } catch (Exception $exception) {
+        $categoria = "";
+    }
+
+    $filtrosHtml = "
+    <tr>
+        <td>ID</td>
+        <td>{$id}</td>
+    </tr>
+    <tr>
+        <td>Observación</td>
+        <td>{$observacion}</td>
+    </tr>
+    <tr>
+        <td>Usuario registrador</td>
+        <td>{$usuario}</td>
+    </tr>
+    <tr>
+        <td>Cliente</td>
+        <td>{$cliente}</td>
+    </tr>
+    <tr>
+        <td>Fecha creación desde</td>
+        <td>{$fechaDesdeFiltro}</td>
+    </tr>
+    <tr>
+        <td>Fecha creación hasta</td>
+        <td>{$fechaHastaFiltro}</td>
+    </tr>
+    <tr>
+        <td>Material</td>
+        <td>{$material}</td>
+    </tr>
+    <tr>
+        <td>Categoría</td>
+        <td>{$categoria}</td>
+    </tr>
+";
+
     $html = '
         <table width="100%">
         <tbody>
@@ -68,6 +145,10 @@ try {
                 <td>Teléfono: 0412-1848791</td>
             </tr>
         </tbody>
+        </table>
+        <h4>Filtros:</h4>
+        <table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
+            ' . $filtrosHtml . '
         </table>
         <h2>' . $titulo . '</h2>
         <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
