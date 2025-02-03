@@ -82,56 +82,59 @@ try {
     $categoria = "";
 }
 
-$filtrosHtml = "
-    <tr>
-        <td>ID</td>
-        <td>{$id}</td>
-    </tr>
-    <tr>
-        <td>Código</td>
-        <td>{$codigo}</td>
-    </tr>
-    <tr>
-        <td>Nombre</td>
-        <td>{$nombre}</td>
-    </tr>
-    <tr>
-        <td>Descripción</td>
-        <td>{$descripcion}</td>
-    </tr>
-    <tr>
-        <td>Marca</td>
-        <td>{$marca}</td>
-    </tr>
-    <tr>
-        <td>Categoría</td>
-        <td>{$categoria}</td>
-    </tr>
-    <tr>
-        <td>Unidad</td>
-        <td>{$unidad}</td>
-    </tr>
-    <tr>
-        <td>Fecha de creación (desde)</td>
-        <td>{$fechaDesdeFiltro}</td>
-    </tr>
-    <tr>
-        <td>Fecha de creación (hasta)</td>
-        <td>{$fechaHastaFiltro}</td>
-    </tr>
-    <tr>
-        <td>Precio</td>
-        <td>{$precio}</td>
-    </tr>
-    <tr>
-        <td>Presentación</td>
-        <td>{$presentacion}</td>
-    </tr>
-    <tr>
-        <td>Estado</td>
-        <td>{$estado}</td>
-    </tr>
-";
+$filtrosTitulo = [];
+
+if (!empty($id)) {
+    $filtrosTitulo[] = "ID: {$id}";
+}
+
+if (!empty($codigo)) {
+    $filtrosTitulo[] = "Código: {$codigo}";
+}
+
+if (!empty($nombre)) {
+    $filtrosTitulo[] = "Nombre: {$nombre}";
+}
+
+if (!empty($descripcion)) {
+    $filtrosTitulo[] = "Descripción: {$descripcion}";
+}
+
+if (!empty($marca)) {
+    $filtrosTitulo[] = "Marca: {$marca}";
+}
+
+if (!empty($categoria)) {
+    $filtrosTitulo[] = "Categoría: {$categoria}";
+}
+
+if (!empty($unidad)) {
+    $filtrosTitulo[] = "Unidad: {$unidad}";
+}
+
+if (!empty($precio)) {
+    $filtrosTitulo[] = "Precio: {$precio}";
+}
+
+if (!empty($presentacion)) {
+    $filtrosTitulo[] = "Presentación: {$presentacion}";
+}
+
+if (!empty($estado)) {
+    $filtrosTitulo[] = "Estado: {$estado}";
+}
+
+if (!empty($fechaDesdeFiltro)) {
+    $filtrosTitulo[] = "Fecha creación desde: {$fechaDesdeFiltro}";
+}
+
+if (!empty($fechaHastaFiltro)) {
+    $filtrosTitulo[] = "Fecha creación hasta: {$fechaHastaFiltro}";
+}
+
+$filtrosTexto = !empty($filtrosTitulo) ? "Filtros: " . implode(', ', $filtrosTitulo) : '';
+
+$titulo = "Reporte de materiales. {$filtrosTexto}";
 
 $html = '
 <table width="100%">
@@ -148,11 +151,7 @@ $html = '
     </tr>
 </tbody>
 </table>
-<h4>Filtros:</h4>
-<table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
-    ' . $filtrosHtml . '
-</table>
-<h2>Reporte de materiales</h2>
+<h2>' . $titulo . ' </h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
         <th width="15%">Código</th>

@@ -34,20 +34,23 @@ $nombre = str_replace('%', '', $filtros['nombre'] ?? '');
 $descripcion = str_replace('%', '', $filtros['descripcion'] ?? '');
 $estado = str_replace('%', '', $filtros['estado'] ?? '');
 
-$filtrosHtml = "
-    <tr>
-        <td>Nombre</td>
-        <td>{$nombre}</td>
-    </tr>
-    <tr>
-        <td>Descripción</td>
-        <td>{$descripcion}</td>
-    </tr>
-    <tr>
-        <td>Estado</td>
-        <td>{$estado}</td>
-    </tr>
-";
+$filtrosTitulo = [];
+
+if (!empty($nombre)) {
+    $filtrosTitulo[] = "Nombre: {$nombre}";
+}
+
+if (!empty($descripcion)) {
+    $filtrosTitulo[] = "Descripción: {$descripcion}";
+}
+
+if (!empty($estado)) {
+    $filtrosTitulo[] = "Estado: {$estado}";
+}
+
+$filtrosTexto = !empty($filtrosTitulo) ? "Filtros: " . implode(', ', $filtrosTitulo) : '';
+
+$titulo = "Reporte de categorías. {$filtrosTexto}";
 
 $html = '
 <table width="100%">
@@ -64,11 +67,7 @@ $html = '
     </tr>
 </tbody>
 </table>
-<h4>Filtros:</h4>
-<table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
-    ' . $filtrosHtml . '
-</table>
-<h2>Reporte de categorías</h2>
+<h2>' . $titulo . '</h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
         <th width="30%">Nombre</th>

@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
       clientes.forEach(cliente => {
         const option = document.createElement('option');
         option.value = cliente.id;
-        option.text = `${cliente.nombre} ${cliente.apellido}`;
+        option.text = `${cliente.numeroIdentificacion} - ${cliente.nombre} ${cliente.apellido}`;
 
         campoCliente.appendChild(option);
       });
@@ -162,6 +162,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   cambiarNombreUsuarioSesion();
+
+  $('#clienteId').select2();
 });
 
 const redireccionarEditar = (id) => {

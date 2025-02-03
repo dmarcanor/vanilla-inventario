@@ -53,40 +53,43 @@ $direccion = str_replace('%', '', $filtros['direccion'] ?? '');
 $rol = str_replace('%', '', $filtros['rol'] ?? '');
 $nombre_usuario = str_replace('%', '', $filtros['nombre_usuario'] ?? '');
 
-$filtrosHtml = "
-    <tr>
-        <td>Cédula</td>
-        <td>{$cedula}</td>
-    </tr>
-    <tr>
-        <td>Nombre</td>
-        <td>{$nombre}</td>
-    </tr>
-    <tr>
-        <td>Apellido</td>
-        <td>{$apellido}</td>
-    </tr>
-    <tr>
-        <td>Teléfono</td>
-        <td>{$telefono}</td>
-    </tr>
-    <tr>
-        <td>Dirección</td>
-        <td>{$direccion}</td>
-    </tr>
-    <tr>
-        <td>Rol</td>
-        <td>{$rol}</td>
-    </tr>
-    <tr>
-        <td>Estado</td>
-        <td>{$estado}</td>
-    </tr>
-    <tr>
-        <td>Nombre de usuario</td>
-        <td>{$nombre_usuario}</td>
-    </tr>
-";
+$filtrosTitulo = [];
+
+if (!empty($cedula)) {
+    $filtrosTitulo[] = "Cédula: {$cedula}";
+}
+
+if (!empty($nombre)) {
+    $filtrosTitulo[] = "Nombre: {$nombre}";
+}
+
+if (!empty($apellido)) {
+    $filtrosTitulo[] = "Apellido: {$apellido}";
+}
+
+if (!empty($telefono)) {
+    $filtrosTitulo[] = "Teléfono: {$telefono}";
+}
+
+if (!empty($direccion)) {
+    $filtrosTitulo[] = "Dirección: {$direccion}";
+}
+
+if (!empty($rol)) {
+    $filtrosTitulo[] = "Rol: {$rol}";
+}
+
+if (!empty($nombre_usuario)) {
+    $filtrosTitulo[] = "Nombre de usuario: {$nombre_usuario}";
+}
+
+if (!empty($estado)) {
+    $filtrosTitulo[] = "Estado: {$estado}";
+}
+
+$filtrosTexto = !empty($filtrosTitulo) ? "Filtros: " . implode(', ', $filtrosTitulo) : '';
+
+$titulo = "Reporte de usuarios. {$filtrosTexto}";
 
 $html = '
 <table width="100%">
@@ -103,11 +106,7 @@ $html = '
     </tr>
 </tbody>
 </table>
-<h4>Filtros:</h4>
-<table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
-    ' . $filtrosHtml . '
-</table>
-<h2>Reporte de usuarios</h2>
+<h2>' . $titulo . '</h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
         <th width="16%">Nombre de usuario</th>

@@ -27,6 +27,7 @@ header("Expires: 0");
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/salidas/formulario.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/css/compartido/formulario.css">
     <link rel="stylesheet" href="/vanilla-inventario/Assets/js/toastr/build/toastr.min.css">
+    <link rel="stylesheet" href="/vanilla-inventario/Assets/js/select2-4.1.0-rc.0/dist/css/select2.min.css">
 </head>
 <body>
 
@@ -55,7 +56,7 @@ header("Expires: 0");
                 <table id="salidas-items" class="dynamic-table">
                     <thead>
                     <tr>
-                        <th>Material *</th>
+                        <th width="350px">Material *</th>
                         <th>Cantidad *</th>
                         <th>Precio *</th>
                         <th>Unidad</th>
@@ -94,5 +95,6 @@ header("Expires: 0");
 <script src="/vanilla-inventario/Assets/js/helpers/main.js"></script>
 <script src="/vanilla-inventario/Assets/js/datatables.min.js"></script>
 <script src="/vanilla-inventario/Assets/js/toastr/build/toastr.min.js"></script>
+<script src="/vanilla-inventario/Assets/js/select2-4.1.0-rc.0/dist/js/select2.min.js"></script>
 </body>
 </html>

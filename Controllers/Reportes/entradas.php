@@ -55,8 +55,6 @@ try {
     $esSoloUnaEntrada = count($entradas) === 1;
     $buscandoPorId = !empty($filtros['id']);
 
-    $titulo = $buscandoPorId && !empty($entradas[0]) ? "Reporte de la entrada número {$entradas[0]->numeroEntrada()}" : "Reporte de entradas";
-
     $id = str_replace('%', '', $filtros['id'] ?? '');
     $numeroEntrada = str_replace('%', '', $filtros['numero_entrada'] ?? '');
     $fechaDesdeFiltro = !empty($_GET['fecha_desde']) ? (new DateTimeImmutable($_GET['fecha_desde']))->format('d/m/Y') : '';
@@ -78,32 +76,35 @@ try {
         $categoria = "";
     }
 
-    $filtrosHtml = "
-    <tr>
-        <td>ID</td>
-        <td>{$id}</td>
-    </tr>
-    <tr>
-        <td>Número de entrada</td>
-        <td>{$numeroEntrada}</td>
-    </tr>
-    <tr>
-        <td>Fecha creación desde</td>
-        <td>{$fechaDesdeFiltro}</td>
-    </tr>
-    <tr>
-        <td>Fecha creación hasta</td>
-        <td>{$fechaHastaFiltro}</td>
-    </tr>
-    <tr>
-        <td>Material</td>
-        <td>{$material}</td>
-    </tr>
-    <tr>
-        <td>Categoría</td>
-        <td>{$categoria}</td>
-    </tr>
-";
+    $filtros = [];
+
+    if (!empty($id)) {
+        $filtros[] = "ID: {$id}";
+    }
+
+    if (!empty($numeroEntrada)) {
+        $filtros[] = "Número de entrada: {$numeroEntrada}";
+    }
+
+    if (!empty($fechaDesdeFiltro)) {
+        $filtros[] = "Fecha creación desde: {$fechaDesdeFiltro}";
+    }
+
+    if (!empty($fechaHastaFiltro)) {
+        $filtros[] = "Fecha creación hasta: {$fechaHastaFiltro}";
+    }
+
+    if (!empty($material)) {
+        $filtros[] = "Material: {$material}";
+    }
+
+    if (!empty($categoria)) {
+        $filtros[] = "Categoría: {$categoria}";
+    }
+
+    $filtrosTexto = !empty($filtros) ? "Filtros: " . implode(', ', $filtros) : '';
+
+    $titulo = "Reporte de entradas. {$filtrosTexto}";
 
     $html = '
         <table width="100%">
@@ -119,10 +120,6 @@ try {
                 <td>Teléfono: 0412-1848791</td>
             </tr>
         </tbody>
-        </table>
-        <h4>Filtros:</h4>
-        <table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
-            ' . $filtrosHtml . '
         </table>
         <h2> ' . $titulo . '</h2>
         <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">

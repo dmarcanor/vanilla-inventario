@@ -55,36 +55,39 @@ if ($tipoIdentificacion === 'cedula') {
     $tipoIdentificacion = 'cédula';
 }
 
-$filtrosHtml = "
-    <tr>
-        <td>Tipo de identificación</td>
-        <td>{$tipoIdentificacion}</td>
-    </tr>
-    <tr>
-        <td>Número de identificación</td>
-        <td>{$numeroIdentificacion}</td>
-    </tr>
-    <tr>
-        <td>Nombre</td>
-        <td>{$nombre}</td>
-    </tr>
-    <tr>
-        <td>Apellido</td>
-        <td>{$apellido}</td>
-    </tr>
-    <tr>
-        <td>Teléfono</td>
-        <td>{$telefono}</td>
-    </tr>
-    <tr>
-        <td>Estado</td>
-        <td>{$estado}</td>
-    </tr>
-    <tr>
-        <td>Dirección</td>
-        <td>{$direccion}</td>
-    </tr>
-";
+$filtrosTitulo = [];
+
+if (!empty($tipoIdentificacion)) {
+    $filtrosTitulo[] = "Tipo de identificación: {$tipoIdentificacion}";
+}
+
+if (!empty($numeroIdentificacion)) {
+    $filtrosTitulo[] = "Número de identificación: {$numeroIdentificacion}";
+}
+
+if (!empty($nombre)) {
+    $filtrosTitulo[] = "Nombre: {$nombre}";
+}
+
+if (!empty($apellido)) {
+    $filtrosTitulo[] = "Apellido: {$apellido}";
+}
+
+if (!empty($telefono)) {
+    $filtrosTitulo[] = "Teléfono: {$telefono}";
+}
+
+if (!empty($direccion)) {
+    $filtrosTitulo[] = "Dirección: {$direccion}";
+}
+
+if (!empty($estado)) {
+    $filtrosTitulo[] = "Estado: {$estado}";
+}
+
+$filtrosTexto = !empty($filtrosTitulo) ? "Filtros: " . implode(', ', $filtrosTitulo) : '';
+
+$titulo = "Reporte de clientes. {$filtrosTexto}";
 
 $html = '
 <table width="100%">
@@ -100,12 +103,7 @@ $html = '
         <td>Teléfono: 0412-1848791</td>
     </tr>
 </tbody>
-</table>
-<h4>Filtros:</h4>
-<table border="1" cellspacing="0" cellpadding="5" style="text-align: center; width: 40%">
-    ' . $filtrosHtml . '
-</table>
-<h2>Reporte de clientes</h2>
+<h2>' . $titulo . '</h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center;">
     <tr>
         <th width="22%">Nombre</th>
