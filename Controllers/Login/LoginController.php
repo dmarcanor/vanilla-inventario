@@ -12,7 +12,18 @@ if (empty($usuario)) {
     http_response_code(404);
     echo json_encode([
         'ok' => false,
-        'usuario' => []
+        'usuario' => [],
+        'mensaje' => 'Usuario o contraseña incorrectos'
+    ]);
+    exit();
+}
+
+if ($usuario->estado() !== 'incorporado') {
+    http_response_code(400);
+    echo json_encode([
+        'ok' => false,
+        'usuario' => [],
+        'mensaje' => 'El usuario no está incorporado'
     ]);
     exit();
 }
@@ -21,7 +32,8 @@ if ($data['contrasenia'] !== $usuario->contraseniaDesencriptada()) {
     http_response_code(401);
     echo json_encode([
         'ok' => false,
-        'usuario' => []
+        'usuario' => [],
+        'mensaje' => 'Usuario o contraseña incorrectos'
     ]);
     exit();
 }

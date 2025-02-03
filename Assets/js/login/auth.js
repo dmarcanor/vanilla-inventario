@@ -29,7 +29,7 @@ const login = (event) => {
     .then(response => response.json())
     .then(response => {
       if (response.ok === false) {
-        alert("Usuario o contraseña incorrectos");
+        alert(response.mensaje);
         return;
       }
 
