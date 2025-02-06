@@ -1,3 +1,3 @@
 <?php
 
-echo 'middleware';
+echo 'auth middleware';
