@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.getElementById('unidad').value = json.material.unidad;
       document.getElementById('presentacion').value = json.material.presentacion;
       document.getElementById('precio').value = json.material.precio;
+      document.getElementById('precio_mayor').value = json.material.precioMayor;
       document.getElementById('stock').value = json.material.stock;
       document.getElementById('stock_minimo').value = json.material.stockMinimo;
       document.getElementById('estado').value = json.material.estado;

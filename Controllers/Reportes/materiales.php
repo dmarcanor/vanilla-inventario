@@ -154,12 +154,13 @@ $html = '
 <h2>' . $titulo . ' </h2>
 <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
     <tr>
-        <th width="15%">Código</th>
+        <th width="12%">Código</th>
         <th width="15%">Nombre</th>
-        <th width="20%">Descripción</th>
+        <th width="15%">Descripción</th>
         <th width="14%">Marca</th>
         <th width="15%">Categoría</th>
-        <th width="10%">Precio</th>
+        <th width="9%">Precio al detal</th>
+        <th width="9%">Precio al mayor</th>
         <th width="11%">Cantidad</th>
     </tr>
 ';
@@ -177,7 +178,8 @@ try {
                 <td>' . $material->descripcion() . '</td>
                 <td>' . $marca . '</td>
                 <td>' . $material->categoria()->nombre() . '</td>
-                <td>' . $material->precio() . '</td>
+                <td>' . $material->precioDetal() . '</td>
+                <td>' . $material->precioMayor() . '</td>
                 <td>' . $material->stock() . '</td>
             </tr>
         ';

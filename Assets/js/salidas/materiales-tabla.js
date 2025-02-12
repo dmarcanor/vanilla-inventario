@@ -3,6 +3,7 @@ let lineas = [
     salidaId: '',
     materialId: '',
     cantidad: 0,
+    tipoPrecio: 'precio_detal',
     precio: 0,
     unidad: '',
     stockActual: 0,
@@ -36,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Elementos del DOM
 const tbody = document.querySelector("#salidas-items tbody");
+const tfooter = document.querySelector("#salidas-items tfoot");
 const addRowButton = document.querySelector("#addRow");
 
 // Función para renderizar la tabla
@@ -86,15 +88,38 @@ function renderTabla() {
     cantidadTd.appendChild(cantidadInput);
     tr.appendChild(cantidadTd);
 
+    // Columna de tipo de precio
+    const tipoVentaTd = document.createElement("td");
+    const tipoVentaSelect = document.createElement("select");
+
+    const tipoVentaDetalOption = document.createElement('option');
+    tipoVentaDetalOption.value = 'precio_detal';
+    tipoVentaDetalOption.text = 'Precio al detal';
+    tipoVentaDetalOption.selected = lineas[index].tipoPrecio == 'precio_detal';
+    tipoVentaSelect.appendChild(tipoVentaDetalOption);
+
+    const tipoVentaMayorOption = document.createElement('option');
+    tipoVentaMayorOption.value = 'precio_mayor';
+    tipoVentaMayorOption.text = 'Precio al mayor';
+    tipoVentaMayorOption.selected = lineas[index].tipoPrecio == 'precio_mayor';
+    tipoVentaSelect.appendChild(tipoVentaMayorOption);
+
+    // Actualizar precio cuando cambia el tipo de precio
+    tipoVentaSelect.addEventListener("change", (e) => actualizarTipoPrecio(index, e.target.value));
+
+
+    tipoVentaTd.appendChild(tipoVentaSelect);
+    tr.appendChild(tipoVentaTd);
+
     // Columna de precio
     const precioTd = document.createElement("td");
     const precioInput = document.createElement("input");
     precioInput.type = "number";
-    precioInput.value = precioPorMaterialId(linea.materialId);
+    precioInput.value = precioPorMaterialId(index, linea.materialId);
     precioInput.min = '0.01';
     precioInput.step = '0.01';
     precioInput.disabled = true;
-    lineas[index].precio = precioPorMaterialId(linea.materialId); // Actualizar precio en el arreglo
+    lineas[index].precio = precioPorMaterialId(index, linea.materialId); // Actualizar precio en el arreglo
     precioTd.appendChild(precioInput);
     tr.appendChild(precioTd);
 
@@ -130,6 +155,15 @@ function renderTabla() {
       tr.appendChild(stockPosteriorTd);
     }
 
+    // Columna de stock posterior
+    const stockPosteriorTd = document.createElement("td");
+    const stockPosteriorInput = document.createElement("input");
+    stockPosteriorInput.type = "text";
+    stockPosteriorInput.disabled = true;
+    stockPosteriorInput.value = `$${linea.cantidad * linea.precio}`;
+    stockPosteriorTd.appendChild(stockPosteriorInput);
+    tr.appendChild(stockPosteriorTd);
+
     // Columna de acción (- botón)
     const eliminarTd = document.createElement("td");
     const eliminarButton = document.createElement("button");
@@ -141,6 +175,25 @@ function renderTabla() {
 
     tbody.appendChild(tr);
   });
+
+  const total = lineas.reduce((acc, linea) => acc + (linea.cantidad * linea.precio), 0);
+  const totalTr = document.createElement("tr");
+
+  const columnasVaciasTd = document.createElement("td");
+  columnasVaciasTd.colSpan = 7;
+
+  const totalTd = document.createElement("td");
+  const totalInput = document.createElement("input");
+  totalInput.type = "text";
+  totalInput.disabled = true;
+  totalInput.value = `$${total}`;
+
+  totalTd.appendChild(totalInput);
+  totalTr.appendChild(columnasVaciasTd);
+  totalTr.appendChild(totalTd);
+
+  tfooter.innerHTML = "";
+  tfooter.appendChild(totalTr);
 }
 
 // Función para agregar una línea
@@ -149,6 +202,7 @@ function agregarLinea() {
     salidaId: '',
     materialId: '',
     cantidad: 0,
+    tipoPrecio: 'precio_detal',
     precio: 0,
     unidad: '',
     stockActual: 0,
@@ -192,11 +246,16 @@ function actualizarCantidad(index, cantidad) {
   lineas[index].cantidad = parseInt(cantidad); // Actualizar cantidad, por defecto 1
   lineas[index].stockActual = stockPorMaterialId(lineas[index].materialId) // Actualizar stock actual
   lineas[index].stockPosterior = parseFloat(stockPorMaterialId(lineas[index].materialId) - parseFloat(lineas[index].cantidad)) // Actualizar el stock posterior
-console.log("gg", index, cantidad, lineas);
+
   setTimeout(() => {
     renderTabla(); // Volver a renderizar para actualizar la unidad
   }, 1000);
 
+}
+
+const actualizarTipoPrecio = (index, tipoPrecio) => {
+  lineas[index].tipoPrecio = tipoPrecio;
+  renderTabla();
 }
 
 function actualizarPrecio(index, precio) {
@@ -220,9 +279,18 @@ const stockPorMaterialId = (materialId) => {
   return item ? item.stock : 0;
 }
 
-const precioPorMaterialId = (materialId) => {
+const precioPorMaterialId = (index, materialId) => {
   const item = materialesEnBaseDeDatos.find(item => item.id == parseInt(materialId));
-  return item ? item.precio : "";
+
+  if (item && lineas[index].tipoPrecio == 'precio_detal') {
+    return item.precio;
+  }
+
+  if (item && lineas[index].tipoPrecio == 'precio_mayor') {
+    return item.precioMayor;
+  }
+
+  return 0;
 }
 
 const validarCantidad = (index, campo, stockActual) => {

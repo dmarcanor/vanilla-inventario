@@ -89,22 +89,39 @@ const actualizarTabla = () => {
     { title: "Marca", data: "marca", orderable: true },
     { title: "Categoría", data: "categoriaNombre", orderable: true },
     {
-      title: "Precio",
+      title: "Precio al detal",
       data: "precio",
       orderable: true,
       render: (data) => {
         return `$${data}`;
       }
-    }
+    },
+    {
+      title: "Precio al mayor",
+      data: "precioMayor",
+      orderable: true,
+      render: (data) => {
+        return `$${data}`;
+      }
+    },
   ];
 
   if (precioDolar !== '' && precioDolar !== '0') {
     columnas.push({
-      title: 'Precio (Bs)',
+      title: 'Precio al detal (Bs)',
       data: null,
       orderable: true,
       render: function(data, type, row) {
         return `Bs ${(row.precio * precioDolar).toFixed(2)}`;
+      }
+    });
+
+    columnas.push({
+      title: 'Precio al mayor (Bs)',
+      data: null,
+      orderable: true,
+      render: function(data, type, row) {
+        return `Bs ${(row.precioMayor * precioDolar).toFixed(2)}`;
       }
     });
   }

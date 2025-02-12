@@ -33,7 +33,7 @@ const buscarDatosSalida = () => {
 
       const lineas = json.salida.lineas;
 
-      cargarTablaItems(lineas);
+      cargarTablaItems(json.salida, lineas);
 
       setTimeout(() => {
         const inputs = document.querySelectorAll('input');
@@ -63,8 +63,10 @@ const buscarMaterialesBaseDatos = () => {
     });
 }
 
-const cargarTablaItems = (lineas) => {
+const cargarTablaItems = (salida, lineas) => {
   const tbody = document.getElementById('salida-items-body');
+  const tfooter = document.getElementById('salida-items-footer');
+  const footerPrecioTotal = document.getElementById('footer-precio=total');
 
   lineas.forEach(linea => {
     const material = materialesEnBaseDatos.find(material => material.id == linea.materialId);
@@ -73,18 +75,38 @@ const cargarTablaItems = (lineas) => {
     const tdMaterial = document.createElement('td');
     const tdCantidad = document.createElement('td');
     const tdPrecio = document.createElement('td');
+    const tdTipoPrecio = document.createElement('td');
     const tdUnidad = document.createElement('td');
+    const tdPrecioTotal = document.createElement('td');
 
     tdMaterial.textContent = `${material.nombre} - ${material.descripcion} - ${material.marca}`;
     tdCantidad.textContent = linea.cantidad;
+    tdTipoPrecio.textContent = tipoPrecio(linea.tipoPrecio);
     tdPrecio.textContent = linea.precio;
     tdUnidad.textContent = material.unidad;
+    tdPrecioTotal.textContent = linea.precioTotal;
 
     tr.appendChild(tdMaterial);
     tr.appendChild(tdCantidad);
+    tr.appendChild(tdTipoPrecio);
     tr.appendChild(tdPrecio);
     tr.appendChild(tdUnidad);
+    tr.appendChild(tdPrecioTotal);
 
     tbody.appendChild(tr);
   });
+
+  footerPrecioTotal.value = salida.precioTotal;
+}
+
+const tipoPrecio = (tipoPrecio) => {
+  if (tipoPrecio == 'precio_detal') {
+    return 'Precio al detal';
+  }
+
+  if (tipoPrecio == 'precio_mayor') {
+    return 'Precio al mayor';
+  }
+
+  return ';'
 }

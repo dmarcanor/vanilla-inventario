@@ -92,7 +92,7 @@ class Salida
 
         // se iteran las lineas para guardar cada una en la base de datos
         foreach ($salidaConId->lineas as $entradaLinea) {
-            SalidaLinea::crear($salidaConId->id, $entradaLinea['materialId'], $entradaLinea['cantidad'], $entradaLinea['precio']);
+            SalidaLinea::crear($salidaConId->id, $entradaLinea['materialId'], $entradaLinea['cantidad'], $entradaLinea['tipoPrecio'], $entradaLinea['precio']);
 
             // se rebaja el stock del material seleccionado en la linea
             Material::getMaterial($entradaLinea['materialId'])->rebajarStock($entradaLinea['cantidad']);
@@ -287,6 +287,17 @@ class Salida
         return $this->fechaCreacion;
     }
 
+    public function precioTotal()
+    {
+        $total = 0;
+
+        foreach ($this->lineas as $linea) {
+            $total += $linea->precioTotal();
+        }
+
+        return $total;
+    }
+
     public function toArray()
     {
         return [
@@ -298,7 +309,8 @@ class Salida
             'clienteFullNombre' => "{$this->cliente()->nombre()} {$this->cliente()->apellido()}",
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y h:i:sA'),
             'fechaCreacionSinHora' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y'),
-            'lineas' => $this->lineasArray()
+            'lineas' => $this->lineasArray(),
+            'precioTotal' => $this->precioTotal()
         ];
     }
 }

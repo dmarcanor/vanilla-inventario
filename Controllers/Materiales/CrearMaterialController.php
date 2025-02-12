@@ -27,7 +27,8 @@ try {
         $data['unidad'],
         $data['presentacion'],
         $data['estado'],
-        $data['precio'],
+        $data['precioDetal'],
+        $data['precioMayor'],
         $data['stockMinimo'],
         $data['usuarioSesion']
     );

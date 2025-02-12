@@ -38,7 +38,7 @@ header("Expires: 0");
         <div class="form-row">
             <div class="form-group">
                 <label for="clienteId">Cliente *</label>
-                <select name="clienteId" id="clienteId" required>
+                <select name="clienteId" id="clienteId" style="opacity: inherit" required>
                     <option value="">Seleccione</option>
                 </select>
             </div>
@@ -55,12 +55,22 @@ header("Expires: 0");
                     <tr>
                         <th>Material</th>
                         <th>Cantidad</th>
+                        <th>Tipo de precio</th>
                         <th>Precio</th>
                         <th>Unidad</th>
+                        <th>Precio total</th>
                     </tr>
                     </thead>
                     <tbody id="salida-items-body">
                     </tbody>
+                    <tfoot id="salida-items-footer">
+                    <tr>
+                        <td colspan="5"></td>
+                        <td>
+                            <input type="number" id="footer-precio=total" disabled>
+                        </td>
+                    </tr>
+                    </tfoot>
                 </table>
             </div>
         </div>

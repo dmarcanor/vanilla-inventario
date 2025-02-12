@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('presentacion').addEventListener('input', soloPermitirNumerosYCaracteresAdicionales);
 
   document.getElementById('precio').addEventListener('blur', dosDecimales);
+  document.getElementById('precio_mayor').addEventListener('blur', dosDecimales);
 
   /* Eventos para la modal de crear marca */
   document.getElementById('nombre-marca').addEventListener('blur', primeraLetraMayuscula);
@@ -121,7 +122,8 @@ const crear = (formulario) => {
   const unidad = formulario.unidad.value;
   const presentacion = formulario.presentacion.value;
   const estado = formulario.estado.value;
-  const precio = formulario.precio.value;
+  const precioDetal = formulario.precio.value;
+  const precioMayor = formulario.precio_mayor.value;
   const stockMinimo = formulario.stock_minimo.value;
   const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
@@ -139,7 +141,8 @@ const crear = (formulario) => {
       unidad,
       presentacion,
       estado,
-      precio,
+      precioDetal,
+      precioMayor,
       stockMinimo,
       usuarioSesion: usuarioSesion.id
     })
@@ -185,7 +188,8 @@ const editar = (id, formulario) => {
   const unidad = formulario.unidad.value;
   const presentacion = formulario.presentacion.value;
   const estado = formulario.estado.value;
-  const precio = formulario.precio.value;
+  const precioDetal = formulario.precio.value;
+  const precioMayor = formulario.precio_mayor.value;
   const stockMinimo = formulario.stock_minimo.value;
   const usuarioSesion = JSON.parse(localStorage.getItem('usuario'));
 
@@ -204,7 +208,8 @@ const editar = (id, formulario) => {
       unidad,
       presentacion,
       estado,
-      precio,
+      precioDetal,
+      precioMayor,
       stockMinimo,
       usuarioSesion: usuarioSesion.id
     })

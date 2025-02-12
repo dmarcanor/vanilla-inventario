@@ -333,4 +333,8 @@ ALTER TABLE materiales
             REFERENCES marcas (id) ON DELETE CASCADE;
 
 
-SELECT * FROM usuarios order by cedula desc;
+ALTER TABLE materiales
+    ADD COLUMN precio_mayor DECIMAL(11, 2) NOT NULL;
+
+ALTER TABLE salida_lineas
+    ADD COLUMN tipo_precio VARCHAR(12) NOT NULL;

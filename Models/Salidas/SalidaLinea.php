@@ -9,14 +9,16 @@ class SalidaLinea
     private $salidaId;
     private $materialId;
     private $cantidad;
+    private $tipoPrecio;
     private $precio;
 
-    public function __construct($id, $salidaId, $materialId, $cantidad, $precio)
+    public function __construct($id, $salidaId, $materialId, $cantidad, $tipoPrecio, $precio)
     {
         $this->id = $id;
         $this->salidaId = $salidaId;
         $this->materialId = $materialId;
         $this->cantidad = $cantidad;
+        $this->tipoPrecio = $tipoPrecio;
         $this->precio = $precio;
     }
 
@@ -25,29 +27,31 @@ class SalidaLinea
         return $this->id;
     }
 
-    public static function crear($salidaId, $materialId, $cantidad, $precio)
+    public static function crear($salidaId, $materialId, $cantidad, $tipoPrecio, $precio)
     {
         date_default_timezone_set('America/Caracas');
 
-        self::validarCamposVacios($salidaId, $materialId, $cantidad, $precio);
+        self::validarCamposVacios($salidaId, $materialId, $cantidad, $tipoPrecio, $precio);
 
         $salidaLinea = new SalidaLinea(
             null,
             $salidaId,
             $materialId,
             $cantidad,
+            $tipoPrecio,
             $precio
         );
 
         $consultaCrearSalidaLinea = (new ConexionBD())->getConexion()->prepare("
-            INSERT INTO salida_lineas (salida_id, material_id, cantidad, precio) VALUES 
-            (?, ?, ?, ?)
+            INSERT INTO salida_lineas (salida_id, material_id, cantidad, tipo_precio, precio) VALUES 
+            (?, ?, ?, ?, ?)
         ");
 
         $consultaCrearSalidaLinea->execute([
             $salidaLinea->salidaId,
             $salidaLinea->materialId,
             $salidaLinea->cantidad,
+            $salidaLinea->tipoPrecio,
             $salidaLinea->precio
         ]);
     }
@@ -83,6 +87,7 @@ class SalidaLinea
                 $lineaBaseDeDatos['salida_id'],
                 $lineaBaseDeDatos['material_id'],
                 $lineaBaseDeDatos['cantidad'],
+                $lineaBaseDeDatos['tipo_precio'],
                 $lineaBaseDeDatos['precio']
             );
 
@@ -92,7 +97,7 @@ class SalidaLinea
         return $lineas;
     }
 
-    private static function validarCamposVacios($salidaId, $materialId, $cantidad, $precio)
+    private static function validarCamposVacios($salidaId, $materialId, $cantidad, $tipoPrecio, $precio)
     {
         if (empty($salidaId)) {
             throw new Exception("La relación con salida no puede estar vacía.");
@@ -104,6 +109,10 @@ class SalidaLinea
 
         if (empty($cantidad)) {
             throw new Exception("La cantidad no puede estar vacía.");
+        }
+
+        if (empty($tipoPrecio)) {
+            throw new Exception("el tipo de precio no puede estar vacío.");
         }
 
         if (empty($precio)) {
@@ -121,9 +130,19 @@ class SalidaLinea
         return $this->cantidad;
     }
 
+    public function tipoPrecio()
+    {
+        return $this->tipoPrecio;
+    }
+
     public function precio()
     {
         return $this->precio;
+    }
+
+    public function precioTotal()
+    {
+        return $this->cantidad * $this->precio;
     }
 
     public function toArray()
@@ -133,7 +152,9 @@ class SalidaLinea
             'salidaId' => $this->salidaId,
             'materialId' => $this->materialId,
             'cantidad' => $this->cantidad,
-            'precio' => $this->precio
+            'tipoPrecio' => $this->tipoPrecio,
+            'precio' => $this->precio,
+            'precioTotal' => $this->precioTotal()
         ];
     }
 }

@@ -58,10 +58,12 @@ header("Expires: 0");
                     <tr>
                         <th width="350px">Material *</th>
                         <th>Cantidad *</th>
+                        <th>Tipo de precio *</th>
                         <th>Precio *</th>
                         <th>Unidad</th>
                         <th>Stock actual</th>
                         <th>Stock posterior</th>
+                        <th>Precio total</th>
                         <th>
                             <button type="button" id="addRow" class="add-row-btn">+</button>
                         </th>
@@ -69,6 +71,8 @@ header("Expires: 0");
                     </thead>
                     <tbody id="salida-items-body">
                     </tbody>
+                    <tfoot id="salida-items-footer">
+                    </tfoot>
                 </table>
             </div>
         </div>

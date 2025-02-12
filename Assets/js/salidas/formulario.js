@@ -42,17 +42,16 @@ document.addEventListener('DOMContentLoaded', () => {
       toastr.error(mensaje);
     });
 
-  const formulario = document.getElementById('formulario-salidas');
-  setTimeout(() => {
-    cargarDatosFormulario(formulario, 'Salidas');
-  }, 500);
-
-
   const ruta = window.location.pathname;
   const estaEditando = ruta.includes('editar.php');
 
   if (!estaEditando) {
     $('#clienteId').select2();
+
+    const formulario = document.getElementById('formulario-salidas');
+    setTimeout(() => {
+      cargarDatosFormulario(formulario, 'Salidas');
+    }, 500);
   }
 
   vista = 'crear';

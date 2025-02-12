@@ -150,15 +150,19 @@ try {
         <h2>' . $titulo . '</h2>
         <table border="1" cellspacing="0" cellpadding="5" style="text-align: center">
             <tr>
-                <th width="15%">Cliente</th>
+                <th width="13%">Cliente</th>
                 <th width="15%">Material</th>
                 <th width="12%">Categoría</th>
-                <th width="12%">Marca</th>
-                <th width="20%">Observaciòn</th>
-                <th width="12%">Cantidad</th>
-                <th width="14%">Fecha</th>
+                <th width="10%">Marca</th>
+                <th width="13%">Observaciòn</th>
+                <th width="8%">Cantidad</th>
+                <th width="8%">Precio</th>
+                <th width="8%">Precio total</th>
+                <th width="13%">Fecha</th>
             </tr>
     ';
+
+    $total = 0;
 
     foreach ($salidas as $salida) {
         foreach ($salida->lineas() as $indice => $salidaLinea) {
@@ -168,6 +172,8 @@ try {
             ) {
                 continue;
             }
+
+            $total = $total + $salidaLinea->precioTotal();
 
             $marca = !empty($salidaLinea->material()->marca()) ? $salidaLinea->material()->marca()->nombre() : "";
 
@@ -179,6 +185,8 @@ try {
                     <td>' . $marca . '</td>
                     <td>' . $salida->observacion() . '</td>
                     <td>' . $salidaLinea->cantidad() . '</td>
+                    <td>' . $salidaLinea->precio() . '</td>
+                    <td>' . $salidaLinea->precioTotal() . '</td>
             ';
 
             if ($buscandoPorId && $indice > 0) {
@@ -195,6 +203,10 @@ try {
 
     $html .= '
         </table>
+        
+
+            <p style="font-size: 12px; text-align: right">Total: $' . $total . '</p>
+
     ';
 
     $pdf->writeHTML($html, true, false, true, false, '');

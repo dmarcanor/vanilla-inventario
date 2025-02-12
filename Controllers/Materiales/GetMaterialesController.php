@@ -24,6 +24,7 @@ $filtros = [
     'categoria_id' => !empty($_GET['categoria_id']) ? $_GET['categoria_id'] : '',
     'unidad' => !empty($_GET['unidad']) ? $_GET['unidad'] : '',
     'precio' => !empty($_GET['precio']) ? $_GET['precio'] : 0,
+    'precio_mayor' => !empty($_GET['precio_mayor']) ? $_GET['precio_mayor'] : 0,
     'stock_desde' => !empty($_GET['stock_desde']) ? $_GET['stock_desde'] : 0,
     'stock_hasta' => !empty($_GET['stock_hasta']) ? $_GET['stock_hasta'] : 0,
     'fecha_desde' => $fechaDesde,
@@ -46,6 +47,10 @@ if ($ordenCampo === 'categoriaNombre') {
 
 if ($ordenCampo === 'stockMinimo') {
     $ordenCampo = 'stock_minimo';
+}
+
+if ($ordenCampo === 'precioMayor') {
+    $ordenCampo = 'precio_mayor';
 }
 
 try {

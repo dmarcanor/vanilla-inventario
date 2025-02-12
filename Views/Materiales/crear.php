@@ -83,28 +83,34 @@ header("Expires: 0");
                 </select>
             </div>
             <div class="form-group">
-                <label for="precio">Precio *</label>
+                <label for="precio">Precio al detal *</label>
                 <div style="display: flex">
                     <span style="border: ridge">$</span>
-                    <input type="number" id="precio" name="precio" min="0.01" step="0.01" placeholder="Precio" style="padding-left: 20px;" required>
+                    <input type="number" id="precio" name="precio" min="0.01" step="0.01" placeholder="Precio al detal" style="padding-left: 20px;" required>
                 </div>
             </div>
         </div>
-        <class class="form-row">
-            
+        <div class="form-row">
+            <div class="form-group">
+                <label for="precio_mayor">Precio al mayor *</label>
+                <div style="display: flex">
+                    <span style="border: ridge">$</span>
+                    <input type="number" id="precio_mayor" name="precio_mayor" min="0.01" step="0.01" placeholder="Precio al mayor" style="padding-left: 20px;" required>
+                </div>
+            </div>
+
             <div class="form-group">
                 <label for="stock_minimo">Stock mínimo *</label>
                 <input type="number" id="stock_minimo" name="stock_minimo" min="0" placeholder="Stock mínimo" required>
             </div>
+
             <div class="form-group">
-              
                 <select name="estado" id="estado" disabled required>
                     <option value="incorporado" selected>Incorporado</option>
                 </select>
             </div>
             <div class="form-group"></div>
-            <div class="form-group"></div>
-        </class>
+        </div>
         <div class="form-row">
             <div class="form-group">
                 <button type="submit" class="btn btn-success">

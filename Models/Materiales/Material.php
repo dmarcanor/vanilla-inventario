@@ -15,12 +15,13 @@ class Material
     private $unidad;
     private $presentacion;
     private $stock;
-    private $precio;
+    private $precioDetal;
+    private $precioMayor;
     private $fechaCreacion;
     private $estado;
     private $stockMinimo;
 
-    public function __construct($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $precio, $stock, $stockMinimo, $fechaCreacion, $estado)
+    public function __construct($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $precioDetal, $precioMayor, $stock, $stockMinimo, $fechaCreacion, $estado)
     {
         $this->id = $id;
         $this->codigo = $codigo;
@@ -30,19 +31,21 @@ class Material
         $this->categoriaId = $categoriaId;
         $this->unidad = $unidad;
         $this->presentacion = $presentacion;
-        $this->precio = $precio;
+        $this->precioDetal = $precioDetal;
+        $this->precioMayor = $precioMayor;
         $this->stock = $stock;
         $this->stockMinimo = $stockMinimo;
         $this->fechaCreacion = $fechaCreacion;
         $this->estado = $estado;
     }
 
-    public static function crear($codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo, $usuarioSesion)
+    public static function crear($codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precioDetal, $precioMayor, $stockMinimo, $usuarioSesion)
     {
         date_default_timezone_set('America/Caracas');
 
         self::validarCamposVacios($codigo, $nombre, $categoriaId, $unidad, $presentacion, $estado);
-        self::validarPrecio($precio);
+        self::validarPrecio($precioDetal);
+        self::validarPrecio($precioMayor);
         self::validarStockMinimo($stockMinimo);
 
         $materialConCodigo = self::getMaterialPorCodigo($codigo);
@@ -60,7 +63,8 @@ class Material
             $categoriaId,
             $unidad,
             $presentacion,
-            $precio,
+            $precioDetal,
+            $precioMayor,
             0,
             $stockMinimo,
             date('Y-m-d H:i:s'),
@@ -68,8 +72,8 @@ class Material
         );
 
         $consultaCrearMaterial = (new ConexionBD())->getConexion()->prepare("
-            INSERT INTO materiales(codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado) VALUES 
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            INSERT INTO materiales(codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, precio_mayor, stock, stock_minimo, fecha_creacion, estado) VALUES 
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ");
 
         $consultaCrearMaterial->execute([
@@ -80,7 +84,8 @@ class Material
             $material->categoriaId,
             $material->unidad,
             $material->presentacion,
-            $material->precio,
+            $material->precioDetal,
+            $material->precioMayor,
             $material->stock,
             $material->stockMinimo,
             $material->fechaCreacion,
@@ -100,7 +105,8 @@ class Material
             $material->categoriaId,
             $material->unidad,
             $material->presentacion,
-            $material->precio,
+            $material->precioDetal,
+            $material->precioMayor,
             $material->stock,
             $material->stockMinimo,
             $material->fechaCreacion,
@@ -110,7 +116,7 @@ class Material
         self::guardarHistorial($usuarioSesion, $nuevoMaterial, null);
     }
 
-    public static function editar($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precio, $stockMinimo, $usuarioSesion)
+    public static function editar($id, $codigo, $nombre, $descripcion, $marca, $categoriaId, $unidad, $presentacion, $estado, $precioDetal, $precioMayor, $stockMinimo, $usuarioSesion)
     {
         date_default_timezone_set('America/Caracas');
 
@@ -122,7 +128,8 @@ class Material
         }
 
         self::validarCamposVacios($codigo, $nombre, $categoriaId, $unidad, $presentacion, $estado);
-        self::validarPrecio($precio);
+        self::validarPrecio($precioDetal);
+        self::validarPrecio($precioMayor);
         self::validarStockMinimo($stockMinimo);
 
         if ($materialOriginal->codigo !== $codigo) {
@@ -142,7 +149,8 @@ class Material
             $categoriaId,
             $unidad,
             $presentacion,
-            $precio,
+            $precioDetal,
+            $precioMayor,
             $materialOriginal->stock,
             $stockMinimo,
             $materialOriginal->fechaCreacion,
@@ -151,7 +159,7 @@ class Material
 
         $consultaEditarCliente = $conexionBaseDatos->prepare("
             UPDATE materiales 
-            SET codigo = ?, nombre = ?, descripcion = ?, marca = ?, categoria_id = ?, unidad = ?, presentacion = ?, estado = ?, precio = ?, stock_minimo = ?
+            SET codigo = ?, nombre = ?, descripcion = ?, marca = ?, categoria_id = ?, unidad = ?, presentacion = ?, estado = ?, precio = ?, precio_mayor = ?, stock_minimo = ?
             WHERE id = ?
         ");
 
@@ -164,7 +172,8 @@ class Material
             $materialModificado->unidad,
             $materialModificado->presentacion,
             $materialModificado->estado,
-            $materialModificado->precio,
+            $materialModificado->precioDetal,
+            $materialModificado->precioMayor,
             $materialModificado->stockMinimo,
             $materialModificado->id
         ]);
@@ -228,8 +237,12 @@ class Material
             $cambios[] = "Presentación: {$materialOriginal->presentacion} => {$materialModificado->presentacion}";
         }
 
-        if ($materialOriginal->precio !== $materialModificado->precio) {
-            $cambios[] = "Precio: {$materialOriginal->precio} => {$materialModificado->precio}";
+        if ($materialOriginal->precioDetal !== $materialModificado->precioDetal) {
+            $cambios[] = "Precio al detal: {$materialOriginal->precioDetal} => {$materialModificado->precioDetal}";
+        }
+
+        if ($materialOriginal->precioMayor !== $materialModificado->precioMayor) {
+            $cambios[] = "Precio al mayor: {$materialOriginal->precioMayor} => {$materialModificado->precioMayor}";
         }
 
         if ($materialOriginal->stockMinimo !== $materialModificado->stockMinimo) {
@@ -285,7 +298,8 @@ class Material
             $materialOriginal->categoriaId,
             $materialOriginal->unidad,
             $materialOriginal->presentacion,
-            $materialOriginal->precio,
+            $materialOriginal->precioDetal,
+            $materialOriginal->precioMayor,
             $materialOriginal->stock,
             $materialOriginal->stockMinimo,
             $materialOriginal->fechaCreacion,
@@ -309,7 +323,7 @@ class Material
     public static function getMaterial($id)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado 
+            SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, precio_mayor, stock, stock_minimo, fecha_creacion, estado 
             FROM materiales WHERE id = ?
         ");
         $consulta->execute([$id]);
@@ -329,6 +343,7 @@ class Material
             $material['unidad'],
             $material['presentacion'],
             $material['precio'],
+            $material['precio_mayor'],
             $material['stock'],
             $material['stock_minimo'],
             $material['fecha_creacion'],
@@ -339,7 +354,7 @@ class Material
     public static function getMaterialPorCodigo($codigo)
     {
         $consulta = (new ConexionBD())->getConexion()->prepare("
-            SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado 
+            SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, precio_mayor, stock, stock_minimo, fecha_creacion, estado 
             FROM materiales WHERE codigo = ?
         ");
         $consulta->execute([$codigo]);
@@ -359,6 +374,7 @@ class Material
             $material['unidad'],
             $material['presentacion'],
             $material['precio'],
+            $material['precio_mayor'],
             $material['stock'],
             $material['stock_minimo'],
             $material['fecha_creacion'],
@@ -368,7 +384,7 @@ class Material
 
     public static function getMateriales($filtros, $orden, $ordenCampo, $limit)
     {
-        $consultaMateriales = "SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, stock, stock_minimo, fecha_creacion, estado FROM materiales";
+        $consultaMateriales = "SELECT id, codigo, nombre, descripcion, marca, categoria_id, unidad, presentacion, precio, precio_mayor, stock, stock_minimo, fecha_creacion, estado FROM materiales";
 
         if (!empty($filtros)) {
             $consultaMateriales .= " WHERE ";
@@ -390,6 +406,26 @@ class Material
                     $filtro = "'{$filtro}'";
                 } elseif ($key === 'precio') {
                     $key = 'precio';
+
+                    if (strpos($filtro, '.') === false) {
+                        // Caso: filtrando por número entero (7)
+                        $inicio = $filtro;
+                        $fin = $filtro + 0.99;
+
+                        $operador = 'BETWEEN';
+                        $filtro = "{$inicio} AND {$fin}";
+                    } elseif (strlen(explode('.', $filtro)[1]) === 1) {
+                        // Caso: filtrando por número con un solo decimal (7.2)
+                        $inicio = $filtro;
+                        $fin = $filtro + 0.09;
+                        $operador = 'BETWEEN';
+                        $filtro = "{$inicio} AND {$fin}";
+                    } else {
+                        // Caso: dos decimales exactos (7.25)
+                        $operador = '=';
+                    }
+                } elseif ($key === 'precio_mayor') {
+                    $key = 'precio_mayor';
 
                     if (strpos($filtro, '.') === false) {
                         // Caso: filtrando por número entero (7)
@@ -456,6 +492,7 @@ class Material
                 $material['unidad'],
                 $material['presentacion'],
                 $material['precio'],
+                $material['precio_mayor'],
                 $material['stock'],
                 $material['stock_minimo'],
                 $material['fecha_creacion'],
@@ -527,14 +564,14 @@ class Material
     {
         $conexionBaseDatos = (new ConexionBD())->getConexion();
 
-        $this->precio = $precio;
+        $this->precioDetal = $precio;
 
         $consultaCambiarPrecio = $conexionBaseDatos->prepare("
             UPDATE materiales SET precio = ? WHERE id = ?
         ");
 
         $consultaCambiarPrecio->execute([
-            $this->precio,
+            $this->precioDetal,
             $this->id
         ]);
     }
@@ -634,9 +671,14 @@ class Material
         return $this->stock;
     }
 
-    public function precio()
+    public function precioDetal()
     {
-        return $this->precio;
+        return $this->precioDetal;
+    }
+
+    public function precioMayor()
+    {
+        return $this->precioMayor;
     }
 
     public function fechaCreacion()
@@ -667,7 +709,8 @@ class Material
             'categoriaNombre' => $this->categoria()->nombre(),
             'unidad' => $this->unidad,
             'presentacion' => $this->presentacion,
-            'precio' => $this->precio,
+            'precio' => $this->precioDetal,
+            'precioMayor' => $this->precioMayor,
             'stock' => $this->stock,
             'stockMinimo' => $this->stockMinimo,
             'fechaCreacion' => DateTimeImmutable::createFromFormat('Y-m-d H:i:s', $this->fechaCreacion)->format('d/m/Y H:i:s'),
