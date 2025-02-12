@@ -43,7 +43,7 @@ header("Expires: 0");
                 <input type="text" id="descripcion" placeholder="Descripción" maxlength="30" required>
             </div>
             <div class="form-group">
-                <label for="estado">Estado *</label>
+              
                 <select name="estado" id="estado" disabled required>
                     <option selected value="incorporado">Incorporado</option>
                 </select>

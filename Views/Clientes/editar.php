@@ -83,10 +83,15 @@ header("Expires: 0");
         <div class="form-row">
             <div class="form-group">
                 <label for="telefono">Teléfono *</label>
-                <input type="number" id="telefono" placeholder="Teléfono" max="04269999999"
+                <input type="number" id="telefono" placeholder="Teléfono"  maxlength="11" max="04269999999"
                        required
                        oninvalid="this.setCustomValidity('El número debe iniciar con 0294, 0212, 0293, 0281, 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos y no puede contener caracteres especiales o letras.')"
                        oninput="this.setCustomValidity('')">
+            </div>
+    
+            <div class="big-form-group">
+                <label for="direccion">Dirección *</label>
+                <input type="text" id="direccion" placeholder="Dirección" maxlength="20" required>
             </div>
             <div class="form-group">
                 <label for="estado">Estado *</label>
@@ -96,11 +101,8 @@ header("Expires: 0");
                     <option value="desincorporado">Desincorporado</option>
                 </select>
             </div>
-            <div class="big-form-group">
-                <label for="direccion">Dirección *</label>
-                <input type="text" id="direccion" placeholder="Dirección" maxlength="20" required>
-            </div>
         </div>
+        
         <div class="form-row">
             <div class="form-group">
                 <button type="submit" class="btn btn-success">

@@ -83,23 +83,24 @@ header("Expires: 0");
                 </select>
             </div>
             <div class="form-group">
-                <label for="estado">Estado *</label>
-                <select name="estado" id="estado" disabled required>
-                    <option value="incorporado" selected>Incorporado</option>
-                </select>
-            </div>
-        </div>
-        <class class="form-row">
-            <div class="form-group">
                 <label for="precio">Precio *</label>
                 <div style="display: flex">
                     <span style="border: ridge">$</span>
                     <input type="number" id="precio" name="precio" min="0.01" step="0.01" placeholder="Precio" style="padding-left: 20px;" required>
                 </div>
             </div>
+        </div>
+        <class class="form-row">
+            
             <div class="form-group">
                 <label for="stock_minimo">Stock mínimo *</label>
                 <input type="number" id="stock_minimo" name="stock_minimo" min="0" placeholder="Stock mínimo" required>
+            </div>
+            <div class="form-group">
+              
+                <select name="estado" id="estado" disabled required>
+                    <option value="incorporado" selected>Incorporado</option>
+                </select>
             </div>
             <div class="form-group"></div>
             <div class="form-group"></div>

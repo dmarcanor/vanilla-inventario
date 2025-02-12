@@ -105,15 +105,16 @@ header("Expires: 0");
             </div>
         </div>
         <div class="form-row">
-            <div class="form-group">
-                <label for="estado">Estado *</label>
-                <select name="estado" id="estado" disabled required>
-                    <option selected value="incorporado">Incorporado</option>
-                </select>
-            </div>
+           
             <div class="big-form-group">
                 <label for="direccion">Dirección *</label>
                 <input type="text" id="direccion" placeholder="Dirección" required>
+            </div>
+            <div class="form-group">
+                
+                <select name="estado" id="estado" disabled required>
+                    <option selected value="incorporado">Incorporado</option>
+                </select> 
             </div>
             <div class="form-group"></div>
         </div>

@@ -15,7 +15,8 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
 
-  document.getElementById('presentacion').addEventListener('input', soloPermitirNumerosYCaracterDivision);
+  document.getElementById('presentacion').addEventListener('input',  soloPermitirNumerosYCaracteresAdicionales);
+  
 
   document.getElementById('fecha_desde').setAttribute('max', fechaActual());
   document.getElementById('fecha_hasta').setAttribute('max', fechaActual());

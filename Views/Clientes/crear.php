@@ -82,21 +82,22 @@ header("Expires: 0");
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label for="telefono">Teléfono *</label>
-                <input type="number" id="telefono" placeholder="Teléfono" max="04269999999"
-                       required
+                <label for="telefono">Teléfono </label>
+                <input type="number" id="telefono" placeholder="Teléfono" maxlength="11" 
+                       
                        oninvalid="this.setCustomValidity('El número debe iniciar con 0294, 0212, 0293, 0281, 0412, 0414, 0416, 0424 o 0426 seguido de 7 dígitos y no puede contener caracteres especiales o letras.')"
                        oninput="this.setCustomValidity('')">
             </div>
-            <div class="form-group">
-                <label for="estado">Estado *</label>
-                <select name="estado" id="estado" disabled required>
-                    <option value="incorporado" selected>Incorporado</option>
-                </select>
-            </div>
+
             <div class="big-form-group">
                 <label for="direccion">Dirección *</label>
                 <input type="text" id="direccion" placeholder="Dirección" maxlength="20" required>
+            </div>
+            <div class="form-group">
+              
+                <select name="estado" id="estado" disabled required>
+                    <option value="incorporado" selected>Incorporado</option>
+                </select>
             </div>
         </div>
         <div class="form-row">

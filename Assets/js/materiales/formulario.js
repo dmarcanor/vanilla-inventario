@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('descripcion').addEventListener('blur', primeraLetraMayuscula);
   document.getElementById('descripcion').addEventListener('input', soloPermitirLetras);
 
-  document.getElementById('presentacion').addEventListener('input', soloPermitirNumerosYCaracterDivision);
+  document.getElementById('presentacion').addEventListener('input', soloPermitirNumerosYCaracteresAdicionales);
 
   document.getElementById('precio').addEventListener('blur', dosDecimales);
 
